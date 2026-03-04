@@ -1,19 +1,34 @@
 // Supabase Configuration
-const SUPABASE_URL = 'https://nreukhjxnwxulvxhesnk.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5yZXVraGp4bnd4dWx2eGhlc25rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MjI0MDcsImV4cCI6MjA4ODE5ODQwN30.AwVhhO3fUpERM_lhXMPIS59fSAPH6oVtLhyB96FWGOU';
+const SUPABASE_URL = 'https://xdsmthoenrwvbqetigjm.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_FYtqYCIKW7wlofhNq1r24w_o75peZq1';
 
 let supabase;
 
 async function initSupabase() {
+    console.log("Initializing Supabase...");
+    let retries = 0;
+    while (typeof window.supabase === 'undefined' && retries < 10) {
+        console.log(`Waiting for Supabase SDK... (Attempt ${retries + 1})`);
+        await new Promise(r => setTimeout(r, 500));
+        retries++;
+    }
+
     if (typeof window.supabase !== 'undefined') {
-        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        return true;
+        try {
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            console.log("Supabase successfully initialized.");
+            return true;
+        } catch (e) {
+            console.error("Failed to create Supabase client:", e);
+        }
+    } else {
+        console.error("Supabase SDK failed to load after 5 seconds.");
     }
     return false;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log("Assets Flow Enterprise ready with Supabase Auth.");
+    console.log("Assets Flow Enterprise ready. Initializing Auth...");
 
     // Simple reveal animation for hero content
     const heroContent = document.querySelector('.hero-content');
@@ -32,28 +47,37 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupMobileMenu();
 
     // Supabase Initialization
-    let initialized = await initSupabase();
-    if (!initialized) {
-        await new Promise(r => setTimeout(r, 1000));
-        initialized = await initSupabase();
-    }
+    const initialized = await initSupabase();
 
     if (initialized) {
-        const { data: { session } } = await supabase.auth.getSession();
+        try {
+            const { data: { session }, error } = await supabase.auth.getSession();
+            if (error) throw error;
 
-        // Redirect if logged in on auth page
-        if (session && window.location.pathname.includes('auth.html')) {
-            window.location.href = 'dashboard.html';
-            return;
-        }
+            console.log("Session check:", session ? "User logged in as " + session.user.email : "No active session");
 
-        updateHeader(session);
-        handleAuthForms();
+            // Redirect if logged in on auth page
+            if (session && window.location.pathname.includes('auth.html')) {
+                console.log("Redirecting to dashboard...");
+                window.location.href = 'dashboard.html';
+                return;
+            }
 
-        // Listen for auth changes
-        supabase.auth.onAuthStateChange((_event, session) => {
             updateHeader(session);
-        });
+            handleAuthForms();
+
+            // Listen for auth changes
+            supabase.auth.onAuthStateChange((_event, session) => {
+                console.log("Auth state changed:", _event);
+                updateHeader(session);
+            });
+        } catch (e) {
+            console.error("Auth initialization error:", e);
+            showMessage("Auth Error: " + e.message, 'error');
+        }
+    } else {
+        const authMsg = document.getElementById('auth-message');
+        if (authMsg) showMessage("Failed to connect to security server. Please refresh.", "error");
     }
 });
 
@@ -71,10 +95,14 @@ function updateHeader(session) {
             <span class="user-greeting" style="color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-right: 15px;">Hello, ${userEmail.split('@')[0]}</span>
             <button id="btn-logout" class="btn-login" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">Logout</button>
         `;
-        document.getElementById('btn-logout').addEventListener('click', async () => {
-            await supabase.auth.signOut();
-            window.location.href = 'index.html';
-        });
+        const logoutBtn = document.getElementById('btn-logout');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                console.log("Logging out...");
+                await supabase.auth.signOut();
+                window.location.href = 'index.html';
+            });
+        }
 
         // Un-gate content
         if (pricingSection) pricingSection.classList.remove('content-gated');
@@ -94,12 +122,15 @@ function updateHeader(session) {
 }
 
 function handleAuthForms() {
+    console.log("Setting up auth form handlers...");
     const loginForm = document.getElementById('login-form');
     const signupForm = document.getElementById('signup-form');
 
     if (loginForm) {
+        console.log("Login form detected.");
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            console.log("Login submitted...");
             const submitBtn = loginForm.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerHTML;
             setLoading(submitBtn, true);
@@ -107,40 +138,59 @@ function handleAuthForms() {
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
 
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-            setLoading(submitBtn, false, originalBtnText);
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+                setLoading(submitBtn, false, originalBtnText);
 
-            if (error) {
-                showMessage(error.message, 'error');
-            } else {
-                showMessage('Login successful! Redirecting...', 'success');
-                setTimeout(() => window.location.href = 'dashboard.html', 1500);
+                if (error) {
+                    console.error("Login error:", error.message);
+                    showMessage(error.message, 'error');
+                } else {
+                    console.log("Login success!");
+                    showMessage('Login successful! Redirecting...', 'success');
+                    setTimeout(() => window.location.href = 'dashboard.html', 1500);
+                }
+            } catch (err) {
+                console.error("Unexpected login error:", err);
+                setLoading(submitBtn, false, originalBtnText);
+                showMessage("An unexpected error occurred.", "error");
             }
         });
     }
 
     if (signupForm) {
+        console.log("Signup form detected.");
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            console.log("Signup submitted...");
             const submitBtn = signupForm.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerHTML;
             setLoading(submitBtn, true);
 
             const email = document.getElementById('signup-email').value;
             const password = document.getElementById('signup-password').value;
-            const name = document.getElementById('signup-name').value;
+            const nameField = document.getElementById('signup-name');
+            const name = nameField ? nameField.value : "";
 
-            const { data, error } = await supabase.auth.signUp({
-                email,
-                password,
-                options: { data: { full_name: name } }
-            });
-            setLoading(submitBtn, false, originalBtnText);
+            try {
+                const { data, error } = await supabase.auth.signUp({
+                    email,
+                    password,
+                    options: { data: { full_name: name } }
+                });
+                setLoading(submitBtn, false, originalBtnText);
 
-            if (error) {
-                showMessage(error.message, 'error');
-            } else {
-                showMessage('Success! Please check your email inbox to confirm your account.', 'success');
+                if (error) {
+                    console.error("Signup error:", error.message);
+                    showMessage(error.message, 'error');
+                } else {
+                    console.log("Signup success!");
+                    showMessage('Success! Please check your email inbox to confirm your account.', 'success');
+                }
+            } catch (err) {
+                console.error("Unexpected signup error:", err);
+                setLoading(submitBtn, false, originalBtnText);
+                showMessage("An unexpected error occurred.", "error");
             }
         });
     }
