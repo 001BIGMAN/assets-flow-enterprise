@@ -1,6 +1,6 @@
 // Supabase Configuration
 const SUPABASE_URL = 'https://xdsmthoenrwvbqetigjm.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_FYtqYCIKW7wlofhNq1r24w_o75peZq1';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhkc210aG9lbnJ3dmJxZXRpZ2ptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTAyMjUsImV4cCI6MjA4ODIyNjIyNX0.s6RL7lQLDodzai_y0uQl_7ph2ht44s9sNfF8jJ3iwXE';
 
 let supabase;
 
@@ -238,3 +238,4 @@ function setupMobileMenu() {
         });
     }
 }
+
