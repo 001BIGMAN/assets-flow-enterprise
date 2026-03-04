@@ -1,8 +1,8 @@
 // Supabase Configuration
 const SUPABASE_URL = 'https://xdsmthoenrwvbqetigjm.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhkc210aG9lbnJ3dmJxZXRpZ2ptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTAyMjUsImV4cCI6MjA4ODIyNjIyNX0.s6RL7lQLDodzai_y0uQl_7ph2ht44s9sNfF8jJ3iwXE';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhkc210aG9lbnJ3dmJxZXRpZ2ptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTUwMjUsImV4cCI6MjA4ODIyNjIyNX0.s6RL7lQLDodzai_y0uQl_7ph2ht44s9sNfF8jJ3iwXE';
 
-let supabase;
+let sb;
 
 async function initSupabase() {
     console.log("Initializing Supabase...");
@@ -15,7 +15,7 @@ async function initSupabase() {
 
     if (typeof window.supabase !== 'undefined') {
         try {
-            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             console.log("Supabase successfully initialized.");
             return true;
         } catch (e) {
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (initialized) {
         try {
-            const { data: { session }, error } = await supabase.auth.getSession();
+            const { data: { session }, error } = await sb.auth.getSession();
             if (error) throw error;
 
             console.log("Session check:", session ? "User logged in as " + session.user.email : "No active session");
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             handleAuthForms();
 
             // Listen for auth changes
-            supabase.auth.onAuthStateChange((_event, session) => {
+            sb.auth.onAuthStateChange((_event, session) => {
                 console.log("Auth state changed:", _event);
                 updateHeader(session);
             });
@@ -99,7 +99,7 @@ function updateHeader(session) {
         if (logoutBtn) {
             logoutBtn.addEventListener('click', async () => {
                 console.log("Logging out...");
-                await supabase.auth.signOut();
+                await sb.auth.signOut();
                 window.location.href = 'index.html';
             });
         }
@@ -139,7 +139,7 @@ function handleAuthForms() {
             const password = document.getElementById('login-password').value;
 
             try {
-                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+                const { data, error } = await sb.auth.signInWithPassword({ email, password });
                 setLoading(submitBtn, false, originalBtnText);
 
                 if (error) {
@@ -173,7 +173,7 @@ function handleAuthForms() {
             const name = nameField ? nameField.value : "";
 
             try {
-                const { data, error } = await supabase.auth.signUp({
+                const { data, error } = await sb.auth.signUp({
                     email,
                     password,
                     options: { data: { full_name: name } }
@@ -238,4 +238,3 @@ function setupMobileMenu() {
         });
     }
 }
-
