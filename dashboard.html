@@ -107,9 +107,9 @@
         document.addEventListener('DOMContentLoaded', async () => {
             // Wait for Supabase to be initialized by main.js
             let checkInterval = setInterval(async () => {
-                if (typeof supabase !== 'undefined') {
+                if (typeof sb !== 'undefined') {
                     clearInterval(checkInterval);
-                    const { data: { session } } = await supabase.auth.getSession();
+                    const { data: { session } } = await sb.auth.getSession();
 
                     if (!session) {
                         window.location.href = 'auth.html';
@@ -121,7 +121,7 @@
                     document.getElementById('user-display-name').textContent = displayName;
 
                     document.getElementById('btn-logout-sidebar')?.addEventListener('click', async () => {
-                        await supabase.auth.signOut();
+                        await sb.auth.signOut();
                         window.location.href = 'index.html';
                     });
                 }
