@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Assets Flow Enterprise</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="dashboard-body">
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="logo.jpg" alt="Logo">
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active"><a href="#"><i class="fas fa-th-large"></i> Overview</a></li>
+                    <li><a href="#"><i class="fas fa-book-open"></i> Curriculum</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> Community</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Market Analysis</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="btn-logout-sidebar" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <header class="dashboard-header">
+                <div class="welcome-text">
+                    <h1>Welcome back, <span id="user-display-name">Member</span></h1>
+                    <p>Your path to asset mastery continues here.</p>
+                </div>
+                <div class="header-status">
+                    <div class="status-badge gold">Elite Tier</div>
+                </div>
+            </header>
+
+            <div class="dashboard-grid">
+                <!-- Status Cards -->
+                <div class="dashboard-card status-card">
+                    <h3>Account Status</h3>
+                    <div class="status-value">Active</div>
+                    <p>Member #001-1000</p>
+                </div>
+                <div class="dashboard-card status-card">
+                    <h3>Course Progress</h3>
+                    <div class="status-value">12%</div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 12%"></div>
+                    </div>
+                </div>
+                <div class="dashboard-card status-card">
+                    <h3>Next Session</h3>
+                    <div class="status-value">Live in 2h</div>
+                    <p>Risk Management 101</p>
+                </div>
+
+                <!-- My Courses Section -->
+                <section class="dashboard-section wide">
+                    <h2>My Courses</h2>
+                    <div class="course-list">
+                        <div class="course-item active">
+                            <div class="course-icon"><i class="fas fa-play"></i></div>
+                            <div class="course-info">
+                                <h4>Level 1: Foundation</h4>
+                                <p>Introduction to Digital Assets</p>
+                            </div>
+                            <button class="btn-resume">Resume</button>
+                        </div>
+                        <div class="course-item locked">
+                            <i class="fas fa-lock lock-icon"></i>
+                            <div class="course-info">
+                                <h4>Level 2: Advanced Strategy</h4>
+                                <p>Risk & Psychology</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Community Feed Placeholder -->
+                <section class="dashboard-section">
+                    <h2>Community Hub</h2>
+                    <div class="community-preview">
+                        <p>Join the conversation with other elite members.</p>
+                        <a href="#" class="btn-link">Go to Telegram <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        // Dashboard specific protections using Supabase
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Wait for Supabase to be initialized by main.js
+            let checkInterval = setInterval(async () => {
+                if (typeof supabase !== 'undefined') {
+                    clearInterval(checkInterval);
+                    const { data: { session } } = await supabase.auth.getSession();
+
+                    if (!session) {
+                        window.location.href = 'auth.html';
+                        return;
+                    }
+
+                    const user = session.user;
+                    const displayName = user.user_metadata?.full_name || user.email.split('@')[0];
+                    document.getElementById('user-display-name').textContent = displayName;
+
+                    document.getElementById('btn-logout-sidebar')?.addEventListener('click', async () => {
+                        await supabase.auth.signOut();
+                        window.location.href = 'index.html';
+                    });
+                }
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>
