@@ -15,6 +15,9 @@ async function initSupabase() {
 
     if (typeof window.supabase !== 'undefined') {
         try {
+            console.log("Connecting to:", SUPABASE_URL);
+            console.log("API Key preview:", SUPABASE_ANON_KEY.substring(0, 10) + "...");
+
             sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             console.log("Supabase successfully initialized.");
             return true;
