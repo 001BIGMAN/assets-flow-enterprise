@@ -1001,7 +1001,8 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px;
+    margin-bottom: 60px;
+    /* Increased to prevent overlap */
 }
 
 .welcome-text h1 {
@@ -1165,7 +1166,8 @@ footer {
         position: fixed !important;
         left: -280px !important;
         display: flex !important;
-        z-index: 2000 !important;
+        z-index: 100000 !important;
+        /* Extremely high priority */
         transition: left 0.3s ease !important;
         box-shadow: 20px 0 50px rgba(0, 0, 0, 0.5) !important;
         height: 100vh !important;
@@ -1217,7 +1219,8 @@ footer {
         position: fixed !important;
         top: 15px !important;
         left: 15px !important;
-        z-index: 2001 !important;
+        z-index: 100010 !important;
+        /* Topmost */
         background: var(--accent-gold) !important;
         color: #000 !important;
         padding: 6px 12px !important;
@@ -1236,18 +1239,19 @@ footer {
 
     .sidebar-overlay {
         display: none;
-        position: fixed;
+        position: fixed !important;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        backdrop-filter: blur(5px);
-        z-index: 999;
+        background: rgba(0, 0, 0, 0.7) !important;
+        backdrop-filter: blur(5px) !important;
+        z-index: 99999 !important;
+        /* Just below sidebar */
     }
 
     .sidebar-overlay.active {
-        display: block;
+        display: block !important;
     }
 }
 
