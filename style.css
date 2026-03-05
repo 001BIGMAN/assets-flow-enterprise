@@ -776,16 +776,44 @@ footer {
 }
 
 @media (max-width: 480px) {
-    .hero-content h1 {
-        font-size: 2rem;
+    .logo img {
+        height: 50px;
+    }
+
+    .logo {
+        font-size: 1.1rem;
+    }
+
+    nav {
+        padding: 1rem 3%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
     }
 
     .nav-actions {
-        display: none;
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        gap: 10px;
+        order: 3;
+        margin-top: 10px;
+    }
+
+    .user-greeting {
+        font-size: 0.8rem !important;
+        margin-right: 5px !important;
+    }
+
+    .btn-login,
+    .btn-join {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
     }
 
     .nav-links {
-        width: 100%;
+        display: none;
+        /* Hide secondary links on very small mobile to focus on actions */
     }
 }
 
@@ -845,14 +873,83 @@ footer {
 }
 
 .sidebar-nav li.active a,
-.sidebar-nav a:hover {
-    opacity: 1;
-    background: rgba(212, 175, 55, 0.1);
-    color: var(--accent-gold);
+.sidebar-nav li a {
+    cursor: pointer;
 }
 
-.sidebar-footer {
-    margin-top: auto;
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Plan Option Cards */
+.plan-options {
+    display: grid;
+    gap: 15px;
+}
+
+.plan-option-card {
+    cursor: pointer;
+    position: relative;
+}
+
+.plan-option-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.plan-option-content {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    padding: 20px 25px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.3s ease;
+}
+
+.radio-circle {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--accent-gold);
+    border-radius: 50%;
+    position: relative;
+}
+
+.plan-option-card input[type="radio"]:checked+.plan-option-content {
+    background: rgba(212, 175, 55, 0.08);
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 20px var(--accent-gold-glow);
+}
+
+.plan-option-card input[type="radio"]:checked+.plan-option-content .radio-circle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: var(--accent-gold);
+    border-radius: 50%;
+}
+
+.plan-text h4 {
+    color: var(--text-white);
+    margin-bottom: 2px;
+}
+
+.plan-text p {
+    font-size: 0.85rem;
+    opacity: 0.6;
+}
+
+.dashboard-card.wide {
+    grid-column: 1 / -1;
 }
 
 .btn-logout {
@@ -976,101 +1073,4 @@ footer {
 }
 
 .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent-gold), #fff);
-    width: 0%;
-    transition: width 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 0 15px var(--accent-gold-glow);
-}
-
-/* Curriculum Checklist */
-.checklist-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    gap: 15px;
-}
-
-.check-item {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 15px 20px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.check-item:hover {
-    background: rgba(212, 175, 55, 0.05);
-}
-
-.check-item input[type="checkbox"] {
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--accent-gold);
-    border-radius: 4px;
-    cursor: pointer;
-    position: relative;
-    transition: all 0.2s;
-}
-
-.check-item input[type="checkbox"]:checked {
-    background: var(--accent-gold);
-}
-
-.check-item input[type="checkbox"]:checked::after {
-    content: '\f00c';
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-    color: #000;
-    font-size: 12px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.check-item.completed {
-    opacity: 0.5;
-}
-
-.check-item.completed span {
-    text-decoration: line-through;
-}
-
-/* Plan Selector */
-.plan-selector {
-    padding: 10px 15px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--accent-gold);
-    color: #fff;
-    border-radius: 8px;
-    font-family: inherit;
-    cursor: pointer;
-}
-
-.plan-selector option {
-    background: #000;
-    color: #fff;
-}
-
-@media (max-width: 991px) {
-    .sidebar {
-        display: none;
-    }
-
-    .dashboard-wrapper {
-        flex-direction: column;
-    }
-
-    .checklist-container {
-        grid-template-columns: 1fr;
-    }
-
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-}
+ 
