@@ -25,11 +25,11 @@
                     <li><a href="#curriculum-section"><i class="fas fa-book-open"></i> My Progress</a></li>
                     <li><a href="https://chat.whatsapp.com/GBN5T5sTaEf4kK5gYaZDGH" target="_blank"><i
                                 class="fab fa-whatsapp"></i> Whatsapp Group</a></li>
-                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdk54tAU3UkPQT2qUkcoJ4QEIp-H3n6oe6R5dqTU3Qufwza5A/viewform?usp=publish-editor"
-                            target="_blank" class="btn-logout"
-                            style="margin-top: 15px; font-size: 0.8rem; padding: 10px;"><i
-                                class="fas fa-comment-alt"></i> Give feedback/complaints</a></li>
                     <li><a href="index.html"><i class="fas fa-home"></i> Back to Home</a></li>
+                    <li style="margin-top: 20px;"><a
+                            href="https://docs.google.com/forms/d/e/1FAIpQLSdk54tAU3UkPQT2qUkcoJ4QEIp-H3n6oe6R5dqTU3Qufwza5A/viewform?usp=publish-editor"
+                            target="_blank" class="btn-feedback"><i class="fas fa-comment-alt"></i> Give
+                            feedback/complaints</a></li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
@@ -204,7 +204,6 @@
                     // Tab Switching Logic
                     sidebarLinks.forEach(link => {
                         link.addEventListener('click', (e) => {
-                            e.preventDefault();
                             const iconClass = link.querySelector('i').className;
                             let targetTabId = '';
 
@@ -212,6 +211,7 @@
                             else if (iconClass.includes('book-open')) targetTabId = 'progress-view';
 
                             if (targetTabId) {
+                                e.preventDefault(); // Only prevent default for tab links
                                 sidebarLinks.forEach(l => l.classList.remove('active'));
                                 link.classList.add('active');
 
