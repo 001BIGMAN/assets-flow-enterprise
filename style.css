@@ -986,9 +986,12 @@ footer {
 }
 
 .dashboard-header {
+    position: relative !important;
+    /* MUST BE RELATIVE to respect margins */
+    top: auto !important;
     display: block !important;
-    margin-bottom: 150px !important;
-    /* Massive gap to fix overlap */
+    margin-bottom: 200px !important;
+    /* Extreme gap as requested */
     width: 100%;
 }
 
