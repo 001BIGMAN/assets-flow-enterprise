@@ -990,8 +990,8 @@ footer {
     /* MUST BE RELATIVE to respect margins */
     top: auto !important;
     display: block !important;
-    margin-bottom: 200px !important;
-    /* Extreme gap as requested */
+    margin-bottom: 50px !important;
+    /* Reduced to 50px as requested (half of the half) */
     width: 100%;
 }
 
@@ -1173,8 +1173,8 @@ footer {
     }
 
     .dashboard-content {
-        padding: 80px 20px 20px 20px !important;
-        /* SIGNIFICANT top padding for fixed menu */
+        padding: 60px 20px 20px 20px !important;
+        /* Balanced top padding for fixed menu */
     }
 
     .dashboard-header {
