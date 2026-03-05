@@ -820,13 +820,13 @@ footer {
 /* Dashboard Premium Styles */
 .dashboard-body {
     background: #000;
-    overflow: hidden;
-    height: 100vh;
+    min-height: 100vh;
+    color: #fff;
 }
 
 .dashboard-wrapper {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
 }
 
@@ -839,6 +839,10 @@ footer {
     flex-direction: column;
     padding: 30px 20px;
     backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .sidebar-logo {
@@ -977,7 +981,9 @@ footer {
 /* Main Content */
 @media (max-width: 768px) {
     .dashboard-content {
-        padding: 20px;
+        flex: 1;
+        padding: 40px;
+        overflow-y: auto;
     }
 
     .dashboard-header {
