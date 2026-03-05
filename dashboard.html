@@ -49,6 +49,21 @@
                     </a>
                     <h1>Welcome, <span id="user-display-name">Member</span></h1>
                     <p>Your path to asset mastery continues here.</p>
+
+                    <!-- Global Progress Bar -->
+                    <div class="header-progress-container" style="margin-top: 20px; max-width: 600px;">
+                        <div class="progress-info"
+                            style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; color: var(--accent-gold);">
+                            <span>Overall Progress</span>
+                            <span id="progress-percent">0%</span>
+                        </div>
+                        <div class="progress-bar-container"
+                            style="height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; overflow: hidden;">
+                            <div id="progress-bar" class="progress-fill"
+                                style="width: 0%; height: 100%; background: var(--accent-gold); transition: width 0.3s ease;">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </header>
 
@@ -102,16 +117,6 @@
             <div id="progress-view" class="tab-content">
                 <div class="dashboard-grid">
                     <div class="dashboard-card curriculum-tracker">
-                        <div class="progress-header">
-                            <h3 id="curriculum-title">Curriculum Progress</h3>
-                            <div class="progress-stats">
-                                <span class="percentage" id="progress-percent">0%</span>
-                            </div>
-                        </div>
-                        <div class="progress-bar-container">
-                            <div class="progress-fill" id="progress-bar"></div>
-                        </div>
-
                         <div id="checklist-container" class="checklist-container">
                             <!-- Items dynamically injected -->
                         </div>
