@@ -1,327 +1,1219 @@
-// Supabase Configuration
-const SUPABASE_URL = 'https://xdsmthoenrwvbqetigjm.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhkc210aG9lbnJ3dmJxZXRpZ2ptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTAyMjUsImV4cCI6MjA4ODIyNjIyNX0.s6RL7lQLDodzai_y0uQl_7ph2ht44s9sNfF8jJ3iwXE';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@400;600;700;800&display=swap');
 
-let sb;
-
-async function initSupabase() {
-    console.log("Initializing Supabase...");
-    let retries = 0;
-    while (typeof window.supabase === 'undefined' && retries < 10) {
-        console.log(`Waiting for Supabase SDK... (Attempt ${retries + 1})`);
-        await new Promise(r => setTimeout(r, 500));
-        retries++;
-    }
-
-    if (typeof window.supabase !== 'undefined') {
-        try {
-            // Clean the keys (remove any accidental spaces)
-            const cleanUrl = SUPABASE_URL.trim();
-            const cleanKey = SUPABASE_ANON_KEY.trim();
-
-            console.log("Connecting to Supabase at:", cleanUrl);
-            console.log("API Key preview (cleaned):", cleanKey.substring(0, 10) + "...");
-
-            sb = window.supabase.createClient(cleanUrl, cleanKey);
-            console.log("Supabase successfully initialized.");
-            return true;
-        } catch (e) {
-            console.error("Failed to create Supabase client:", e);
-        }
-    } else {
-        console.error("Supabase SDK failed to load after 5 seconds.");
-    }
-    return false;
+:root {
+    --bg-dark: #000000;
+    --accent-gold: #d4af37;
+    --accent-gold-glow: rgba(212, 175, 55, 0.15);
+    --text-white: #ffffff;
+    --text-gray: #a0a0a0;
+    --font-main: 'Inter', sans-serif;
+    --font-heading: 'Outfit', sans-serif;
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-    console.log("Assets Flow Enterprise ready. Initializing Auth...");
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    // Simple reveal animation for hero content
-    const heroContent = document.querySelector('.hero-content');
-    if (heroContent) {
-        heroContent.style.opacity = '0';
-        heroContent.style.transform = 'translateY(30px)';
-        heroContent.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+html {
+    scroll-behavior: smooth;
+}
 
-        setTimeout(() => {
-            heroContent.style.opacity = '1';
-            heroContent.style.transform = 'translateY(0)';
-        }, 300);
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    line-height: normal;
+    overflow-x: hidden;
+}
+
+/* Header & Nav */
+header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: var(--text-white);
+    text-transform: capitalize;
+}
+
+.logo img {
+    height: 70px;
+    width: auto;
+    mix-blend-mode: screen;
+    display: block;
+}
+
+/* Authentication Styles */
+.auth-body {
+    background: #000;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.auth-container {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    width: 100%;
+    max-width: 450px;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.auth-tabs {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 10px;
+}
+
+.auth-tab {
+    background: none;
+    border: none;
+    color: var(--text-white);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.auth-tab.active {
+    opacity: 1;
+    color: var(--accent-gold);
+}
+
+.auth-form {
+    display: none;
+}
+
+.auth-form.active {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.auth-form h2 {
+    font-size: 1.8rem;
+    color: var(--text-white);
+}
+
+.auth-form p {
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.5;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-group label {
+    font-size: 0.9rem;
+    color: var(--accent-gold);
+}
+
+.input-group input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 15px;
+    border-radius: 8px;
+    color: var(--text-white);
+    font-family: inherit;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.btn-auth {
+    background: var(--accent-gold);
+    color: #000;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-auth:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--accent-gold-glow);
+}
+
+.auth-footer {
+    text-align: center;
+}
+
+.auth-footer a {
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.auth-message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    display: none;
+}
+
+.auth-message.error {
+    display: block;
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff4d4d;
+    border: 1px solid rgba(255, 0, 0, 0.2);
+}
+
+.auth-message.success {
+    display: block;
+    background: rgba(0, 255, 0, 0.1);
+    color: #4dff4d;
+    border: 1px solid rgba(0, 255, 0, 0.2);
+}
+
+/* Nav Links */
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: var(--text-white);
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.3s;
+}
+
+.nav-links li a:hover,
+.nav-links li a.active {
+    color: var(--accent-gold);
+}
+
+.nav-links li a i {
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+/* Nav Actions */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.search-icon {
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: var(--text-white);
+    opacity: 0.8;
+}
+
+.btn-join {
+    background-color: var(--accent-gold);
+    color: #000;
+    padding: 0.6rem 1.4rem;
+    border-radius: 8px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 0 var(--accent-gold-glow);
+}
+
+.btn-join:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px var(--accent-gold-glow);
+}
+
+.btn-login {
+    background-color: var(--accent-gold);
+    color: #000;
+    padding: 0.6rem 1.4rem;
+    border-radius: 8px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 0 var(--accent-gold-glow);
+}
+
+.btn-login:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px var(--accent-gold-glow);
+}
+
+/* Hero Section */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    padding-top: 80px;
+}
+
+.hero-content {
+    max-width: 800px;
+    z-index: 2;
+    text-align: left;
+}
+
+.hero-content h1 {
+    font-family: var(--font-heading);
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+    color: var(--text-white);
+    /* Ensure it's white or gold */
+}
+
+.hero-content h1 span {
+    color: var(--accent-gold);
+}
+
+/* Enhanced Hero Button */
+.btn-try {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    border: 2px solid var(--accent-gold);
+    color: var(--accent-gold);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-try:hover {
+    background-color: var(--accent-gold);
+    color: #000;
+    box-shadow: 0 0 30px var(--accent-gold-glow);
+    transform: translateY(-5px);
+}
+
+/* Extra decorative star/diamond */
+.sparkle {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    color: var(--text-gray);
+    font-size: 2rem;
+    opacity: 0.3;
+}
+
+/* Pricing Section */
+.pricing-section {
+    padding: 100px 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--accent-gold);
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.pricing-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 80px;
+}
+
+.pricing-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--accent-gold);
+    border-radius: 12px;
+    padding: 40px 30px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 20px var(--accent-gold-glow);
+}
+
+.pricing-card h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.price {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: var(--accent-gold);
+}
+
+.price span {
+    font-size: 1rem;
+    color: var(--text-white);
+    opacity: 0.7;
+}
+
+.tier-features {
+    list-style: none;
+    text-align: left;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.tier-features li {
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tier-features li i {
+    color: var(--accent-gold);
+    font-size: 0.8rem;
+}
+
+.btn-card {
+    padding: 1rem 2rem;
+    background-color: var(--accent-gold);
+    color: #000;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 800;
+    width: 100%;
+    transition: opacity 0.3s;
+}
+
+.btn-card:hover {
+    opacity: 0.9;
+}
+
+/* Comparison Table */
+.comparison-container {
+    overflow-x: auto;
+    margin-bottom: 100px;
+}
+
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 20px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.comparison-table th {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--accent-gold);
+    font-weight: 800;
+}
+
+.comparison-table td:not(:first-child) {
+    text-align: center;
+}
+
+.comparison-table i {
+    color: var(--accent-gold);
+}
+
+/* FAQ Section */
+.faq-section {
+    padding-bottom: 100px;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 40px;
+    text-align: left;
+}
+
+.faq-item h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: var(--text-white);
+}
+
+.faq-item p {
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    line-height: 1.6;
+}
+
+/* Footer */
+/* Founder Section */
+.founder-section {
+    padding: 120px 5%;
+    background: linear-gradient(180deg, #000000 0%, #080808 100%);
+    text-align: center;
+}
+
+.founder-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.founder-image {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--accent-gold);
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.2);
+    transition: transform 0.5s ease;
+}
+
+.founder-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 60px rgba(212, 175, 55, 0.3);
+}
+
+.founder-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.founder-tagline {
+    font-family: var(--font-main);
+    font-size: 1.2rem;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+.founder-name {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--text-white);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .founder-name {
+        font-size: 2.2rem;
     }
 
-    // Mobile Menu
-    setupMobileMenu();
-
-    // Supabase Initialization
-    const initialized = await initSupabase();
-
-    if (initialized) {
-        try {
-            const { data: { session }, error } = await sb.auth.getSession();
-            if (error) throw error;
-
-            console.log("Session check:", session ? "User logged in as " + session.user.email : "No active session");
-
-            // Redirect if logged in on auth page
-            if (session && window.location.pathname.includes('auth.html')) {
-                console.log("Redirecting to dashboard...");
-                window.location.href = 'dashboard.html';
-                return;
-            }
-
-            updateHeader(session);
-            handleAuthForms();
-
-            // Listen for auth changes
-            sb.auth.onAuthStateChange((_event, session) => {
-                console.log("Auth state changed:", _event);
-                updateHeader(session);
-
-                if (_event === 'PASSWORD_RECOVERY') {
-                    // Check if we have a showView function (in auth.html)
-                    if (typeof window.showView === 'function') {
-                        window.showView('reset');
-                    } else if (window.location.pathname.includes('auth.html')) {
-                        // If not yet loaded, wait a bit
-                        setTimeout(() => {
-                            if (typeof window.showView === 'function') window.showView('reset');
-                        }, 500);
-                    }
-                }
-            });
-        } catch (e) {
-            console.error("Auth initialization error:", e);
-            showMessage("Auth Error: " + e.message, 'error');
-        }
-    } else {
-        const authMsg = document.getElementById('auth-message');
-        if (authMsg) showMessage("Failed to connect to security server. Please refresh.", "error");
-    }
-});
-
-function updateHeader(session) {
-    const navActions = document.querySelector('.nav-actions');
-    const pricingSection = document.getElementById('pricing');
-    const curriculumSection = document.getElementById('curriculum');
-
-    if (!navActions) return;
-
-    if (session) {
-        const userEmail = session.user.email;
-        const userId = session.user.id;
-        const savedPlan = localStorage.getItem(`plan_${userId}`);
-
-        if (savedPlan) {
-            if (pricingSection) pricingSection.style.display = 'none';
-            if (curriculumSection) curriculumSection.style.display = 'none';
-        }
-
-        navActions.innerHTML = `
-            <span class="user-greeting" style="color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-right: 15px; font-weight: 500; display: inline-block; vertical-align: middle;">Hello, ${userEmail.split('@')[0]}</span>
-            <a href="dashboard.html" class="btn-login" style="margin-right: 15px; background-color: var(--accent-gold) !important; color: #000 !important; display: inline-block;">My Dashboard</a>
-            <button id="btn-logout" class="btn-login" style="background-color: var(--accent-gold) !important; color: #000 !important; border: none; cursor: pointer;">Logout</button>
-        `;
-        const logoutBtn = document.getElementById('btn-logout');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', async () => {
-                console.log("Logging out...");
-                await sb.auth.signOut();
-                window.location.href = 'index.html';
-            });
-        }
-    } else {
-        // Logged out structure
-        navActions.innerHTML = `
-            <i class="fas fa-search search-icon"></i>
-            <a href="auth.html#signup" id="btn-signup-main" class="btn-join">Sign up</a>
-            <a href="auth.html" id="btn-login-main" class="btn-login">Log in</a>
-        `;
+    .founder-image {
+        width: 220px;
+        height: 220px;
     }
 }
 
-function handleAuthForms() {
-    console.log("Setting up auth form handlers...");
-    const loginForm = document.getElementById('login-form');
-    const signupForm = document.getElementById('signup-form');
+footer {
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    padding: 80px 5% 40px;
+    background: #050505;
+}
 
-    if (loginForm) {
-        console.log("Login form detected.");
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            console.log("Login submitted...");
-            const submitBtn = loginForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            setLoading(submitBtn, true);
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 60px;
+}
 
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
+.footer-col h4 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--accent-gold);
+    margin-bottom: 25px;
+    text-transform: uppercase;
+}
 
-            try {
-                const { data, error } = await sb.auth.signInWithPassword({ email, password });
-                setLoading(submitBtn, false, originalBtnText);
+.footer-col ul {
+    list-style: none;
+}
 
-                if (error) {
-                    console.error("Login error:", error.message);
-                    showMessage(error.message, 'error');
-                } else {
-                    console.log("Login success!");
-                    showMessage('Login successful! Redirecting...', 'success');
-                    setTimeout(() => window.location.href = 'dashboard.html', 1500);
-                }
-            } catch (err) {
-                console.error("Unexpected login error:", err);
-                setLoading(submitBtn, false, originalBtnText);
-                showMessage("An unexpected error occurred.", "error");
-            }
-        });
+.footer-col ul li {
+    margin-bottom: 12px;
+}
+
+.footer-col ul li a {
+    text-decoration: none;
+    color: var(--text-white);
+    opacity: 0.7;
+    font-size: 0.9rem;
+    transition: opacity 0.3s;
+}
+
+.footer-col ul li a:hover {
+    opacity: 1;
+}
+
+.footer-bottom {
+    text-align: center;
+    font-size: 0.8rem;
+    opacity: 0.5;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Content Gating removed */
+
+/* Founder Vision & Mission Styles */
+.founder-vision-mission {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    margin-top: 60px;
+    width: 100%;
+}
+
+.statement-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-left: 3px solid var(--accent-gold);
+    padding: 25px;
+    border-radius: 0 15px 15px 0;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.statement-card:hover {
+    background: rgba(212, 175, 55, 0.05);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.05);
+}
+
+.statement-card h3 {
+    color: var(--accent-gold);
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.statement-card p {
+    line-height: 1.6;
+    opacity: 0.8;
+    font-size: 0.95rem;
+}
+
+/* Mobile Menu Styles */
+.mobile-menu-btn {
+    display: none;
+    font-size: 1.5rem;
+    color: var(--text-white);
+    cursor: pointer;
+    z-index: 1001;
+}
+
+@media (max-width: 991px) {
+    header nav {
+        padding: 15px 5%;
     }
 
-    if (signupForm) {
-        console.log("Signup form detected.");
-        signupForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = signupForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            setLoading(submitBtn, true);
-
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
-            const name = document.getElementById('signup-name')?.value || "";
-
-            try {
-                const { error } = await sb.auth.signUp({
-                    email,
-                    password,
-                    options: { data: { full_name: name } }
-                });
-                setLoading(submitBtn, false, originalBtnText);
-
-                if (error) {
-                    if (error.status === 422 || error.message.includes("already registered")) {
-                        showMessage("This email is already registered. Please log in instead.", "error");
-                    } else {
-                        showMessage(error.message, 'error');
-                    }
-                } else {
-                    showMessage('Success! Please check your email inbox to confirm your account.', 'success');
-                }
-            } catch (err) {
-                setLoading(submitBtn, false, originalBtnText);
-                showMessage("An unexpected error occurred.", "error");
-            }
-        });
+    .mobile-menu-btn {
+        display: block;
+        order: 2;
     }
 
-    // Forgot Password Form Handler
-    const forgotForm = document.getElementById('forgot-form');
-    if (forgotForm) {
-        forgotForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = forgotForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            setLoading(submitBtn, true);
-
-            const email = document.getElementById('forgot-email').value;
-            try {
-                const { error } = await sb.auth.resetPasswordForEmail(email, {
-                    redirectTo: window.location.origin + window.location.pathname + '#reset'
-                });
-                setLoading(submitBtn, false, originalText);
-                if (error) showMessage(error.message, 'error');
-                else showMessage("Reset link sent! Please check your email.", "success");
-            } catch (err) {
-                setLoading(submitBtn, false, originalText);
-                showMessage("Failed to send reset link.", "error");
-            }
-        });
+    .logo {
+        order: 1;
     }
 
-    // Password Update Form Handler
-    const resetForm = document.getElementById('reset-form');
-    if (resetForm) {
-        resetForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = resetForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            setLoading(submitBtn, true);
+    .nav-actions {
+        order: 3;
+        gap: 10px;
+    }
 
-            const password = document.getElementById('new-password').value;
-            try {
-                const { error } = await sb.auth.updateUser({ password });
-                setLoading(submitBtn, false, originalText);
-                if (error) showMessage(error.message, 'error');
-                else {
-                    showMessage("Password updated successfully! Redirecting...", "success");
-                    setTimeout(() => window.location.href = 'dashboard.html', 1500);
-                }
-            } catch (err) {
-                setLoading(submitBtn, false, originalText);
-                showMessage("Failed to update password.", "error");
-            }
-        });
+    .nav-actions .btn-join,
+    .nav-actions .btn-login {
+        padding: 8px 15px;
+        font-size: 0.8rem;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: 0.4s ease;
+        z-index: 1000;
+        border-left: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .nav-links.active {
+        right: 0;
+        display: flex !important;
+        /* Force display if hidden by other rules */
+    }
+
+    .nav-links li {
+        margin: 20px 0;
+    }
+
+    .nav-links a {
+        font-size: 1.2rem;
+    }
+
+    /* Hero Section */
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    /* Pricing Section */
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 450px;
+        margin: 0 auto;
+    }
+
+    .pricing-card.featured {
+        transform: none;
+    }
+
+    .pricing-card.featured:hover {
+        transform: translateY(-10px);
+    }
+
+    /* Founder Section */
+    .founder-container {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 50px;
+    }
+
+    .founder-image {
+        margin-bottom: 30px;
+    }
+
+    .founder-vision-mission {
+        grid-template-columns: 1fr;
+    }
+
+    .statement-card {
+        text-align: center;
+        border-left: none;
+        border-top: 3px solid var(--accent-gold);
+        border-radius: 0 0 15px 15px;
     }
 }
 
-function setLoading(btn, isLoading, originalText) {
-    if (isLoading) {
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-        btn.style.opacity = '0.7';
-    } else {
-        btn.disabled = false;
-        btn.innerHTML = originalText;
-        btn.style.opacity = '1';
+@media (max-width: 480px) {
+    .logo img {
+        height: 50px;
+    }
+
+    .logo {
+        font-size: 1.1rem;
+    }
+
+    nav {
+        padding: 1rem 3%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .nav-actions {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        gap: 10px;
+        order: 3;
+        margin-top: 10px;
+    }
+
+    .user-greeting {
+        font-size: 0.8rem !important;
+        margin-right: 5px !important;
+    }
+
+    .btn-login,
+    .btn-join {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .nav-links {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.98);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: 0.4s ease;
+        z-index: 1000;
+        padding: 50px;
+    }
+
+    .nav-links.active {
+        right: 0;
+        display: flex !important;
+    }
+
+    .nav-links li {
+        margin: 15px 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-links a {
+        font-size: 1.3rem;
+        display: block;
+        padding: 10px;
+    }
+
+    .mobile-menu-btn {
+        display: block !important;
+        color: var(--accent-gold);
+        font-size: 1.8rem;
+        cursor: pointer;
+        z-index: 1100;
+        transition: transform 0.3s ease;
     }
 }
 
-function showMessage(msg, type) {
-    const authMessage = document.getElementById('auth-message');
-    if (!authMessage) return;
-    authMessage.textContent = msg;
-    authMessage.className = `auth-message ${type}`;
-    authMessage.style.display = 'block';
+/* Dashboard Premium Styles */
+.dashboard-body {
+    background: #000;
+    min-height: 100vh;
+    color: #fff;
 }
 
-function setupMobileMenu() {
-    const nav = document.querySelector('nav');
-    const navLinks = document.querySelector('.nav-links');
-    if (!nav || !navLinks) return;
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
 
-    // Check if button already exists to prevent duplicate
-    let menuBtn = document.querySelector('.mobile-menu-btn');
-    if (!menuBtn) {
-        menuBtn = document.createElement('div');
-        menuBtn.className = 'mobile-menu-btn';
-        menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-        menuBtn.style.color = 'var(--accent-gold)';
-        menuBtn.style.fontSize = '1.8rem';
-        menuBtn.style.cursor = 'pointer';
-        menuBtn.style.display = 'none'; // Controlled by CSS @media
+/* Sidebar */
+.sidebar {
+    width: 280px;
+    background: rgba(255, 255, 255, 0.02);
+    border-right: 1px solid rgba(212, 175, 55, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
 
-        const logo = document.querySelector('.logo');
-        if (logo) {
-            nav.insertBefore(menuBtn, logo.nextSibling);
-        } else {
-            nav.insertBefore(menuBtn, navLinks);
-        }
+.sidebar-logo {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.sidebar-logo img {
+    height: 50px;
+    mix-blend-mode: screen;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+}
+
+.sidebar-nav li {
+    margin-bottom: 15px;
+}
+
+.sidebar-nav a {
+    text-decoration: none;
+    color: var(--text-white);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    opacity: 0.6;
+}
+
+.sidebar-nav li.active a,
+.sidebar-nav li a {
+    cursor: pointer;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Plan Option Cards */
+.plan-options {
+    display: grid;
+    gap: 15px;
+}
+
+.plan-option-card {
+    cursor: pointer;
+    position: relative;
+}
+
+.plan-option-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.plan-option-content {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    padding: 20px 25px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.3s ease;
+}
+
+.radio-circle {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--accent-gold);
+    border-radius: 50%;
+    position: relative;
+}
+
+.plan-option-card input[type="radio"]:checked+.plan-option-content {
+    background: rgba(212, 175, 55, 0.08);
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 20px var(--accent-gold-glow);
+}
+
+.plan-option-card input[type="radio"]:checked+.plan-option-content .radio-circle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: var(--accent-gold);
+    border-radius: 50%;
+}
+
+.plan-text h4 {
+    color: var(--text-white);
+    margin-bottom: 2px;
+}
+
+.plan-text p {
+    font-size: 0.85rem;
+    opacity: 0.6;
+}
+
+.dashboard-card.wide {
+    grid-column: 1 / -1;
+}
+
+.btn-logout {
+    width: 100%;
+    background: var(--accent-gold);
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    color: #000;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px var(--accent-gold-glow);
+}
+
+.btn-logout:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--accent-gold-glow);
+}
+
+/* Main Content */
+@media (max-width: 768px) {
+    .dashboard-content {
+        flex: 1;
+        padding: 40px;
+        overflow-y: auto;
     }
 
-    const toggleMenu = () => {
-        navLinks.classList.toggle('active');
-        const isActive = navLinks.classList.contains('active');
-        menuBtn.innerHTML = isActive ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-        document.body.style.overflow = isActive ? 'hidden' : '';
-    };
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
 
-    menuBtn.addEventListener('click', toggleMenu);
+    .welcome-text h1 {
+        font-size: 1.8rem;
+    }
+}
 
-    // Close menu when clicking a link
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            if (navLinks.classList.contains('active')) {
-                toggleMenu();
-            }
-        });
-    });
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.welcome-text h1 {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+}
+
+.welcome-text p {
+    color: var(--text-gray);
+}
+
+/* Dashboard Cards */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.dashboard-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    padding: 30px;
+    border-radius: 20px;
+    transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(212, 175, 55, 0.3);
+}
+
+.dashboard-card h3 {
+    font-size: 0.9rem;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.status-value {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+/* Progress Section */
+.curriculum-tracker {
+    grid-column: 1 / -1;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.progress-stats {
+    text-align: right;
+}
+
+.progress-stats .percentage {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent-gold);
+}
+
+.progress-bar-container {
+    height: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-gold), #fff);
+    width: 0%;
+    transition: width 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 15px var(--accent-gold-glow);
+}
+
+/* Curriculum Checklist */
+.checklist-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 15px;
+}
+
+.check-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 15px 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.check-item:hover {
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.check-item input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--accent-gold);
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.check-item input[type="checkbox"]:checked {
+    background: var(--accent-gold);
+}
+
+.check-item input[type="checkbox"]:checked::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: #000;
+    font-size: 12px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.check-item.completed {
+    opacity: 0.5;
+}
+
+.check-item.completed span {
+    text-decoration: line-through;
+}
+
+/* Plan Selector */
+.plan-selector {
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--accent-gold);
+    color: #fff;
+    border-radius: 8px;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.plan-selector option {
+    background: #000;
+    color: #fff;
+}
+
+@media (max-width: 991px) {
+    .sidebar {
+        display: none;
+    }
+
+    .dashboard-wrapper {
+        flex-direction: column;
+    }
+
+    .checklist-container {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
 }
