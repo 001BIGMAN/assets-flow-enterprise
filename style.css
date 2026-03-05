@@ -626,37 +626,7 @@ footer {
     border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Content Gating */
-.content-gated {
-    position: relative;
-    pointer-events: none;
-}
-
-.content-gated::after {
-    content: "🔒 Members Only - Please Login to View Curriculum";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--accent-gold);
-    color: #000;
-    padding: 20px 40px;
-    border-radius: 50px;
-    font-weight: 800;
-    font-size: 1.2rem;
-    z-index: 10;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 30px var(--accent-gold-glow);
-    pointer-events: auto;
-    cursor: pointer;
-}
-
-.content-gated>div,
-.content-gated>table,
-.content-gated>h2 {
-    filter: blur(10px);
-    opacity: 0.3;
-}
+/* Content Gating removed */
 
 /* Founder Vision & Mission Styles */
 .founder-vision-mission {
