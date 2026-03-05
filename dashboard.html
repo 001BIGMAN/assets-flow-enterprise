@@ -15,11 +15,11 @@
 <body class="dashboard-body">
     <div class="dashboard-wrapper">
         <!-- Sidebar Overlay -->
-        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+        <div class="sidebar-overlay" id="sidebar-overlay" style="z-index: 10000 !important;"></div>
 
         <!-- Mobile Toggle -->
-        <div class="mobile-sidebar-toggle" id="mobile-sidebar-toggle">
-            <i class="fas fa-bars"></i>
+        <div class="mobile-sidebar-toggle" id="mobile-sidebar-toggle" style="z-index: 10001 !important;">
+            <i class="fas fa-bars"></i> <span>MENU</span>
         </div>
 
         <!-- Sidebar -->
@@ -220,10 +220,13 @@
                         sidebar.classList.toggle('active');
                         overlay.classList.toggle('active');
                         const icon = toggle.querySelector('i');
+                        const text = toggle.querySelector('span');
                         if (sidebar.classList.contains('active')) {
                             icon.className = 'fas fa-times';
+                            if (text) text.textContent = 'CLOSE';
                         } else {
                             icon.className = 'fas fa-bars';
+                            if (text) text.textContent = 'MENU';
                         }
                     };
 
