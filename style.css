@@ -1073,4 +1073,101 @@ footer {
 }
 
 .progress-fill {
- 
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-gold), #fff);
+    width: 0%;
+    transition: width 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 15px var(--accent-gold-glow);
+}
+
+/* Curriculum Checklist */
+.checklist-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 15px;
+}
+
+.check-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 15px 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.check-item:hover {
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.check-item input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--accent-gold);
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.check-item input[type="checkbox"]:checked {
+    background: var(--accent-gold);
+}
+
+.check-item input[type="checkbox"]:checked::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: #000;
+    font-size: 12px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.check-item.completed {
+    opacity: 0.5;
+}
+
+.check-item.completed span {
+    text-decoration: line-through;
+}
+
+/* Plan Selector */
+.plan-selector {
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--accent-gold);
+    color: #fff;
+    border-radius: 8px;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.plan-selector option {
+    background: #000;
+    color: #fff;
+}
+
+@media (max-width: 991px) {
+    .sidebar {
+        display: none;
+    }
+
+    .dashboard-wrapper {
+        flex-direction: column;
+    }
+
+    .checklist-container {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
