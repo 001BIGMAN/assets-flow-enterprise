@@ -51,33 +51,8 @@
                 </div>
                 <button type="submit" class="btn-auth">Log In <i class="fas fa-sign-in-alt"></i></button>
                 <div class="auth-footer">
-                    <a href="#" id="link-forgot">Forgot password?</a>
+                    <a href="#">Forgot password?</a>
                 </div>
-            </form>
-
-            <!-- Forgot Password Request Form -->
-            <form id="forgot-form" class="auth-form">
-                <h2>Reset Password</h2>
-                <p>Enter your email address and we'll send you a link to reset your password.</p>
-                <div class="input-group">
-                    <label for="forgot-email">Email Address</label>
-                    <input type="email" id="forgot-email" placeholder="name@example.com" required>
-                </div>
-                <button type="submit" class="btn-auth">Send Reset Link <i class="fas fa-paper-plane"></i></button>
-                <div class="auth-footer">
-                    <a href="#" id="link-back-login">Back to Login</a>
-                </div>
-            </form>
-
-            <!-- Password Update Form (Hidden until recovery link clicked) -->
-            <form id="reset-form" class="auth-form">
-                <h2>New Password</h2>
-                <p>Create a strong new password for your account.</p>
-                <div class="input-group">
-                    <label for="new-password">New Password</label>
-                    <input type="password" id="new-password" placeholder="••••••••" required minlength="6">
-                </div>
-                <button type="submit" class="btn-auth">Update Password <i class="fas fa-key"></i></button>
             </form>
 
             <!-- Signup Form -->
@@ -94,7 +69,7 @@
                 </div>
                 <div class="input-group">
                     <label for="signup-password">Password</label>
-                    <input type="password" id="signup-password" placeholder="••••••••" required minlength="6">
+                    <input type="password" id="signup-password" placeholder="••••••••" required>
                 </div>
                 <button type="submit" class="btn-auth">Create Account <i class="fas fa-user-plus"></i></button>
             </form>
@@ -115,45 +90,28 @@
         const tabs = document.querySelectorAll('.auth-tab');
         const forms = document.querySelectorAll('.auth-form');
 
-        window.showView = function (viewId) {
-            forms.forEach(f => f.classList.remove('active'));
+        function switchTab(tabId) {
             tabs.forEach(t => t.classList.remove('active'));
+            forms.forEach(f => f.classList.remove('active'));
 
-            const targetForm = document.getElementById(`${viewId}-form`);
-            if (targetForm) targetForm.classList.add('active');
-
-            const targetTab = document.querySelector(`[data-tab="${viewId}"]`);
-            if (targetTab) targetTab.classList.add('active');
-
-            // Hide tabs if in forgot or reset mode
-            const tabContainer = document.querySelector('.auth-tabs');
-            if (viewId === 'forgot' || viewId === 'reset') {
-                tabContainer.style.display = 'none';
-            } else {
-                tabContainer.style.display = 'flex';
+            const targetTab = document.querySelector(`[data-tab="${tabId}"]`);
+            if (targetTab) {
+                targetTab.classList.add('active');
+                const formId = tabId === 'login' ? 'login-form' : 'signup-form';
+                document.getElementById(formId).classList.add('active');
             }
-        };
+        }
 
         tabs.forEach(tab => {
-            tab.addEventListener('click', () => window.showView(tab.dataset.tab));
-        });
-
-        document.getElementById('link-forgot')?.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.showView('forgot');
-        });
-
-        document.getElementById('link-back-login')?.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.showView('login');
+            tab.addEventListener('click', () => {
+                switchTab(tab.dataset.tab);
+            });
         });
 
         // Handle direct links (e.g., auth.html#signup)
         window.addEventListener('load', () => {
             if (window.location.hash === '#signup') {
-                window.showView('signup');
-            } else if (window.location.hash === '#reset') {
-                window.showView('reset');
+                switchTab('signup');
             }
         });
     </script>
