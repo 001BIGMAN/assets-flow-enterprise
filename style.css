@@ -39,6 +39,38 @@ header {
     border-bottom: 1px solid rgba(212, 175, 55, 0.1);
 }
 
+.user-greeting {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.user-nav-btns {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.btn-dashboard,
+.btn-logout-nav {
+    background: var(--accent-gold) !important;
+    color: #000 !important;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-dashboard:hover,
+.btn-logout-nav:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--accent-gold-glow);
+}
+
 nav {
     display: flex;
     justify-content: space-between;
@@ -691,13 +723,27 @@ footer {
 
     .nav-actions {
         order: 3;
+        display: flex;
+        flex-direction: column;
+        /* Stack vertically if needed */
+        align-items: center;
+        gap: 15px;
+        /* Massively increased gap as requested */
+    }
+
+    .user-nav-btns {
+        display: flex;
         gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .nav-actions .btn-join,
-    .nav-actions .btn-login {
-        padding: 8px 15px;
-        font-size: 0.8rem;
+    .nav-actions .btn-login,
+    .btn-dashboard,
+    .btn-logout-nav {
+        padding: 8px 12px;
+        font-size: 0.75rem;
     }
 
     .nav-links {
