@@ -25,6 +25,10 @@
                     <li><a href="#curriculum-section"><i class="fas fa-book-open"></i> My Progress</a></li>
                     <li><a href="https://chat.whatsapp.com/GBN5T5sTaEf4kK5gYaZDGH" target="_blank"><i
                                 class="fab fa-whatsapp"></i> Whatsapp Group</a></li>
+                    <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSdk54tAU3UkPQT2qUkcoJ4QEIp-H3n6oe6R5dqTU3Qufwza5A/viewform?usp=publish-editor"
+                            target="_blank" class="btn-logout"
+                            style="margin-top: 15px; font-size: 0.8rem; padding: 10px;"><i
+                                class="fas fa-comment-alt"></i> Give feedback/complaints</a></li>
                     <li><a href="index.html"><i class="fas fa-home"></i> Back to Home</a></li>
                 </ul>
             </nav>
@@ -46,45 +50,72 @@
                     <h1>Welcome, <span id="user-display-name">Member</span></h1>
                     <p>Your path to asset mastery continues here.</p>
                 </div>
-                <div class="plan-management">
-                    <label for="plan-select"
-                        style="font-size: 0.8rem; color: var(--accent-gold); display: block; margin-bottom: 5px;">STUDENT
-                        PLAN</label>
-                    <select id="plan-select" class="plan-selector">
-                        <option value="basic">Basic Access</option>
-                        <option value="level1">Level 1 (Foundations)</option>
-                        <option value="level2">Level 2 (VIP Mentorship)</option>
-                    </select>
-                </div>
             </header>
 
-            <div class="dashboard-grid">
-                <!-- Progress Card -->
-                <div class="dashboard-card curriculum-tracker" id="curriculum-section">
-                    <div class="progress-header">
-                        <h3>Curriculum Progress</h3>
-                        <div class="progress-stats">
-                            <span class="percentage" id="progress-percent">0%</span>
+            <!-- Overview View -->
+            <div id="overview-view" class="tab-content active">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card wide">
+                        <h3>Select Your Student Plan</h3>
+                        <p style="margin-bottom: 25px; opacity: 0.7;">Indicate the plan you have paid for to unlock your
+                            curriculum.</p>
+
+                        <div class="plan-options">
+                            <label class="plan-option-card">
+                                <input type="radio" name="student-plan" value="basic" checked>
+                                <div class="plan-option-content">
+                                    <div class="radio-circle"></div>
+                                    <div class="plan-text">
+                                        <h4>Basic Access</h4>
+                                        <p>Foundational community & basics</p>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="plan-option-card">
+                                <input type="radio" name="student-plan" value="level1">
+                                <div class="plan-option-content">
+                                    <div class="radio-circle"></div>
+                                    <div class="plan-text">
+                                        <h4>Level 1</h4>
+                                        <p>Foundations of Crypto Trading</p>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="plan-option-card">
+                                <input type="radio" name="student-plan" value="level2">
+                                <div class="plan-option-content">
+                                    <div class="radio-circle"></div>
+                                    <div class="plan-text">
+                                        <h4>Level 2</h4>
+                                        <p>VIP Mentorship & Advanced Strategy</p>
+                                    </div>
+                                </div>
+                            </label>
                         </div>
                     </div>
-                    <div class="progress-bar-container">
-                        <div class="progress-fill" id="progress-bar"></div>
-                    </div>
-
-                    <div id="checklist-container" class="checklist-container">
-                        <!-- Items dynamically injected -->
-                    </div>
                 </div>
+            </div>
 
-                <!-- Community Card -->
-                <div class="dashboard-card">
-                    <h3>Community Hub</h3>
-                    <p style="margin-bottom: 20px; opacity: 0.7;">Join our exclusive WhatsApp community for real-time
-                        updates and group discussions.</p>
-                    <a href="https://chat.whatsapp.com/GBN5T5sTaEf4kK5gYaZDGH" target="_blank" class="btn-logout"
-                        style="border-color: var(--accent-gold); color: var(--accent-gold);">
-                        <i class="fab fa-whatsapp"></i> Join Whatsapp Group
-                    </a>
+            <!-- Progress View -->
+            <div id="progress-view" class="tab-content">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card curriculum-tracker">
+                        <div class="progress-header">
+                            <h3 id="curriculum-title">Curriculum Progress</h3>
+                            <div class="progress-stats">
+                                <span class="percentage" id="progress-percent">0%</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-fill" id="progress-bar"></div>
+                        </div>
+
+                        <div id="checklist-container" class="checklist-container">
+                            <!-- Items dynamically injected -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -93,34 +124,50 @@
     <script src="main.js"></script>
     <script>
         const CURRICULUM_DATA = [
-            { id: 'c1', tier: 'basic', label: 'Crypto Basics' },
-            { id: 'c2', tier: 'level1', label: 'Evolution of Money' },
-            { id: 'c3', tier: 'level1', label: 'Blockchain 101' },
-            { id: 'c4', tier: 'level1', label: 'Secure Wallets' },
-            { id: 'c5', tier: 'level1', label: 'Centralized & Decentralized Exchanges' },
-            { id: 'c6', tier: 'level1', label: 'Order Types & Execution' },
-            { id: 'c7', tier: 'level1', label: 'Smart Contracts & dApps' },
-            { id: 'c8', tier: 'level1', label: 'Price Action Basics' },
-            { id: 'c9', tier: 'level1', label: 'Technical Indicators' },
-            { id: 'c10', tier: 'level1', label: 'Futures & Leverage' },
-            { id: 'c11', tier: 'level1', label: 'DeFi & Yield Farming' },
-            { id: 'c12', tier: 'level1', label: 'NFTs & Tokenomics' },
-            { id: 'c13', tier: 'level1', label: 'Laws & Taxes' },
-            { id: 'c14', tier: 'level1', label: 'Security & Safety' },
-            { id: 'c15', tier: 'level1', label: 'Dollar Cost Averaging' },
-            { id: 'c16', tier: 'level1', label: 'Foundations Exam & Certification' },
-            { id: 'c17', tier: 'level2', label: 'Advanced Technical Analysis' },
-            { id: 'c18', tier: 'level2', label: 'Quantitative & Algorithmic Trading' },
-            { id: 'c19', tier: 'level2', label: 'Machine Learning in Crypto' },
-            { id: 'c20', tier: 'level2', label: 'Advanced Derivatives' },
-            { id: 'c21', tier: 'level2', label: 'Advanced DeFi Strategies' },
-            { id: 'c22', tier: 'level2', label: 'Real-World Assets (RWAs)' },
-            { id: 'c23', tier: 'level2', label: 'Cross-Chain & Interoperability' },
-            { id: 'c24', tier: 'level2', label: 'On-Chain Analysis' },
-            { id: 'c25', tier: 'level2', label: 'Risk Management & Portfolio Design' },
-            { id: 'c26', tier: 'level2', label: 'AI & Emerging Trends' },
-            { id: 'c27', tier: 'level2', label: 'Security Audits & Privacy' },
-            { id: 'c28', tier: 'level2', label: 'Capstone Pro & Certification' }
+            { id: 'basic_group', tier: 'basic', label: 'Join groupchat' },
+            { id: 'l1_1', tier: 'level1', label: 'Crypto Basics' },
+            { id: 'l1_2', tier: 'level1', label: 'Evolution of Money' },
+            { id: 'l1_3', tier: 'level1', label: 'Blockchain 101' },
+            { id: 'l1_4', tier: 'level1', label: 'Secure Wallets' },
+            { id: 'l1_5', tier: 'level1', label: 'Centralized & Decentralized Exchanges' },
+            { id: 'l1_6', tier: 'level1', label: 'Order Types & Execution' },
+            { id: 'l1_7', tier: 'level1', label: 'Smart Contracts & dApps' },
+            { id: 'l1_8', tier: 'level1', label: 'Price Action Basics' },
+            { id: 'l1_9', tier: 'level1', label: 'Technical Indicators' },
+            { id: 'l1_10', tier: 'level1', label: 'Futures & Leverage' },
+            { id: 'l1_11', tier: 'level1', label: 'DeFi & Yield Farming' },
+            { id: 'l1_12', tier: 'level1', label: 'NFTs & Tokenomics' },
+            { id: 'l1_13', tier: 'level1', label: 'Laws & Taxes' },
+            { id: 'l1_14', tier: 'level1', label: 'Security & Safety' },
+            { id: 'l1_15', tier: 'level1', label: 'Dollar Cost Averaging' },
+            { id: 'l1_16', tier: 'level1', label: 'Foundations Exam & Certification' },
+            { id: 'l2_1', tier: 'level2', label: 'Crypto Basics' },
+            { id: 'l2_2', tier: 'level2', label: 'Evolution of Money' },
+            { id: 'l2_3', tier: 'level2', label: 'Blockchain 101' },
+            { id: 'l2_4', tier: 'level2', label: 'Secure Wallets' },
+            { id: 'l2_5', tier: 'level2', label: 'Centralized & Decentralized Exchanges' },
+            { id: 'l2_6', tier: 'level2', label: 'Order Types & Execution' },
+            { id: 'l2_7', tier: 'level2', label: 'Smart Contracts & dApps' },
+            { id: 'l2_8', tier: 'level2', label: 'Price Action Basics' },
+            { id: 'l2_9', tier: 'level2', label: 'Technical Indicators' },
+            { id: 'l2_10', tier: 'level2', label: 'Futures & Leverage' },
+            { id: 'l2_11', tier: 'level2', label: 'DeFi & Yield Farming' },
+            { id: 'l2_12', tier: 'level2', label: 'NFTs & Tokenomics' },
+            { id: 'l2_13', tier: 'level2', label: 'Laws & Taxes' },
+            { id: 'l2_14', tier: 'level2', label: 'Security & Safety' },
+            { id: 'l2_15', tier: 'level2', label: 'Dollar Cost Averaging' },
+            { id: 'l2_16', tier: 'level2', label: 'Foundations Exam & Certification' },
+            { id: 'l2_17', tier: 'level2', label: 'Quantitative & Algorithmic Trading' },
+            { id: 'l2_18', tier: 'level2', label: 'Machine Learning in Crypto' },
+            { id: 'l2_19', tier: 'level2', label: 'Advanced Derivatives' },
+            { id: 'l2_20', tier: 'level2', label: 'Advanced DeFi Strategies' },
+            { id: 'l2_21', tier: 'level2', label: 'Real-World Assets (RWAs)' },
+            { id: 'l2_22', tier: 'level2', label: 'Cross-Chain & Interoperability' },
+            { id: 'l2_23', tier: 'level2', label: 'On-Chain Analysis' },
+            { id: 'l2_24', tier: 'level2', label: 'Risk Management & Portfolio Design' },
+            { id: 'l2_25', tier: 'level2', label: 'AI & Emerging Trends' },
+            { id: 'l2_26', tier: 'level2', label: 'Security Audits & Privacy' },
+            { id: 'l2_27', tier: 'level2', label: 'Capstone Pro & Certification' }
         ];
 
         document.addEventListener('DOMContentLoaded', async () => {
@@ -139,27 +186,57 @@
                     const displayName = user.user_metadata?.full_name || user.email.split('@')[0];
                     document.getElementById('user-display-name').textContent = displayName;
 
-                    // Initialize Dashboard State
-                    const planSelect = document.getElementById('plan-select');
+                    // Initialize Elements
                     const checklistContainer = document.getElementById('checklist-container');
+                    const planRadios = document.querySelectorAll('input[name="student-plan"]');
+                    const sidebarLinks = document.querySelectorAll('.sidebar-nav li');
+                    const tabContents = document.querySelectorAll('.tab-content');
 
-                    // Load saved plan or default to basic
+                    // Load saved state
                     let savedPlan = localStorage.getItem(`plan_${userId}`) || 'basic';
-                    planSelect.value = savedPlan;
-
-                    // Load saved progress
                     let progressData = JSON.parse(localStorage.getItem(`progress_${userId}`)) || {};
+
+                    // Set initial radio state
+                    planRadios.forEach(radio => {
+                        if (radio.value === savedPlan) radio.checked = true;
+                    });
+
+                    // Tab Switching Logic
+                    sidebarLinks.forEach(link => {
+                        link.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const iconClass = link.querySelector('i').className;
+                            let targetTabId = '';
+
+                            if (iconClass.includes('th-large')) targetTabId = 'overview-view';
+                            else if (iconClass.includes('book-open')) targetTabId = 'progress-view';
+
+                            if (targetTabId) {
+                                sidebarLinks.forEach(l => l.classList.remove('active'));
+                                link.classList.add('active');
+
+                                tabContents.forEach(tab => {
+                                    tab.classList.remove('active');
+                                    if (tab.id === targetTabId) tab.classList.add('active');
+                                });
+                            }
+                        });
+                    });
 
                     const renderCurriculum = (plan) => {
                         checklistContainer.innerHTML = '';
                         let accessibleItems = [];
 
+                        // Define accessible segments based on requirements
                         if (plan === 'basic') {
                             accessibleItems = CURRICULUM_DATA.filter(i => i.tier === 'basic');
+                            document.getElementById('curriculum-title').textContent = 'Basic Access Progress';
                         } else if (plan === 'level1') {
                             accessibleItems = CURRICULUM_DATA.filter(i => i.tier === 'basic' || i.tier === 'level1');
+                            document.getElementById('curriculum-title').textContent = 'Level 1 Progress';
                         } else {
                             accessibleItems = CURRICULUM_DATA;
+                            document.getElementById('curriculum-title').textContent = 'Level 2 Progress';
                         }
 
                         accessibleItems.forEach(item => {
@@ -189,12 +266,18 @@
                         progressData[itemId] = isChecked;
                         localStorage.setItem(`progress_${userId}`, JSON.stringify(progressData));
 
-                        // Update UI
-                        const itemDiv = document.getElementById(itemId).parentElement;
-                        if (isChecked) itemDiv.classList.add('completed');
-                        else itemDiv.classList.remove('completed');
+                        const itemDiv = document.getElementById(itemId)?.parentElement;
+                        if (itemDiv) {
+                            if (isChecked) itemDiv.classList.add('completed');
+                            else itemDiv.classList.remove('completed');
+                        }
 
-                        renderCurriculum(planSelect.value); // Refresh to update percentage
+                        // Recalculate based on current plan segment
+                        const currentPlan = document.querySelector('input[name="student-plan"]:checked').value;
+                        const accessibleItems = currentPlan === 'basic' ? CURRICULUM_DATA.filter(i => i.tier === 'basic') :
+                            currentPlan === 'level1' ? CURRICULUM_DATA.filter(i => i.tier === 'basic' || i.tier === 'level1') :
+                                CURRICULUM_DATA;
+                        calculateTotalProgress(accessibleItems);
                     };
 
                     const calculateTotalProgress = (accessibleItems) => {
@@ -206,9 +289,14 @@
                         document.getElementById('progress-bar').style.width = `${percent}%`;
                     };
 
-                    planSelect.addEventListener('change', (e) => {
-                        localStorage.setItem(`plan_${userId}`, e.target.value);
-                        renderCurriculum(e.target.value);
+                    // Plan Selection Logic
+                    planRadios.forEach(radio => {
+                        radio.addEventListener('change', (e) => {
+                            if (e.target.checked) {
+                                localStorage.setItem(`plan_${userId}`, e.target.value);
+                                renderCurriculum(e.target.value);
+                            }
+                        });
                     });
 
                     // Initial render
