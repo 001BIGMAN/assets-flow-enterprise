@@ -22,10 +22,10 @@
             <nav class="sidebar-nav">
                 <ul>
                     <li class="active"><a href="#"><i class="fas fa-th-large"></i> Overview</a></li>
-                    <li><a href="#"><i class="fas fa-book-open"></i> Curriculum</a></li>
-                    <li><a href="#"><i class="fas fa-users"></i> Community</a></li>
-                    <li><a href="#"><i class="fas fa-chart-line"></i> Market Analysis</a></li>
-                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                    <li><a href="#curriculum-section"><i class="fas fa-book-open"></i> My Progress</a></li>
+                    <li><a href="https://chat.whatsapp.com/GBN5T5sTaEf4kK5gYaZDGH" target="_blank"><i
+                                class="fab fa-whatsapp"></i> Whatsapp Group</a></li>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Back to Home</a></li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
@@ -39,73 +39,91 @@
         <main class="dashboard-content">
             <header class="dashboard-header">
                 <div class="welcome-text">
-                    <h1>Welcome back, <span id="user-display-name">Member</span></h1>
+                    <a href="index.html"
+                        style="color: var(--accent-gold); text-decoration: none; font-size: 0.9rem; margin-bottom: 10px; display: inline-flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-arrow-left"></i> Back to Home
+                    </a>
+                    <h1>Welcome, <span id="user-display-name">Member</span></h1>
                     <p>Your path to asset mastery continues here.</p>
                 </div>
-                <div class="header-status">
-                    <div class="status-badge gold">Elite Tier</div>
+                <div class="plan-management">
+                    <label for="plan-select"
+                        style="font-size: 0.8rem; color: var(--accent-gold); display: block; margin-bottom: 5px;">STUDENT
+                        PLAN</label>
+                    <select id="plan-select" class="plan-selector">
+                        <option value="basic">Basic Access</option>
+                        <option value="level1">Level 1 (Foundations)</option>
+                        <option value="level2">Level 2 (VIP Mentorship)</option>
+                    </select>
                 </div>
             </header>
 
             <div class="dashboard-grid">
-                <!-- Status Cards -->
-                <div class="dashboard-card status-card">
-                    <h3>Account Status</h3>
-                    <div class="status-value">Active</div>
-                    <p>Member #001-1000</p>
-                </div>
-                <div class="dashboard-card status-card">
-                    <h3>Course Progress</h3>
-                    <div class="status-value">12%</div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 12%"></div>
-                    </div>
-                </div>
-                <div class="dashboard-card status-card">
-                    <h3>Next Session</h3>
-                    <div class="status-value">Live in 2h</div>
-                    <p>Risk Management 101</p>
-                </div>
-
-                <!-- My Courses Section -->
-                <section class="dashboard-section wide">
-                    <h2>My Courses</h2>
-                    <div class="course-list">
-                        <div class="course-item active">
-                            <div class="course-icon"><i class="fas fa-play"></i></div>
-                            <div class="course-info">
-                                <h4>Level 1: Foundation</h4>
-                                <p>Introduction to Digital Assets</p>
-                            </div>
-                            <button class="btn-resume">Resume</button>
-                        </div>
-                        <div class="course-item locked">
-                            <i class="fas fa-lock lock-icon"></i>
-                            <div class="course-info">
-                                <h4>Level 2: Advanced Strategy</h4>
-                                <p>Risk & Psychology</p>
-                            </div>
+                <!-- Progress Card -->
+                <div class="dashboard-card curriculum-tracker" id="curriculum-section">
+                    <div class="progress-header">
+                        <h3>Curriculum Progress</h3>
+                        <div class="progress-stats">
+                            <span class="percentage" id="progress-percent">0%</span>
                         </div>
                     </div>
-                </section>
-
-                <!-- Community Feed Placeholder -->
-                <section class="dashboard-section">
-                    <h2>Community Hub</h2>
-                    <div class="community-preview">
-                        <p>Join the conversation with other elite members.</p>
-                        <a href="#" class="btn-link">Go to Telegram <i class="fas fa-external-link-alt"></i></a>
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" id="progress-bar"></div>
                     </div>
-                </section>
+
+                    <div id="checklist-container" class="checklist-container">
+                        <!-- Items dynamically injected -->
+                    </div>
+                </div>
+
+                <!-- Community Card -->
+                <div class="dashboard-card">
+                    <h3>Community Hub</h3>
+                    <p style="margin-bottom: 20px; opacity: 0.7;">Join our exclusive WhatsApp community for real-time
+                        updates and group discussions.</p>
+                    <a href="https://chat.whatsapp.com/GBN5T5sTaEf4kK5gYaZDGH" target="_blank" class="btn-logout"
+                        style="border-color: var(--accent-gold); color: var(--accent-gold);">
+                        <i class="fab fa-whatsapp"></i> Join Whatsapp Group
+                    </a>
+                </div>
             </div>
         </main>
     </div>
 
     <script src="main.js"></script>
     <script>
-        // Dashboard specific protections using Supabase
+        const CURRICULUM_DATA = [
+            { id: 'c1', tier: 'basic', label: 'Crypto Basics' },
+            { id: 'c2', tier: 'level1', label: 'Evolution of Money' },
+            { id: 'c3', tier: 'level1', label: 'Blockchain 101' },
+            { id: 'c4', tier: 'level1', label: 'Secure Wallets' },
+            { id: 'c5', tier: 'level1', label: 'Centralized & Decentralized Exchanges' },
+            { id: 'c6', tier: 'level1', label: 'Order Types & Execution' },
+            { id: 'c7', tier: 'level1', label: 'Smart Contracts & dApps' },
+            { id: 'c8', tier: 'level1', label: 'Price Action Basics' },
+            { id: 'c9', tier: 'level1', label: 'Technical Indicators' },
+            { id: 'c10', tier: 'level1', label: 'Futures & Leverage' },
+            { id: 'c11', tier: 'level1', label: 'DeFi & Yield Farming' },
+            { id: 'c12', tier: 'level1', label: 'NFTs & Tokenomics' },
+            { id: 'c13', tier: 'level1', label: 'Laws & Taxes' },
+            { id: 'c14', tier: 'level1', label: 'Security & Safety' },
+            { id: 'c15', tier: 'level1', label: 'Dollar Cost Averaging' },
+            { id: 'c16', tier: 'level1', label: 'Foundations Exam & Certification' },
+            { id: 'c17', tier: 'level2', label: 'Advanced Technical Analysis' },
+            { id: 'c18', tier: 'level2', label: 'Quantitative & Algorithmic Trading' },
+            { id: 'c19', tier: 'level2', label: 'Machine Learning in Crypto' },
+            { id: 'c20', tier: 'level2', label: 'Advanced Derivatives' },
+            { id: 'c21', tier: 'level2', label: 'Advanced DeFi Strategies' },
+            { id: 'c22', tier: 'level2', label: 'Real-World Assets (RWAs)' },
+            { id: 'c23', tier: 'level2', label: 'Cross-Chain & Interoperability' },
+            { id: 'c24', tier: 'level2', label: 'On-Chain Analysis' },
+            { id: 'c25', tier: 'level2', label: 'Risk Management & Portfolio Design' },
+            { id: 'c26', tier: 'level2', label: 'AI & Emerging Trends' },
+            { id: 'c27', tier: 'level2', label: 'Security Audits & Privacy' },
+            { id: 'c28', tier: 'level2', label: 'Capstone Pro & Certification' }
+        ];
+
         document.addEventListener('DOMContentLoaded', async () => {
-            // Wait for Supabase to be initialized by main.js
             let checkInterval = setInterval(async () => {
                 if (typeof sb !== 'undefined') {
                     clearInterval(checkInterval);
@@ -117,8 +135,84 @@
                     }
 
                     const user = session.user;
+                    const userId = user.id;
                     const displayName = user.user_metadata?.full_name || user.email.split('@')[0];
                     document.getElementById('user-display-name').textContent = displayName;
+
+                    // Initialize Dashboard State
+                    const planSelect = document.getElementById('plan-select');
+                    const checklistContainer = document.getElementById('checklist-container');
+
+                    // Load saved plan or default to basic
+                    let savedPlan = localStorage.getItem(`plan_${userId}`) || 'basic';
+                    planSelect.value = savedPlan;
+
+                    // Load saved progress
+                    let progressData = JSON.parse(localStorage.getItem(`progress_${userId}`)) || {};
+
+                    const renderCurriculum = (plan) => {
+                        checklistContainer.innerHTML = '';
+                        let accessibleItems = [];
+
+                        if (plan === 'basic') {
+                            accessibleItems = CURRICULUM_DATA.filter(i => i.tier === 'basic');
+                        } else if (plan === 'level1') {
+                            accessibleItems = CURRICULUM_DATA.filter(i => i.tier === 'basic' || i.tier === 'level1');
+                        } else {
+                            accessibleItems = CURRICULUM_DATA;
+                        }
+
+                        accessibleItems.forEach(item => {
+                            const isChecked = progressData[item.id] || false;
+                            const div = document.createElement('div');
+                            div.className = `check-item ${isChecked ? 'completed' : ''}`;
+                            div.innerHTML = `
+                                <input type="checkbox" id="${item.id}" ${isChecked ? 'checked' : ''}>
+                                <span>${item.label}</span>
+                            `;
+                            div.addEventListener('click', (e) => {
+                                if (e.target.tagName !== 'INPUT') {
+                                    const cb = div.querySelector('input');
+                                    cb.checked = !cb.checked;
+                                    updateProgress(item.id, cb.checked);
+                                }
+                            });
+                            div.querySelector('input').addEventListener('change', (e) => {
+                                updateProgress(item.id, e.target.checked);
+                            });
+                            checklistContainer.appendChild(div);
+                        });
+                        calculateTotalProgress(accessibleItems);
+                    };
+
+                    const updateProgress = (itemId, isChecked) => {
+                        progressData[itemId] = isChecked;
+                        localStorage.setItem(`progress_${userId}`, JSON.stringify(progressData));
+
+                        // Update UI
+                        const itemDiv = document.getElementById(itemId).parentElement;
+                        if (isChecked) itemDiv.classList.add('completed');
+                        else itemDiv.classList.remove('completed');
+
+                        renderCurriculum(planSelect.value); // Refresh to update percentage
+                    };
+
+                    const calculateTotalProgress = (accessibleItems) => {
+                        if (accessibleItems.length === 0) return;
+                        const completedCount = accessibleItems.filter(i => progressData[i.id]).length;
+                        const percent = Math.round((completedCount / accessibleItems.length) * 100);
+
+                        document.getElementById('progress-percent').textContent = `${percent}%`;
+                        document.getElementById('progress-bar').style.width = `${percent}%`;
+                    };
+
+                    planSelect.addEventListener('change', (e) => {
+                        localStorage.setItem(`plan_${userId}`, e.target.value);
+                        renderCurriculum(e.target.value);
+                    });
+
+                    // Initial render
+                    renderCurriculum(savedPlan);
 
                     document.getElementById('btn-logout-sidebar')?.addEventListener('click', async () => {
                         await sb.auth.signOut();
