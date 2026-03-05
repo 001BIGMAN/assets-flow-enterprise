@@ -132,6 +132,53 @@ function handleAuthForms() {
     console.log("Setting up auth form handlers...");
     const loginForm = document.getElementById('login-form');
     const signupForm = document.getElementById('signup-form');
+    const resetForm = document.getElementById('reset-password-form');
+    const forgotPasswordLink = document.getElementById('forgot-password-link');
+    const backToLoginLink = document.getElementById('back-to-login-link');
+
+    if (forgotPasswordLink) {
+        forgotPasswordLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (loginForm) loginForm.classList.remove('active');
+            if (signupForm) signupForm.classList.remove('active');
+            if (resetForm) resetForm.classList.add('active');
+        });
+    }
+
+    if (backToLoginLink) {
+        backToLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (resetForm) resetForm.classList.remove('active');
+            if (loginForm) loginForm.classList.add('active');
+        });
+    }
+
+    if (resetForm) {
+        resetForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = resetForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            setLoading(submitBtn, true);
+
+            const email = document.getElementById('reset-email').value;
+
+            try {
+                const { error } = await sb.auth.resetPasswordForEmail(email, {
+                    redirectTo: window.location.origin + '/auth.html',
+                });
+                setLoading(submitBtn, false, originalBtnText);
+
+                if (error) {
+                    showMessage(error.message, 'error');
+                } else {
+                    showMessage('Password reset link sent! Check your email.', 'success');
+                }
+            } catch (err) {
+                setLoading(submitBtn, false, originalBtnText);
+                showMessage("An unexpected error occurred.", "error");
+            }
+        });
+    }
 
     if (loginForm) {
         console.log("Login form detected.");
@@ -189,7 +236,11 @@ function handleAuthForms() {
 
                 if (error) {
                     console.error("Signup error:", error.message);
-                    showMessage(error.message, 'error');
+                    let displayMsg = error.message;
+                    if (error.message.toLowerCase().includes("user already registered")) {
+                        displayMsg = "E-mail is already registered by another user";
+                    }
+                    showMessage(displayMsg, 'error');
                 } else {
                     console.log("Signup success!");
                     showMessage('Success! Please check your email inbox to confirm your account.', 'success');
