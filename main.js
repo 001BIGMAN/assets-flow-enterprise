@@ -77,6 +77,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             sb.auth.onAuthStateChange((_event, session) => {
                 console.log("Auth state changed:", _event);
                 updateHeader(session);
+
+                if (_event === 'PASSWORD_RECOVERY') {
+                    // Check if we have a showView function (in auth.html)
+                    if (typeof window.showView === 'function') {
+                        window.showView('reset');
+                    } else if (window.location.pathname.includes('auth.html')) {
+                        // If not yet loaded, wait a bit
+                        setTimeout(() => {
+                            if (typeof window.showView === 'function') window.showView('reset');
+                        }, 500);
+                    }
+                }
             });
         } catch (e) {
             console.error("Auth initialization error:", e);
@@ -169,18 +181,16 @@ function handleAuthForms() {
         console.log("Signup form detected.");
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            console.log("Signup submitted...");
             const submitBtn = signupForm.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerHTML;
             setLoading(submitBtn, true);
 
             const email = document.getElementById('signup-email').value;
             const password = document.getElementById('signup-password').value;
-            const nameField = document.getElementById('signup-name');
-            const name = nameField ? nameField.value : "";
+            const name = document.getElementById('signup-name')?.value || "";
 
             try {
-                const { data, error } = await sb.auth.signUp({
+                const { error } = await sb.auth.signUp({
                     email,
                     password,
                     options: { data: { full_name: name } }
@@ -188,16 +198,66 @@ function handleAuthForms() {
                 setLoading(submitBtn, false, originalBtnText);
 
                 if (error) {
-                    console.error("Signup error:", error.message);
-                    showMessage(error.message, 'error');
+                    if (error.status === 422 || error.message.includes("already registered")) {
+                        showMessage("This email is already registered. Please log in instead.", "error");
+                    } else {
+                        showMessage(error.message, 'error');
+                    }
                 } else {
-                    console.log("Signup success!");
                     showMessage('Success! Please check your email inbox to confirm your account.', 'success');
                 }
             } catch (err) {
-                console.error("Unexpected signup error:", err);
                 setLoading(submitBtn, false, originalBtnText);
                 showMessage("An unexpected error occurred.", "error");
+            }
+        });
+    }
+
+    // Forgot Password Form Handler
+    const forgotForm = document.getElementById('forgot-form');
+    if (forgotForm) {
+        forgotForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = forgotForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            setLoading(submitBtn, true);
+
+            const email = document.getElementById('forgot-email').value;
+            try {
+                const { error } = await sb.auth.resetPasswordForEmail(email, {
+                    redirectTo: window.location.origin + window.location.pathname + '#reset'
+                });
+                setLoading(submitBtn, false, originalText);
+                if (error) showMessage(error.message, 'error');
+                else showMessage("Reset link sent! Please check your email.", "success");
+            } catch (err) {
+                setLoading(submitBtn, false, originalText);
+                showMessage("Failed to send reset link.", "error");
+            }
+        });
+    }
+
+    // Password Update Form Handler
+    const resetForm = document.getElementById('reset-form');
+    if (resetForm) {
+        resetForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = resetForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            setLoading(submitBtn, true);
+
+            const password = document.getElementById('new-password').value;
+            try {
+                const { error } = await sb.auth.updateUser({ password });
+                setLoading(submitBtn, false, originalText);
+                if (error) showMessage(error.message, 'error');
+                else {
+                    showMessage("Password updated successfully! Redirecting...", "success");
+                    setTimeout(() => window.location.href = 'dashboard.html', 1500);
+                }
+            } catch (err) {
+                setLoading(submitBtn, false, originalText);
+                showMessage("Failed to update password.", "error");
             }
         });
     }
@@ -224,24 +284,44 @@ function showMessage(msg, type) {
 }
 
 function setupMobileMenu() {
-    const menuBtn = document.createElement('div');
-    menuBtn.className = 'mobile-menu-btn';
-    menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-
     const nav = document.querySelector('nav');
     const navLinks = document.querySelector('.nav-links');
+    if (!nav || !navLinks) return;
 
-    if (nav && navLinks) {
+    // Check if button already exists to prevent duplicate
+    let menuBtn = document.querySelector('.mobile-menu-btn');
+    if (!menuBtn) {
+        menuBtn = document.createElement('div');
+        menuBtn.className = 'mobile-menu-btn';
+        menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        menuBtn.style.color = 'var(--accent-gold)';
+        menuBtn.style.fontSize = '1.8rem';
+        menuBtn.style.cursor = 'pointer';
+        menuBtn.style.display = 'none'; // Controlled by CSS @media
+
         const logo = document.querySelector('.logo');
         if (logo) {
             nav.insertBefore(menuBtn, logo.nextSibling);
         } else {
             nav.insertBefore(menuBtn, navLinks);
         }
-
-        menuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            menuBtn.innerHTML = navLinks.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-        });
     }
+
+    const toggleMenu = () => {
+        navLinks.classList.toggle('active');
+        const isActive = navLinks.classList.contains('active');
+        menuBtn.innerHTML = isActive ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        document.body.style.overflow = isActive ? 'hidden' : '';
+    };
+
+    menuBtn.addEventListener('click', toggleMenu);
+
+    // Close menu when clicking a link
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (navLinks.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+    });
 }
