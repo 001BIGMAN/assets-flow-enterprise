@@ -127,7 +127,6 @@ function updateHeader(session) {
         `;
     }
 }
-}
 
 function handleAuthForms() {
     console.log("Setting up auth form handlers...");
