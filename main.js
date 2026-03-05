@@ -97,6 +97,14 @@ function updateHeader(session) {
 
     if (session) {
         const userEmail = session.user.email;
+        const userId = session.user.id;
+        const savedPlan = localStorage.getItem(`plan_${userId}`);
+
+        if (savedPlan) {
+            if (pricingSection) pricingSection.style.display = 'none';
+            if (curriculumSection) curriculumSection.style.display = 'none';
+        }
+
         navActions.innerHTML = `
             <span class="user-greeting" style="color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-right: 15px; font-weight: 500; display: inline-block; vertical-align: middle;">Hello, ${userEmail.split('@')[0]}</span>
             <a href="dashboard.html" class="btn-login" style="margin-right: 15px; background-color: var(--accent-gold) !important; color: #000 !important; display: inline-block;">My Dashboard</a>
@@ -110,8 +118,6 @@ function updateHeader(session) {
                 window.location.href = 'index.html';
             });
         }
-
-        // Un-gate content (Logic removed - content always visible)
     } else {
         // Logged out structure
         navActions.innerHTML = `
@@ -119,9 +125,8 @@ function updateHeader(session) {
             <a href="auth.html#signup" id="btn-signup-main" class="btn-join">Sign up</a>
             <a href="auth.html" id="btn-login-main" class="btn-login">Log in</a>
         `;
-
-        // Gate content (Logic removed - content always visible)
     }
+}
 }
 
 function handleAuthForms() {
