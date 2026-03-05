@@ -978,31 +978,19 @@ footer {
     box-shadow: 0 6px 20px var(--accent-gold-glow);
 }
 
-/* Main Content */
-@media (max-width: 768px) {
-    .dashboard-content {
-        flex: 1;
-        padding: 40px;
-        overflow-y: auto;
-    }
-
-    .dashboard-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-    }
-
-    .welcome-text h1 {
-        font-size: 1.8rem;
-    }
+.dashboard-content {
+    flex: 1;
+    padding: 40px 60px;
+    /* Consistent desktop padding */
+    overflow-y: auto;
 }
 
 .dashboard-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 60px;
-    /* Increased to prevent overlap */
+    margin-bottom: 80px;
+    /* Significantly increased to prevent overlap */
 }
 
 .welcome-text h1 {
