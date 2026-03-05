@@ -1181,19 +1181,26 @@ footer {
     }
 
     .dashboard-content {
-        padding: 20px;
+        padding: 80px 20px 20px 20px !important;
+        /* SIGNIFICANT top padding for fixed menu */
     }
 
     .dashboard-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 15px;
-        margin-top: 60px !important;
-        /* EXTRA Space for the toggle button */
+        gap: 10px;
+        margin-top: 0 !important;
+        /* Content padding handles this now */
+    }
+
+    .welcome-text h1 {
+        font-size: 1.8rem !important;
+        line-height: 1.2;
     }
 
     .header-progress-container {
         width: 100%;
+        margin-top: 15px;
     }
 
     .checklist-container {
@@ -1202,6 +1209,7 @@ footer {
 
     .dashboard-grid {
         grid-template-columns: 1fr;
+        margin-top: 20px;
     }
 
     .mobile-sidebar-toggle {
@@ -1212,12 +1220,14 @@ footer {
         z-index: 2001 !important;
         background: var(--accent-gold) !important;
         color: #000 !important;
-        padding: 8px 15px !important;
-        border-radius: 8px !important;
+        padding: 6px 12px !important;
+        /* Slightly smaller padding */
+        border-radius: 6px !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 8px !important;
-        font-size: 0.9rem !important;
+        gap: 6px !important;
+        font-size: 0.8rem !important;
+        /* Slightly smaller font */
         font-weight: bold !important;
         cursor: pointer !important;
         box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4) !important;
