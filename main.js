@@ -106,9 +106,11 @@ function updateHeader(session) {
         }
 
         navActions.innerHTML = `
-            <span class="user-greeting" style="color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-right: 15px; font-weight: 500; display: inline-block; vertical-align: middle;">Hello, ${userEmail.split('@')[0]}</span>
-            <a href="dashboard.html" class="btn-login" style="margin-right: 15px; background-color: var(--accent-gold) !important; color: #000 !important; display: inline-block;">My Dashboard</a>
-            <button id="btn-logout" class="btn-login" style="background-color: var(--accent-gold) !important; color: #000 !important; border: none; cursor: pointer;">Logout</button>
+            <span class="user-greeting">Hello, ${userEmail.split('@')[0]}</span>
+            <div class="user-nav-btns">
+                <a href="dashboard.html" class="btn-dashboard">My Dashboard</a>
+                <button id="btn-logout" class="btn-logout-nav">Logout</button>
+            </div>
         `;
         const logoutBtn = document.getElementById('btn-logout');
         if (logoutBtn) {
