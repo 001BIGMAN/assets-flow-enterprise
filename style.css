@@ -986,11 +986,10 @@ footer {
 }
 
 .dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 80px;
-    /* Significantly increased to prevent overlap */
+    display: block !important;
+    margin-bottom: 150px !important;
+    /* Massive gap to fix overlap */
+    width: 100%;
 }
 
 .welcome-text h1 {
