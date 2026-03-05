@@ -1,6 +1,6 @@
 // Supabase Configuration
 const SUPABASE_URL = 'https://xdsmthoenrwvbqetigjm.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhkc210aG9lbnJ3dmJxZXRpZ2ptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTUwMjUsImV4cCI6MjA4ODIyNjIyNX0.s6RL7lQLDodzai_y0uQl_7ph2ht44s9sNfF8jJ3iwXE';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhkc210aG9lbnJ3dmJxZXRpZ2ptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTAyMjUsImV4cCI6MjA4ODIyNjIyNX0.s6RL7lQLDodzai_y0uQl_7ph2ht44s9sNfF8jJ3iwXE';
 
 let sb;
 
@@ -15,10 +15,14 @@ async function initSupabase() {
 
     if (typeof window.supabase !== 'undefined') {
         try {
-            console.log("Connecting to:", SUPABASE_URL);
-            console.log("API Key preview:", SUPABASE_ANON_KEY.substring(0, 10) + "...");
+            // Clean the keys (remove any accidental spaces)
+            const cleanUrl = SUPABASE_URL.trim();
+            const cleanKey = SUPABASE_ANON_KEY.trim();
 
-            sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            console.log("Connecting to Supabase at:", cleanUrl);
+            console.log("API Key preview (cleaned):", cleanKey.substring(0, 10) + "...");
+
+            sb = window.supabase.createClient(cleanUrl, cleanKey);
             console.log("Supabase successfully initialized.");
             return true;
         } catch (e) {
@@ -107,9 +111,7 @@ function updateHeader(session) {
             });
         }
 
-        // Un-gate content
-        if (pricingSection) pricingSection.classList.remove('content-gated');
-        if (curriculumSection) curriculumSection.classList.remove('content-gated');
+        // Un-gate content (Logic removed - content always visible)
     } else {
         // Logged out structure
         navActions.innerHTML = `
@@ -118,9 +120,7 @@ function updateHeader(session) {
             <a href="auth.html" id="btn-login-main" class="btn-login">Log in</a>
         `;
 
-        // Gate content for guests
-        if (pricingSection) pricingSection.classList.add('content-gated');
-        if (curriculumSection) curriculumSection.classList.add('content-gated');
+        // Gate content (Logic removed - content always visible)
     }
 }
 
