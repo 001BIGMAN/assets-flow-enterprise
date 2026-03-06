@@ -774,13 +774,37 @@ footer {
     }
 
     .nav-actions {
-        order: 3;
+        display: none;
+    }
+
+    /* Actions shown inside the hamburger panel */
+    .mobile-nav-actions-clone {
         display: flex;
         flex-direction: column;
-        /* Stack vertically if needed */
         align-items: center;
-        gap: 15px;
-        /* Massively increased gap as requested */
+        gap: 14px;
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 1px solid rgba(212, 175, 55, 0.2);
+        width: 90%;
+        max-width: 300px;
+        list-style: none;
+    }
+
+    .mobile-nav-actions-clone .user-greeting {
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.6);
+    }
+
+    .mobile-nav-actions-clone .btn-join,
+    .mobile-nav-actions-clone .btn-login,
+    .mobile-nav-actions-clone .btn-dashboard,
+    .mobile-nav-actions-clone .btn-logout-nav {
+        padding: 10px 24px;
+        font-size: 0.9rem;
+        display: block;
+        text-align: center;
+        width: 100%;
     }
 
     .user-nav-btns {
@@ -801,21 +825,24 @@ footer {
     .nav-links {
         position: fixed;
         top: 0;
-        right: -100%;
-        width: 70%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
         height: 100vh;
-        background: rgba(0, 0, 0, 0.95);
-        backdrop-filter: blur(10px);
+        background: rgba(0, 0, 0, 0.98);
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        transition: 0.4s ease;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
         z-index: 1000;
-        border-left: 1px solid rgba(212, 175, 55, 0.2);
+        opacity: 0;
+        visibility: hidden;
     }
 
     .nav-links.active {
-        right: 0;
+        opacity: 1;
+        visibility: visible;
     }
 
     .nav-links li {
@@ -823,7 +850,8 @@ footer {
     }
 
     .nav-links a {
-        font-size: 1.2rem;
+        font-size: 1.4rem;
+        font-weight: 600;
     }
 
     /* Hero Section */
