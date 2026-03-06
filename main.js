@@ -277,24 +277,51 @@ function showMessage(msg, type) {
 }
 
 function setupMobileMenu() {
-    const menuBtn = document.createElement('div');
-    menuBtn.className = 'mobile-menu-btn';
-    menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const navLinks = document.getElementById('nav-links');
 
-    const nav = document.querySelector('nav');
-    const navLinks = document.querySelector('.nav-links');
-
-    if (nav && navLinks) {
-        const logo = document.querySelector('.logo');
-        if (logo) {
-            nav.insertBefore(menuBtn, logo.nextSibling);
-        } else {
-            nav.insertBefore(menuBtn, navLinks);
-        }
-
+    if (menuBtn && navLinks) {
         menuBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
-            menuBtn.innerHTML = navLinks.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            const isOpen = navLinks.classList.contains('active');
+            menuBtn.innerHTML = isOpen
+                ? '<i class="fas fa-times"></i>'
+                : '<i class="fas fa-bars"></i>';
+
+            // Inject or remove nav-actions clone inside the mobile panel
+            const existingClone = navLinks.querySelector('.mobile-nav-actions-clone');
+
+            if (isOpen && !existingClone) {
+                const navActions = document.querySelector('.nav-actions');
+                if (navActions && navActions.innerHTML.trim() !== '') {
+                    const clone = document.createElement('li');
+                    clone.className = 'mobile-nav-actions-clone';
+                    clone.innerHTML = navActions.innerHTML;
+                    navLinks.appendChild(clone);
+
+                    // Re-attach logout listener on the cloned button
+                    const logoutBtn = clone.querySelector('#btn-logout');
+                    if (logoutBtn) {
+                        logoutBtn.id = 'btn-logout-mobile';
+                        logoutBtn.addEventListener('click', async () => {
+                            await sb.auth.signOut();
+                            window.location.href = 'index.html';
+                        });
+                    }
+                }
+            } else if (!isOpen && existingClone) {
+                existingClone.remove();
+            }
+        });
+
+        // Close the panel when any anchor inside it is clicked
+        navLinks.addEventListener('click', (e) => {
+            if (e.target.closest('a') || e.target.closest('button')) {
+                navLinks.classList.remove('active');
+                menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                const clone = navLinks.querySelector('.mobile-nav-actions-clone');
+                if (clone) clone.remove();
+            }
         });
     }
 }
