@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu | Assets Flow Enterprise</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .menu-header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .close-btn {
+            font-size: 1.8rem;
+            color: var(--text-white);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .menu-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 40px;
+        }
+
+        .menu-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        .menu-links li {
+            margin: 25px 0;
+        }
+
+        .menu-links a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-family: var(--font-heading);
+            transition: color 0.3s ease;
+        }
+
+        .menu-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        .menu-actions {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            width: 80%;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .menu-actions .btn-join,
+        .menu-actions .btn-login,
+        .menu-actions .btn-dashboard,
+        .menu-actions .btn-logout-nav {
+            padding: 12px 24px;
+            font-size: 1rem;
+            width: 100%;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        .menu-actions .user-greeting {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-header">
+        <div class="logo">
+            <img src="logo.jpg" alt="Assets Flow Enterprise Logo" style="height: 50px;">
+        </div>
+        <a href="javascript:history.back()" class="close-btn"><i class="fas fa-times"></i></a>
+    </div>
+
+    <div class="menu-content">
+        <ul class="menu-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="index.html#content">Content</a></li>
+            <li><a href="index.html#pricing">Pricing</a></li>
+            <li><a href="founder.html">Founder</a></li>
+        </ul>
+
+        <div class="menu-actions" id="menu-actions">
+            <!-- Will be populated by main.js based on session -->
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        // Custom logic to handle the actions rendering just for this page
+        document.addEventListener('DOMContentLoaded', async () => {
+            const menuActions = document.getElementById('menu-actions');
+            
+            // Wait for Supabase to init from main.js
+            let retries = 0;
+            while (typeof sb === 'undefined' && retries < 10) {
+                await new Promise(r => setTimeout(r, 500));
+                retries++;
+            }
+
+            if (typeof sb !== 'undefined') {
+                const { data: { session } } = await sb.auth.getSession();
+                if (session) {
+                    const email = session.user.email.split('@')[0];
+                    menuActions.innerHTML = `
+                        <div class="user-greeting">Hello, ${email}</div>
+                        <a href="dashboard.html" class="btn-dashboard" style="background: var(--accent-gold); color: #000; font-weight: bold;">My Dashboard</a>
+                        <button id="btn-logout-menu" class="btn-logout-nav" style="background: transparent; border: 1px solid var(--accent-gold); color: var(--accent-gold);">Logout</button>
+                    `;
+
+                    document.getElementById('btn-logout-menu').addEventListener('click', async () => {
+                        await sb.auth.signOut();
+                        window.location.href = 'index.html';
+                    });
+                } else {
+                    menuActions.innerHTML = `
+                        <a href="auth.html#signup" class="btn-join" style="background: var(--accent-gold); color: #000; font-weight: bold;">Sign up</a>
+                        <a href="auth.html" class="btn-login" style="background: transparent; border: 1px solid var(--accent-gold); color: var(--accent-gold);">Log in</a>
+                    `;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
