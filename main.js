@@ -64,9 +64,25 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             // Redirect if logged in on auth page
             if (session && window.location.pathname.includes('auth.html')) {
-                console.log("Redirecting to dashboard...");
-                window.location.href = 'dashboard.html';
+                console.log("Checking user role for redirect from auth...");
+                const { data: profile } = await sb.from('profiles').select('role').eq('id', session.user.id).single();
+                if (profile && profile.role === 'admin') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
                 return;
+            }
+            
+            // Redirect if admin on student dashboard page
+            if (session && window.location.pathname.includes('dashboard.html')) {
+                console.log("Checking user role for dashboard access...");
+                const { data: profile } = await sb.from('profiles').select('role').eq('id', session.user.id).single();
+                if (profile && profile.role === 'admin') {
+                    console.log("Admin detected on student dashboard, redirecting to admin.html");
+                    window.location.href = 'admin.html';
+                    return;
+                }
             }
 
             updateHeader(session);
@@ -87,7 +103,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-function updateHeader(session) {
+async function updateHeader(session) {
     const navActions = document.querySelector('.nav-actions');
     const pricingSection = document.getElementById('pricing');
     const curriculumSection = document.getElementById('curriculum');
@@ -104,10 +120,26 @@ function updateHeader(session) {
             if (curriculumSection) curriculumSection.style.display = 'none';
         }
 
+        // Check if user is an admin
+        let isAdmin = false;
+        try {
+            console.log("Checking role in updateHeader for user:", userId);
+            const { data: profile, error } = await sb.from('profiles').select('role').eq('id', userId).single();
+            console.log("Role check result - Profile:", profile, "Error:", error);
+            if (profile && profile.role === 'admin') {
+                isAdmin = true;
+            }
+        } catch (e) {
+            console.error("Error checking role:", e);
+        }
+
+        const dashboardLink = isAdmin ? 'admin.html' : 'dashboard.html';
+        const dashboardText = isAdmin ? 'Admin Dashboard' : 'My Dashboard';
+
         navActions.innerHTML = `
             <span class="user-greeting">Hello, ${userEmail.split('@')[0]}</span>
             <div class="user-nav-btns">
-                <a href="dashboard.html" class="btn-dashboard">My Dashboard</a>
+                <a href="${dashboardLink}" class="btn-dashboard">${dashboardText}</a>
                 <button id="btn-logout" class="btn-logout-nav">Logout</button>
             </div>
         `;
@@ -201,9 +233,27 @@ function handleAuthForms() {
                     console.error("Login error:", error.message);
                     showMessage(error.message, 'error');
                 } else {
-                    console.log("Login success!");
+                    console.log("Login success! User ID:", data.user.id);
+                    
+                    // DEBUG TRACE
+                    console.log("Fetching profile for role check...");
+                    const profileResponse = await sb.from('profiles').select('*').eq('id', data.user.id).single();
+                    console.log("Profile response:", profileResponse);
+                    
+                    const profile = profileResponse.data;
+                    
                     showMessage('Login successful! Redirecting...', 'success');
-                    setTimeout(() => window.location.href = 'dashboard.html', 1500);
+                    
+                    setTimeout(() => {
+                        console.log("Evaluating redirect. Is profile present?", !!profile, "Role:", profile?.role);
+                        if (profile && profile.role === 'admin') {
+                            console.log("Redirecting to admin.html");
+                            window.location.href = 'admin.html';
+                        } else {
+                            console.log("Redirecting to dashboard.html");
+                            window.location.href = 'dashboard.html';
+                        }
+                    }, 1500);
                 }
             } catch (err) {
                 console.error("Unexpected login error:", err);
