@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // If we reach here, the user is an admin. Remove loading screen and show content.
     document.getElementById('loading-overlay').style.display = 'none';
-    document.getElementById('admin-content').style.display = 'block';
+    document.getElementById('admin-content').style.display = 'flex';
 
     // 2. Setup Navigation
     setupAdminNavigation();
@@ -134,27 +134,21 @@ function setupAdminNavigation() {
 }
 
 async function loadStudentsOverview() {
-    // In a real scenario with strict RLS, admins need policies that allow them to select all public.profiles
     const { data: profiles, error } = await sb
-        .from('profiles')
-        .select(`
-            id, 
-            role, 
-            auth_users:id(email, created_at, raw_user_meta_data)
-        `)
-        .eq('role', 'student');
+        .from('student_profiles')
+        .select('id, email, full_name, created_at');
 
     const tbody = document.getElementById('students-table-body');
     const totalEl = document.getElementById('stat-total-students');
 
     if (error) {
         console.error("Error loading students:", error);
-        tbody.innerHTML = `<tr><td colspan="4" style="color: red;">Error loading data: ${error.message}. Make sure RLS policies allow admins to view profiles.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" style="color: red; padding: 20px;">Error: ${error.message}</td></tr>`;
         return;
     }
 
     if (!profiles || profiles.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No students found.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px; opacity: 0.6;">No students found yet.</td></tr>';
         totalEl.textContent = '0';
         return;
     }
@@ -162,24 +156,50 @@ async function loadStudentsOverview() {
     totalEl.textContent = profiles.length;
     tbody.innerHTML = '';
 
+    // Also populate the notification target dropdown with individual students
+    const individualGroup = document.getElementById('individual-students-group');
+    const individualAudioGroup = document.getElementById('individual-audio-students-group');
+    if (individualGroup) individualGroup.innerHTML = '';
+    if (individualAudioGroup) individualAudioGroup.innerHTML = '';
+
     profiles.forEach(p => {
-        // Fallbacks since we are joining with an auth table which might be tricky depending on how the view/join is setup
-        // Often, creating a secure view linking auth.users and public.profiles is needed if doing complex joins
-        const email = p.auth_users?.email || 'Unknown';
-        const name = p.auth_users?.raw_user_meta_data?.full_name || 'N/A';
-        const date = p.auth_users?.created_at ? new Date(p.auth_users.created_at).toLocaleDateString() : 'Unknown';
-        
-        let plan = localStorage.getItem(`plan_${p.id}`) || 'Basic'; // We use localStorage for now since we didn't migrate it to DB
+        const name = p.full_name || 'N/A';
+        const email = p.email || 'Unknown';
+        const date = p.created_at ? new Date(p.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Unknown';
+        const plan = localStorage.getItem(`plan_${p.id}`) || '—';
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td style="font-weight: bold;">${name}</td>
-            <td>${email}</td>
-            <td><span style="color: var(--accent-gold);">${plan.toUpperCase()}</span></td>
-            <td>${date}</td>
+            <td style="padding: 18px; font-weight: bold;">${name}</td>
+            <td style="padding: 18px; opacity: 0.7;">${email}</td>
+            <td style="padding: 18px;"><span style="color: var(--accent-gold); font-weight: 600; text-transform: uppercase; font-size: 0.85rem;">${plan}</span></td>
+            <td style="padding: 18px; opacity: 0.6; font-size: 0.9rem;">${date}</td>
         `;
         tbody.appendChild(tr);
+
+        // Helper to build an option element
+        const buildOpt = () => {
+            const opt = document.createElement('option');
+            opt.value = `user:${p.id}`;
+            opt.textContent = `${name} (${email})`;
+            opt.style.background = '#111';
+            opt.style.color = '#fff';
+            return opt;
+        };
+
+        // Add to notification dropdown
+        if (individualGroup) individualGroup.appendChild(buildOpt());
+        // Add to audio dropdown
+        if (individualAudioGroup) individualAudioGroup.appendChild(buildOpt());
     });
+
+    const emptyMsg = 'No students available';
+    if (individualGroup && individualGroup.children.length === 0) {
+        const e = document.createElement('option'); e.disabled = true; e.textContent = emptyMsg; individualGroup.appendChild(e);
+    }
+    if (individualAudioGroup && individualAudioGroup.children.length === 0) {
+        const e = document.createElement('option'); e.disabled = true; e.textContent = emptyMsg; individualAudioGroup.appendChild(e);
+    }
 }
 
 function setupNotificationForm() {
@@ -199,12 +219,25 @@ function setupNotificationForm() {
         const title = document.getElementById('notify-title').value;
         const message = document.getElementById('notify-message').value;
 
+        // Check if targeting an individual student (value starts with "user:")
+        let targetTier = target;
+        let targetUserId = null;
+        if (target.startsWith('user:')) {
+            targetUserId = target.replace('user:', '');
+            targetTier = 'individual';
+        }
+
         try {
-            const { error } = await sb.from('notifications').insert({
-                target_tier: target,
+            const insertPayload = {
+                target_tier: targetTier,
                 title: title,
                 message: message
-            });
+            };
+            if (targetUserId) {
+                insertPayload.target_user_id = targetUserId;
+            }
+
+            const { error } = await sb.from('notifications').insert(insertPayload);
 
             if (error) throw error;
 
@@ -265,12 +298,23 @@ function setupAudioForm() {
                 .getPublicUrl(filePath);
 
             // 3. Save reference to database table
-            const { error: dbError } = await sb.from('audio_recordings').insert({
+            // Handle individual student targeting
+            let targetTier = target;
+            let targetUserId = null;
+            if (target.startsWith('user:')) {
+                targetUserId = target.replace('user:', '');
+                targetTier = 'individual';
+            }
+
+            const audioPayload = {
                 title: title,
-                target_tier: target,
+                target_tier: targetTier,
                 file_url: publicUrl,
                 file_path: filePath
-            });
+            };
+            if (targetUserId) audioPayload.target_user_id = targetUserId;
+
+            const { error: dbError } = await sb.from('audio_recordings').insert(audioPayload);
 
             if (dbError) throw dbError;
 
