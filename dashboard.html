@@ -29,11 +29,12 @@
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li class="active"><a href="#"><i class="fas fa-th-large"></i> Overview</a></li>
-                    <li><a href="#curriculum-section"><i class="fas fa-book-open"></i> My Progress</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="https://chat.whatsapp.com/GBN5T5sTaEf4kK5gYaZDGH" target="_blank"><i
-                                class="fab fa-whatsapp"></i> Whatsapp Group</a></li>
+                    <li class="active"><a href="#" data-tab="overview-view"><i class="fas fa-th-large"></i> Overview</a></li>
+                    <li><a href="#" data-tab="progress-view"><i class="fas fa-book-open"></i> My Progress</a></li>
+                    <li><a href="#" data-tab="notifications-view"><i class="fas fa-bell"></i> Notifications <span id="notif-badge" style="display:none; background:var(--accent-gold); color:#000; border-radius:50%; width:20px; height:20px; font-size:0.7rem; font-weight:800; line-height:20px; text-align:center; margin-left:6px;"></span></a></li>
+                    <li><a href="#" data-tab="recordings-view"><i class="fas fa-headphones"></i> Class Recordings</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+                    <li><a href="https://chat.whatsapp.com/GBN5T5sTaEf4kK5gYaZDGH" target="_blank"><i class="fab fa-whatsapp"></i> Whatsapp Group</a></li>
                     <li><a href="index.html"><i class="fas fa-home"></i> Back to Home</a></li>
                     <li style="margin-top: 20px;"><a
                             href="https://docs.google.com/forms/d/e/1FAIpQLSdk54tAU3UkPQT2qUkcoJ4QEIp-H3n6oe6R5dqTU3Qufwza5A/viewform?usp=publish-editor"
@@ -131,6 +132,30 @@
                         <div id="checklist-container" class="checklist-container">
                             <!-- Items dynamically injected -->
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications View -->
+            <div id="notifications-view" class="tab-content">
+                <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;"><i class="fas fa-bell" style="color: var(--accent-gold); margin-right: 12px;"></i>Notifications</h2>
+                <p style="opacity: 0.6; margin-bottom: 30px; font-size: 0.9rem;">Messages and announcements from your instructor.</p>
+                <div id="notifications-list">
+                    <div style="text-align:center; padding: 40px; opacity: 0.5;">
+                        <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--accent-gold);"></i>
+                        <p style="margin-top: 15px;">Loading notifications...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recordings View -->
+            <div id="recordings-view" class="tab-content">
+                <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;"><i class="fas fa-headphones" style="color: var(--accent-gold); margin-right: 12px;"></i>Class Recordings</h2>
+                <p style="opacity: 0.6; margin-bottom: 30px; font-size: 0.9rem;">Listen to previous class sessions uploaded by your instructor.</p>
+                <div id="recordings-list">
+                    <div style="text-align:center; padding: 40px; opacity: 0.5;">
+                        <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--accent-gold);"></i>
+                        <p style="margin-top: 15px;">Loading recordings...</p>
                     </div>
                 </div>
             </div>
@@ -239,32 +264,156 @@
                         if (radio.value === savedPlan) radio.checked = true;
                     });
 
-                    // Tab Switching Logic
-                    sidebarLinks.forEach(link => {
+                    // Load Data (Notifications & Audio)
+                    await loadStudentData(savedPlan);
+
+                    // Sidebar Tab Switching Logic
+                    const allSidebarLinks = document.querySelectorAll('.sidebar-nav a[data-tab]');
+                    const allTabContents = document.querySelectorAll('.tab-content');
+
+                    allSidebarLinks.forEach(link => {
                         link.addEventListener('click', (e) => {
-                            const iconClass = link.querySelector('i').className;
-                            let targetTabId = '';
+                            e.preventDefault();
+                            const targetTabId = link.getAttribute('data-tab');
 
-                            if (iconClass.includes('th-large')) targetTabId = 'overview-view';
-                            else if (iconClass.includes('book-open')) targetTabId = 'progress-view';
+                            // Update active class on parent li
+                            document.querySelectorAll('.sidebar-nav li').forEach(li => li.classList.remove('active'));
+                            link.parentElement.classList.add('active');
 
-                            if (targetTabId) {
-                                e.preventDefault(); // Only prevent default for tab links
-                                sidebarLinks.forEach(l => l.classList.remove('active'));
-                                link.classList.add('active');
+                            // Show target tab
+                            allTabContents.forEach(tab => {
+                                tab.classList.remove('active');
+                                if (tab.id === targetTabId) tab.classList.add('active');
+                            });
 
-                                tabContents.forEach(tab => {
-                                    tab.classList.remove('active');
-                                    if (tab.id === targetTabId) tab.classList.add('active');
-                                });
-
-                                // Close sidebar on mobile after clicking a link
-                                if (window.innerWidth <= 991) {
-                                    toggleSidebar();
-                                }
-                            }
+                            if (window.innerWidth <= 991) toggleSidebar();
                         });
                     });
+
+                    async function loadStudentData(currentPlan) {
+                        // 1. Load Notifications
+                        const notifList = document.getElementById('notifications-list');
+                        try {
+                            const { data: notifications, error } = await sb.from('notifications')
+                                .select('*')
+                                .order('created_at', { ascending: false });
+
+                            if (error) throw error;
+
+                            const visibleNotifs = (notifications || []).filter(n => {
+                                if (n.target_tier === 'all') return true;
+                                if (n.target_tier === 'basic') return currentPlan === 'basic';
+                                if (n.target_tier === 'level1') return currentPlan === 'level1';
+                                if (n.target_tier === 'level2') return currentPlan === 'level2';
+                                if (n.target_tier === 'individual' && n.target_user_id === userId) return true;
+                                return false;
+                            });
+
+                            // Show badge on sidebar
+                            const badge = document.getElementById('notif-badge');
+                            if (badge && visibleNotifs.length > 0) {
+                                badge.textContent = visibleNotifs.length;
+                                badge.style.display = 'inline-block';
+                            }
+
+                            if (notifList) {
+                                if (visibleNotifs.length === 0) {
+                                    notifList.innerHTML = `
+                                        <div style="text-align:center; padding: 60px 20px; opacity: 0.5;">
+                                            <i class="fas fa-bell-slash fa-3x" style="color: var(--accent-gold); margin-bottom: 20px;"></i>
+                                            <p style="font-size: 1rem;">No notifications yet. Check back soon!</p>
+                                        </div>`;
+                                } else {
+                                    notifList.innerHTML = visibleNotifs.map(n => {
+                                        // Check if notification was already deleted by this user
+                                        const deletedNotifs = JSON.parse(localStorage.getItem(`deleted_notifs_${userId}`) || '[]');
+                                        if (deletedNotifs.includes(n.id)) return '';
+                                        
+                                        return `
+                                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.2); border-left: 4px solid var(--accent-gold); padding: 22px 25px; border-radius: 12px; margin-bottom: 16px; transition: transform 0.2s; position: relative;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''" data-notif-id="${n.id}">
+                                            <button onclick="deleteNotification('${n.id}', '${n.title.replace(/'/g, "\\'")}')" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: rgba(255,255,255,0.5); cursor: pointer; padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,0,0,0.2)'; this.style.color='#ff4d4d'" onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.color='rgba(255,255,255,0.5)'" title="Delete notification">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 10px; padding-right: 40px;">
+                                                <h4 style="color: var(--accent-gold); font-size: 1rem; display:flex; align-items:center; gap:8px;">
+                                                    <i class="fas fa-bullhorn"></i> ${n.title}
+                                                </h4>
+                                                <span style="font-size: 0.75rem; opacity: 0.5; white-space:nowrap; margin-left:15px;">${new Date(n.created_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})}</span>
+                                            </div>
+                                            <p style="font-size: 0.95rem; line-height: 1.7; opacity: 0.85;">${n.message}</p>
+                                        </div>
+                                    `}).join('');
+                                    
+                                    // Filter out empty strings and update badge count
+                                    const actualNotifs = notifList.querySelectorAll('[data-notif-id]');
+                                    const badge = document.getElementById('notif-badge');
+                                    if (badge) {
+                                        badge.textContent = actualNotifs.length;
+                                        if (actualNotifs.length === 0) {
+                                            badge.style.display = 'none';
+                                            notifList.innerHTML = `
+                                                <div style="text-align:center; padding: 60px 20px; opacity: 0.5;">
+                                                    <i class="fas fa-bell-slash fa-3x" style="color: var(--accent-gold); margin-bottom: 20px;"></i>
+                                                    <p style="font-size: 1rem;">No notifications yet. Check back soon!</p>
+                                                </div>`;
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (err) {
+                            console.error("Error loading notifications:", err);
+                            if (notifList) notifList.innerHTML = '<p style="color: #ff4d4d;">Failed to load notifications.</p>';
+                        }
+
+                        // 2. Load Audio Recordings
+                        const recordingsList = document.getElementById('recordings-list');
+                        try {
+                            const { data: recordings, error } = await sb.from('audio_recordings')
+                                .select('*')
+                                .order('created_at', { ascending: false });
+
+                            if (error) throw error;
+
+                            const visibleRecordings = (recordings || []).filter(rec => {
+                                if (rec.target_tier === 'all') return currentPlan === 'level1' || currentPlan === 'level2';
+                                if (rec.target_tier === 'level1') return currentPlan === 'level1' || currentPlan === 'level2';
+                                if (rec.target_tier === 'level2') return currentPlan === 'level2';
+                                if (rec.target_tier === 'individual' && rec.target_user_id === userId) return true;
+                                return false;
+                            });
+
+                            if (recordingsList) {
+                                if (visibleRecordings.length === 0) {
+                                    recordingsList.innerHTML = `
+                                        <div style="text-align:center; padding: 60px 20px; opacity: 0.5;">
+                                            <i class="fas fa-headphones fa-3x" style="color: var(--accent-gold); margin-bottom: 20px;"></i>
+                                            <p style="font-size: 1rem;">No recordings available for your plan yet.</p>
+                                        </div>`;
+                                } else {
+                                    recordingsList.innerHTML = visibleRecordings.map(rec => `
+                                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.15); padding: 22px 25px; border-radius: 12px; margin-bottom: 20px; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+                                            <div style="display:flex; align-items:center; gap: 12px; margin-bottom: 15px;">
+                                                <div style="width:42px; height:42px; background: rgba(212,175,55,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                                                    <i class="fas fa-microphone" style="color: var(--accent-gold);"></i>
+                                                </div>
+                                                <div>
+                                                    <h4 style="color: var(--text-white); font-size: 1rem; margin-bottom: 3px;">${rec.title}</h4>
+                                                    <span style="font-size: 0.75rem; opacity: 0.5;">${new Date(rec.created_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})}</span>
+                                                </div>
+                                            </div>
+                                            <audio controls style="width:100%; border-radius: 8px; outline:none; accent-color: var(--accent-gold);">
+                                                <source src="${rec.file_url}" type="audio/mpeg">
+                                                Your browser does not support the audio element.
+                                            </audio>
+                                        </div>
+                                    `).join('');
+                                }
+                            }
+                        } catch (err) {
+                            console.error("Error loading recordings:", err);
+                            if (recordingsList) recordingsList.innerHTML = '<p style="color: #ff4d4d;">Failed to load recordings.</p>';
+                        }
+                    }
 
                     const renderCurriculum = (plan) => {
                         checklistContainer.innerHTML = '';
