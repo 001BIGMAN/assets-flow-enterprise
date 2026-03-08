@@ -10,6 +10,48 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.85rem;
+        }
+        .auth-divider::before, .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+        .btn-google {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        .btn-google:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(212,175,55,0.4);
+            transform: translateY(-2px);
+        }
+        .btn-google img {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
 </head>
 
 <body class="auth-body">
@@ -51,6 +93,11 @@
                     <input type="password" id="login-password" placeholder="••••••••" required>
                 </div>
                 <button type="submit" class="btn-auth">Log In <i class="fas fa-sign-in-alt"></i></button>
+                <div class="auth-divider">or</div>
+                <button type="button" id="btn-google-login" class="btn-google">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                    Continue with Google
+                </button>
                 <div class="auth-footer">
                     <a href="#" id="forgot-password-link">Forgot password?</a>
                 </div>
@@ -87,6 +134,11 @@
                     <input type="password" id="signup-password" placeholder="••••••••" required>
                 </div>
                 <button type="submit" class="btn-auth">Create Account <i class="fas fa-user-plus"></i></button>
+                <div class="auth-divider">or</div>
+                <button type="button" id="btn-google-signup" class="btn-google">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                    Sign up with Google
+                </button>
             </form>
 
             <div id="auth-message" class="auth-message"></div>
