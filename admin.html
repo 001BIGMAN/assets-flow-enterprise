@@ -158,6 +158,11 @@
                             <i class="fas fa-microphone" style="width: 22px;"></i> Upload Class Audio
                         </a>
                     </li>
+                    <li>
+                        <a href="#" data-target="chat-section">
+                            <i class="fas fa-comments" style="width: 22px;"></i> Admin Chat
+                        </a>
+                    </li>
                     <li style="margin-top: 30px;">
                         <a href="index.html">
                             <i class="fas fa-home" style="width: 22px;"></i> Back to Home
@@ -285,6 +290,30 @@
                                 <input type="file" id="audio-file" class="admin-form-control" accept="audio/*" required style="padding: 15px; background: rgba(0,0,0,0.2);">
                             </div>
                             <button type="submit" class="btn-card" style="width: 100%; border: none; cursor: pointer; padding: 15px; font-size: 1.1rem; margin-top: 15px;">Upload Recording <i class="fas fa-cloud-upload-alt" style="margin-left: 8px;"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Chat Section -->
+            <div id="chat-section" class="admin-section">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card wide" style="max-width: 900px; margin: 0 auto; grid-column: 1 / -1;">
+                        <h3 style="margin-bottom: 20px; font-size: 1.2rem; letter-spacing: 1px; text-transform: uppercase;">
+                            <i class="fas fa-comments" style="color: var(--accent-gold); margin-right: 10px;"></i> Admin Team Chat
+                        </h3>
+                        <p style="margin-bottom: 25px; opacity: 0.6; font-size: 0.9rem;">Private messages visible only to admins.</p>
+                        <div id="chat-messages" style="min-height: 300px; max-height: 450px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(212,175,55,0.1); display: flex; flex-direction: column; gap: 12px;">
+                            <div style="text-align:center; padding: 40px; opacity: 0.4;">
+                                <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--accent-gold);"></i>
+                                <p style="margin-top: 10px;">Loading messages...</p>
+                            </div>
+                        </div>
+                        <form id="chat-form" style="display: flex; gap: 12px; align-items: stretch;">
+                            <input type="text" id="chat-input" class="admin-form-control" placeholder="Type a message to other admins..." required style="flex: 1; min-width: 0; padding: 15px; font-size: 1rem; margin: 0;">
+                            <button type="submit" class="btn-card" style="width: auto; flex: none; border: none; cursor: pointer; padding: 15px 25px; font-size: 1.2rem; white-space: nowrap; margin: 0; aspect-ratio: 1; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
                         </form>
                     </div>
                 </div>
