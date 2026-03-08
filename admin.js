@@ -1,436 +1,329 @@
-// Supabase Configuration
-const SUPABASE_URL = 'https://xdsmthoenrwvbqetigjm.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhkc210aG9lbnJ3dmJxZXRpZ2ptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTAyMjUsImV4cCI6MjA4ODIyNjIyNX0.s6RL7lQLDodzai_y0uQl_7ph2ht44s9sNfF8jJ3iwXE';
+<!DOCTYPE html>
+<html lang="en">
 
-let sb;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Assets Flow Enterprise</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* Admin section switching */
+        .admin-section { display: none; }
+        .admin-section.active { display: block; }
 
-async function initSupabase() {
-    let retries = 0;
-    while (typeof window.supabase === 'undefined' && retries < 10) {
-        await new Promise(r => setTimeout(r, 500));
-        retries++;
-    }
-
-    if (typeof window.supabase !== 'undefined') {
-        try {
-            sb = window.supabase.createClient(SUPABASE_URL.trim(), SUPABASE_ANON_KEY.trim());
-            return true;
-        } catch (e) {
-            console.error("Failed to create Supabase client:", e);
+        /* Fix: push logout btn to bottom of sidebar */
+        .sidebar {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between;
         }
-    }
-    return false;
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
-    const initialized = await initSupabase();
-
-    if (!initialized) {
-        alert("Failed to connect to database.");
-        return;
-    }
-
-    // 1. Authenticate and Verify Admin Role
-    const { data: { session } } = await sb.auth.getSession();
-
-    if (!session) {
-        window.location.href = 'auth.html';
-        return;
-    }
-
-    const userId = session.user.id;
-    
-    // Check if user is admin in the profiles table
-    const { data: profile, error: profileErr } = await sb
-        .from('profiles')
-        .select('role')
-        .eq('id', userId)
-        .single();
-
-    if (profileErr || !profile || profile.role !== 'admin') {
-        console.error("Access Denied. Not an admin.", profileErr);
-        // If not an admin, send them to the regular dashboard
-        window.location.href = 'dashboard.html';
-        return;
-    }
-    
-    // Get user metadata for the name
-    const { data: { user } } = await sb.auth.getUser();
-    const fullName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Admin';
-    
-    // Set Welcome text
-    const welcomeTitle = document.getElementById('admin-welcome-title');
-    if (welcomeTitle) {
-        welcomeTitle.textContent = `Welcome, ${fullName}`;
-    }
-
-    // If we reach here, the user is an admin. Remove loading screen and show content.
-    document.getElementById('loading-overlay').style.display = 'none';
-    document.getElementById('admin-content').style.display = 'flex';
-
-    // 2. Setup Navigation
-    setupAdminNavigation();
-
-    // 3. Load Data
-    loadStudentsOverview();
-
-    // 4. Setup Forms
-    setupNotificationForm();
-    setupAudioForm();
-    setupAdminChat(userId, fullName);
-
-    // Setup Logout
-    document.getElementById('btn-logout-sidebar').addEventListener('click', async () => {
-        await sb.auth.signOut();
-        window.location.href = 'index.html';
-    });
-});
-
-function setupAdminNavigation() {
-    const sidebarLinks = document.querySelectorAll('.sidebar-nav a[data-target]');
-    const sections = document.querySelectorAll('.admin-section');
-    
-    const sidebar = document.querySelector('.sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
-    const toggle = document.getElementById('mobile-sidebar-toggle');
-
-    const toggleSidebar = () => {
-        sidebar.classList.toggle('active');
-        overlay.classList.toggle('active');
-        const icon = toggle.querySelector('i');
-        const text = toggle.querySelector('span');
-        if (sidebar.classList.contains('active')) {
-            icon.className = 'fas fa-times';
-            if(text) text.textContent = 'CLOSE';
-        } else {
-            icon.className = 'fas fa-bars';
-            if(text) text.textContent = 'ADMIN MENU';
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
         }
-    };
+        /* Ensure sidebar nav links show at full opacity for active state */
+        .sidebar-nav li.active a {
+            opacity: 1 !important;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--accent-gold);
+        }
+        .sidebar-nav a:hover {
+            opacity: 1 !important;
+            background: rgba(212, 175, 55, 0.07);
+        }
+        
+        /* Data Table */
+        .admin-table-container {
+            width: 100%;
+            overflow-x: auto;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        .admin-table th, .admin-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .admin-table th {
+            color: var(--accent-gold);
+            font-weight: 700;
+            background: rgba(0,0,0,0.5);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .admin-table tr:last-child td {
+            border-bottom: none;
+        }
+        .admin-table tbody tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+        
+        /* Form Styles */
+        .admin-form-group {
+            margin-bottom: 25px;
+        }
+        .admin-form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--accent-gold);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .admin-form-control {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        .admin-form-control:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            background: rgba(255,255,255,0.07);
+        }
+        select.admin-form-control option {
+            background: #111;
+            color: #fff;
+            padding: 10px;
+        }
+        .admin-alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: 600;
+        }
+        .admin-alert.success { background: rgba(0, 200, 0, 0.1); color: #4dff4d; border: 1px solid rgba(0, 200, 0, 0.3); }
+        .admin-alert.error { background: rgba(255, 0, 0, 0.1); color: #ff4d4d; border: 1px solid rgba(255, 0, 0, 0.3); }
 
-    if(toggle) toggle.addEventListener('click', toggleSidebar);
-    if(overlay) overlay.addEventListener('click', toggleSidebar);
-
-    sidebarLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            // Update active link class
-            document.querySelectorAll('.sidebar-nav li').forEach(li => li.classList.remove('active'));
-            link.parentElement.classList.add('active');
-
-            // Show target section
-            const targetId = link.getAttribute('data-target');
-            sections.forEach(sec => {
-                sec.classList.remove('active');
-                if (sec.id === targetId) sec.classList.add('active');
-            });
-
-            // Close sidebar on mobile
-            if (window.innerWidth <= 991 && sidebar.classList.contains('active')) {
-                toggleSidebar();
+        /* Mobile: bump content below fixed toggle button */
+        @media (max-width: 991px) {
+            .dashboard-content {
+                padding-top: 70px !important;
             }
-        });
-    });
-}
-
-async function loadStudentsOverview() {
-    const { data: profiles, error } = await sb
-        .from('student_profiles')
-        .select('id, email, full_name, created_at');
-
-    const tbody = document.getElementById('students-table-body');
-    const totalEl = document.getElementById('stat-total-students');
-
-    if (error) {
-        console.error("Error loading students:", error);
-        tbody.innerHTML = `<tr><td colspan="4" style="color: red; padding: 20px;">Error: ${error.message}</td></tr>`;
-        return;
-    }
-
-    if (!profiles || profiles.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px; opacity: 0.6;">No students found yet.</td></tr>';
-        totalEl.textContent = '0';
-        return;
-    }
-
-    totalEl.textContent = profiles.length;
-    tbody.innerHTML = '';
-
-    // Also populate the notification target dropdown with individual students
-    const individualGroup = document.getElementById('individual-students-group');
-    const individualAudioGroup = document.getElementById('individual-audio-students-group');
-    if (individualGroup) individualGroup.innerHTML = '';
-    if (individualAudioGroup) individualAudioGroup.innerHTML = '';
-
-    profiles.forEach(p => {
-        const name = p.full_name || 'N/A';
-        const email = p.email || 'Unknown';
-        const date = p.created_at ? new Date(p.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Unknown';
-        const plan = localStorage.getItem(`plan_${p.id}`) || '—';
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td style="padding: 18px; font-weight: bold;">${name}</td>
-            <td style="padding: 18px; opacity: 0.7;">${email}</td>
-            <td style="padding: 18px;"><span style="color: var(--accent-gold); font-weight: 600; text-transform: uppercase; font-size: 0.85rem;">${plan}</span></td>
-            <td style="padding: 18px; opacity: 0.6; font-size: 0.9rem;">${date}</td>
-        `;
-        tbody.appendChild(tr);
-
-        // Helper to build an option element
-        const buildOpt = () => {
-            const opt = document.createElement('option');
-            opt.value = `user:${p.id}`;
-            opt.textContent = `${name} (${email})`;
-            opt.style.background = '#111';
-            opt.style.color = '#fff';
-            return opt;
-        };
-
-        // Add to notification dropdown
-        if (individualGroup) individualGroup.appendChild(buildOpt());
-        // Add to audio dropdown
-        if (individualAudioGroup) individualAudioGroup.appendChild(buildOpt());
-    });
-
-    const emptyMsg = 'No students available';
-    if (individualGroup && individualGroup.children.length === 0) {
-        const e = document.createElement('option'); e.disabled = true; e.textContent = emptyMsg; individualGroup.appendChild(e);
-    }
-    if (individualAudioGroup && individualAudioGroup.children.length === 0) {
-        const e = document.createElement('option'); e.disabled = true; e.textContent = emptyMsg; individualAudioGroup.appendChild(e);
-    }
-}
-
-function setupNotificationForm() {
-    const form = document.getElementById('notify-form');
-    if (!form) return;
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const alertEl = document.getElementById('notify-alert');
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
-        
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Sending...';
-        
-        const target = document.getElementById('notify-target').value;
-        const title = document.getElementById('notify-title').value;
-        const message = document.getElementById('notify-message').value;
-
-        // Check if targeting an individual student (value starts with "user:")
-        let targetTier = target;
-        let targetUserId = null;
-        if (target.startsWith('user:')) {
-            targetUserId = target.replace('user:', '');
-            targetTier = 'individual';
         }
+    </style>
+</head>
 
-        try {
-            const insertPayload = {
-                target_tier: targetTier,
-                title: title,
-                message: message
-            };
-            if (targetUserId) {
-                insertPayload.target_user_id = targetUserId;
-            }
+<body class="dashboard-body">
+    <div id="loading-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--accent-gold);">
+        <i class="fas fa-circle-notch fa-spin fa-3x" style="margin-bottom: 20px;"></i>
+        <h2>Verifying Admin Access...</h2>
+    </div>
 
-            const { error } = await sb.from('notifications').insert(insertPayload);
+    <div class="dashboard-wrapper" style="display:none;" id="admin-content">
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebar-overlay" style="z-index: 10000 !important;"></div>
 
-            if (error) throw error;
+        <!-- Mobile Toggle -->
+        <div class="mobile-sidebar-toggle" id="mobile-sidebar-toggle" style="z-index: 10010 !important;">
+            <i class="fas fa-bars"></i> <span>ADMIN MENU</span>
+        </div>
 
-            alertEl.textContent = 'Notification sent successfully to students!';
-            alertEl.className = 'admin-alert success';
-            alertEl.style.display = 'block';
-            form.reset();
-            
-            setTimeout(() => { alertEl.style.display = 'none'; }, 4000);
-            
-        } catch (err) {
-            console.error("Error sending notification:", err);
-            alertEl.textContent = 'Failed to send notification: ' + err.message;
-            alertEl.className = 'admin-alert error';
-            alertEl.style.display = 'block';
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = originalText;
-        }
-    });
-}
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="logo.jpg" alt="Logo">
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active">
+                        <a href="#" data-target="students-section">
+                            <i class="fas fa-users" style="width: 22px;"></i> Students Overview
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-target="notify-section">
+                            <i class="fas fa-bell" style="width: 22px;"></i> Send Notifications
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-target="audio-section">
+                            <i class="fas fa-microphone" style="width: 22px;"></i> Upload Class Audio
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-target="chat-section">
+                            <i class="fas fa-comments" style="width: 22px;"></i> Admin Chat
+                        </a>
+                    </li>
+                    <li style="margin-top: 30px;">
+                        <a href="index.html">
+                            <i class="fas fa-home" style="width: 22px;"></i> Back to Home
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="btn-logout-sidebar" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </aside>
 
-function setupAudioForm() {
-    const form = document.getElementById('audio-form');
-    if (!form) return;
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <header class="dashboard-header" style="margin-bottom: 40px;">
+                <div class="welcome-text">
+                    <a href="index.html" style="color: var(--accent-gold); text-decoration: none; font-size: 0.85rem; margin-bottom: 30px; display: inline-flex; align-items: center; gap: 8px; opacity: 0.8;">
+                        <i class="fas fa-arrow-left"></i> Back to Home
+                    </a>
+                    <h1 id="admin-welcome-title" style="margin-top: 5px; margin-bottom: 10px;">Welcome, Admin</h1>
+                    <p>Manage students, notifications, and class recordings from here.</p>
+                </div>
+            </header>
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const alertEl = document.getElementById('audio-alert');
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
-        
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Uploading... Please wait.';
-        
-        const fileInput = document.getElementById('audio-file');
-        const file = fileInput.files[0];
-        const title = document.getElementById('audio-title').value;
-        const target = document.getElementById('audio-target').value;
-
-        if (!file) return;
-
-        try {
-            // 1. Upload to Storage
-            const fileExt = file.name.split('.').pop();
-            const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
-            const filePath = `class_recordings/${fileName}`;
-
-            const { error: uploadError } = await sb.storage
-                .from('audio_files')
-                .upload(filePath, file);
-
-            if (uploadError) throw uploadError;
-
-            // 2. Get Public URL
-            const { data: { publicUrl } } = sb.storage
-                .from('audio_files')
-                .getPublicUrl(filePath);
-
-            // 3. Save reference to database table
-            // Handle individual student targeting
-            let targetTier = target;
-            let targetUserId = null;
-            if (target.startsWith('user:')) {
-                targetUserId = target.replace('user:', '');
-                targetTier = 'individual';
-            }
-
-            const audioPayload = {
-                title: title,
-                target_tier: targetTier,
-                file_url: publicUrl,
-                file_path: filePath
-            };
-            if (targetUserId) audioPayload.target_user_id = targetUserId;
-
-            const { error: dbError } = await sb.from('audio_recordings').insert(audioPayload);
-
-            if (dbError) throw dbError;
-
-            alertEl.textContent = 'Audio recording uploaded successfully!';
-            alertEl.className = 'admin-alert success';
-            alertEl.style.display = 'block';
-            form.reset();
-            
-            setTimeout(() => { alertEl.style.display = 'none'; }, 5000);
-
-        } catch (err) {
-            console.error("Error uploading audio:", err);
-            alertEl.textContent = 'Upload failed: ' + err.message;
-            alertEl.className = 'admin-alert error';
-            alertEl.style.display = 'block';
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = originalText;
-        }
-    });
-}
-
-function setupAdminChat(currentUserId, currentUserName) {
-    const chatContainer = document.getElementById('chat-messages');
-    const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-input');
-    if (!chatContainer || !chatForm) return;
-
-    async function loadMessages() {
-        const { data: messages, error } = await sb
-            .from('admin_messages')
-            .select('*')
-            .order('created_at', { ascending: true })
-            .limit(100);
-
-        if (error) {
-            console.error('Error loading chat:', error);
-            chatContainer.innerHTML = '<p style="color: #ff4d4d; text-align:center;">Failed to load messages.</p>';
-            return;
-        }
-
-        if (!messages || messages.length === 0) {
-            chatContainer.innerHTML = `
-                <div style="text-align:center; padding: 60px 20px; opacity: 0.4;">
-                    <i class="fas fa-comments fa-3x" style="color: var(--accent-gold); margin-bottom: 15px;"></i>
-                    <p>No messages yet. Start the conversation!</p>
-                </div>`;
-            return;
-        }
-
-        chatContainer.innerHTML = messages.map(msg => {
-            const isMe = msg.sender_id === currentUserId;
-            const time = new Date(msg.created_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-            const date = new Date(msg.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-
-            return `
-                <div style="display: flex; justify-content: ${isMe ? 'flex-end' : 'flex-start'}; width: 100%;" data-chat-id="${msg.id}">
-                    <div style="max-width: 75%; padding: 14px 18px; border-radius: ${isMe ? '16px 16px 4px 16px' : '16px 16px 16px 4px'}; background: ${isMe ? 'rgba(212,175,55,0.15)' : 'rgba(255,255,255,0.06)'}; border: 1px solid ${isMe ? 'rgba(212,175,55,0.25)' : 'rgba(255,255,255,0.08)'}; position: relative;">
-                        <button onclick="deleteAdminMsg('${msg.id}')" style="position:absolute; top:6px; right:6px; background:none; border:none; color:rgba(255,255,255,0.2); cursor:pointer; font-size:0.7rem; padding:4px 6px; border-radius:4px; transition:all 0.2s;" onmouseover="this.style.color='#ff4d4d'; this.style.background='rgba(255,0,0,0.15)'" onmouseout="this.style.color='rgba(255,255,255,0.2)'; this.style.background='none'" title="Delete message">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                        <div style="font-size: 0.75rem; font-weight: 700; color: ${isMe ? 'var(--accent-gold)' : '#aaa'}; margin-bottom: 6px; padding-right: 20px;">
-                            ${isMe ? 'You' : msg.sender_name}
+            <!-- Students Overview Section -->
+            <div id="students-section" class="admin-section active">
+                <div class="dashboard-grid">
+                    <div class="admin-stats" style="grid-column: 1 / -1;">
+                        <div class="dashboard-card" style="text-align: center; padding: 30px;">
+                            <h4 style="color: var(--text-gray); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px;">Total Enrolled Students</h4>
+                            <div class="stat-value" id="stat-total-students" style="font-size: 3.5rem; font-weight: 800; color: var(--accent-gold); font-family: var(--font-heading);">0</div>
                         </div>
-                        <p style="font-size: 0.95rem; line-height: 1.5; margin: 0; color: #ddd;">${msg.message}</p>
-                        <div style="font-size: 0.65rem; opacity: 0.4; margin-top: 8px; text-align: right;">${date}, ${time}</div>
                     </div>
-                </div>`;
-        }).join('');
 
-        chatContainer.scrollTop = chatContainer.scrollHeight;
-    }
+                    <div class="dashboard-card wide" style="grid-column: 1 / -1;">
+                        <h3 style="margin-bottom: 25px; font-size: 1.2rem; letter-spacing: 1px; text-transform: uppercase;">Student Directory</h3>
+                        <div class="admin-table-container" style="border-radius: 12px; overflow: hidden;">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th style="padding: 20px;">Name</th>
+                                        <th style="padding: 20px;">Email</th>
+                                        <th style="padding: 20px;">Enrolled Plan</th>
+                                        <th style="padding: 20px;">Joined Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="students-table-body">
+                                    <tr><td colspan="4" style="text-align: center; padding: 30px;">Loading student data...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    loadMessages();
-    setInterval(loadMessages, 5000);
+            <!-- Send Notifications Section -->
+            <div id="notify-section" class="admin-section">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card wide" style="max-width: 800px; margin: 0 auto; grid-column: 1 / -1;">
+                        <h3 style="margin-bottom: 20px; font-size: 1.2rem; letter-spacing: 1px; text-transform: uppercase;"><i class="fas fa-bell" style="color: var(--accent-gold); margin-right: 10px;"></i> Notify Students Next Class</h3>
+                        <p style="margin-bottom: 35px; opacity: 0.7;">Send a notification to students' dashboards about upcoming classes or important updates.</p>
+                        
+                        <div id="notify-alert" class="admin-alert"></div>
+                        
+                        <form id="notify-form">
+                            <div class="admin-form-group">
+                                <label for="notify-target" style="text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">Target Audience</label>
+                                <select id="notify-target" class="admin-form-control" required>
+                                    <optgroup label="â”€â”€ Broadcast Groups â”€â”€" style="color: var(--accent-gold); background: #111;">
+                                        <option value="all">All Students</option>
+                                        <option value="basic">Basic Access Only</option>
+                                        <option value="level1">Level 1 Only</option>
+                                        <option value="level2">Level 2 Only</option>
+                                    </optgroup>
+                                    <optgroup id="individual-students-group" label="â”€â”€ Individual Student â”€â”€" style="color: var(--accent-gold); background: #111;">
+                                        <option disabled style="opacity: 0.5;">Loading students...</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="admin-form-group">
+                                <label for="notify-title" style="text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">Notification Title</label>
+                                <input type="text" id="notify-title" class="admin-form-control" style="padding: 15px; font-size: 1rem;" placeholder="e.g., Live Class Tomorrow at 8 PM" required>
+                            </div>
+                            <div class="admin-form-group">
+                                <label for="notify-message" style="text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">Message Details</label>
+                                <textarea id="notify-message" class="admin-form-control" rows="5" style="padding: 15px; font-size: 1rem;" placeholder="Provide link and any preparation details..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn-card" style="width: 100%; border: none; cursor: pointer; padding: 15px; font-size: 1.1rem; margin-top: 15px;">Send Notification <i class="fas fa-paper-plane" style="margin-left: 8px;"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
-    // Global delete function
-    window.deleteAdminMsg = async function(msgId) {
-        if (!confirm('Delete this message?')) return;
-        const { error } = await sb.from('admin_messages').delete().eq('id', msgId);
-        if (error) {
-            alert('Failed to delete: ' + error.message);
-        } else {
-            const el = document.querySelector(`[data-chat-id="${msgId}"]`);
-            if (el) {
-                el.style.transition = 'opacity 0.3s, transform 0.3s';
-                el.style.opacity = '0';
-                el.style.transform = 'scale(0.9)';
-                setTimeout(() => { el.remove(); }, 300);
-            }
-        }
-    };
+            <!-- Upload Audio Section -->
+            <div id="audio-section" class="admin-section">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card wide" style="max-width: 800px; margin: 0 auto; grid-column: 1 / -1;">
+                        <h3 style="margin-bottom: 20px; font-size: 1.2rem; letter-spacing: 1px; text-transform: uppercase;"><i class="fas fa-microphone" style="color: var(--accent-gold); margin-right: 10px;"></i> Upload Class Voice Recording</h3>
+                        <p style="margin-bottom: 35px; opacity: 0.7;">Upload audio recordings of previous sessions so students can review them.</p>
+                        
+                        <div id="audio-alert" class="admin-alert"></div>
+                        
+                        <form id="audio-form">
+                            <div class="admin-form-group">
+                                <label for="audio-title" style="text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">Class Title</label>
+                                <input type="text" id="audio-title" class="admin-form-control" style="padding: 15px; font-size: 1rem;" placeholder="e.g., Price Action Basics - Session 1" required>
+                            </div>
+                            <div class="admin-form-group">
+                                <label for="audio-target" style="text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">Visible To Tier</label>
+                                <select id="audio-target" class="admin-form-control" required>
+                                    <optgroup label="── Paid Tier Groups ──" style="color: #d4af37; background: #111;">
+                                        <option value="all">All Paid Tiers (Level 1 &amp; Level 2)</option>
+                                        <option value="level1">Level 1 Only</option>
+                                        <option value="level2">Level 2 Only</option>
+                                    </optgroup>
+                                    <optgroup id="individual-audio-students-group" label="── Individual Student ──" style="color: #d4af37; background: #111;">
+                                        <option disabled style="opacity: 0.5;">Loading students...</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="admin-form-group">
+                                <label for="audio-file" style="text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">Select Audio File (.mp3, .m4a)</label>
+                                <input type="file" id="audio-file" class="admin-form-control" accept="audio/*" required style="padding: 15px; background: rgba(0,0,0,0.2);">
+                            </div>
+                            <button type="submit" class="btn-card" style="width: 100%; border: none; cursor: pointer; padding: 15px; font-size: 1.1rem; margin-top: 15px;">Upload Recording <i class="fas fa-cloud-upload-alt" style="margin-left: 8px;"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
-    chatForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const text = chatInput.value.trim();
-        if (!text) return;
+            <!-- Admin Chat Section -->
+            <div id="chat-section" class="admin-section">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card wide" style="max-width: 900px; margin: 0 auto; grid-column: 1 / -1;">
+                        <h3 style="margin-bottom: 20px; font-size: 1.2rem; letter-spacing: 1px; text-transform: uppercase;">
+                            <i class="fas fa-comments" style="color: var(--accent-gold); margin-right: 10px;"></i> Admin Team Chat
+                        </h3>
+                        <p style="margin-bottom: 25px; opacity: 0.6; font-size: 0.9rem;">Private messages visible only to admins.</p>
+                        <div id="chat-messages" style="min-height: 300px; max-height: 450px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(212,175,55,0.1); display: flex; flex-direction: column; gap: 12px;">
+                            <div style="text-align:center; padding: 40px; opacity: 0.4;">
+                                <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--accent-gold);"></i>
+                                <p style="margin-top: 10px;">Loading messages...</p>
+                            </div>
+                        </div>
+                        <form id="chat-form" style="display: flex; gap: 12px; align-items: stretch;">
+                            <input type="text" id="chat-input" class="admin-form-control" placeholder="Type a message to other admins..." required style="flex: 1; min-width: 0; padding: 15px; font-size: 1rem; margin: 0;">
+                            <button type="submit" class="btn-card" style="width: auto; flex: none; border: none; cursor: pointer; padding: 15px 25px; font-size: 1.2rem; white-space: nowrap; margin: 0; aspect-ratio: 1; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
-        chatInput.disabled = true;
+        </main>
+    </div>
 
-        const { error } = await sb.from('admin_messages').insert({
-            sender_id: currentUserId,
-            sender_name: currentUserName,
-            message: text
-        });
+    <!-- The logic script for this page -->
+    <script src="admin.js"></script>
+</body>
+</html>
 
-        if (error) {
-            console.error('Error sending message:', error);
-            alert('Failed to send message: ' + error.message);
-        } else {
-            chatInput.value = '';
-            await loadMessages();
-        }
-
-        chatInput.disabled = false;
-        chatInput.focus();
-    });
-}
