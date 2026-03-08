@@ -224,6 +224,7 @@
 
                     const user = session.user;
                     const userId = user.id;
+                    window._currentUserId = userId; // Store globally for deleteNotification()
                     const displayName = user.user_metadata?.full_name || user.email.split('@')[0];
                     document.getElementById('user-display-name').textContent = displayName;
 
@@ -338,7 +339,7 @@
                                                 <h4 style="color: var(--accent-gold); font-size: 1rem; display:flex; align-items:center; gap:8px;">
                                                     <i class="fas fa-bullhorn"></i> ${n.title}
                                                 </h4>
-                                                <span style="font-size: 0.75rem; opacity: 0.5; white-space:nowrap; margin-left:15px;">${new Date(n.created_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})}</span>
+                                                <span style="font-size: 0.75rem; opacity: 0.5; white-space:nowrap; margin-left:15px;">${new Date(n.created_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})} &bull; ${new Date(n.created_at).toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})}</span>
                                             </div>
                                             <p style="font-size: 0.95rem; line-height: 1.7; opacity: 0.85;">${n.message}</p>
                                         </div>
@@ -375,10 +376,12 @@
                             if (error) throw error;
 
                             const visibleRecordings = (recordings || []).filter(rec => {
+                                // Individual recordings sent directly to this user always show
+                                if (rec.target_tier === 'individual' && rec.target_user_id === userId) return true;
+                                // Tier-based recordings
                                 if (rec.target_tier === 'all') return currentPlan === 'level1' || currentPlan === 'level2';
                                 if (rec.target_tier === 'level1') return currentPlan === 'level1' || currentPlan === 'level2';
                                 if (rec.target_tier === 'level2') return currentPlan === 'level2';
-                                if (rec.target_tier === 'individual' && rec.target_user_id === userId) return true;
                                 return false;
                             });
 
@@ -390,15 +393,22 @@
                                             <p style="font-size: 1rem;">No recordings available for your plan yet.</p>
                                         </div>`;
                                 } else {
-                                    recordingsList.innerHTML = visibleRecordings.map(rec => `
-                                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.15); padding: 22px 25px; border-radius: 12px; margin-bottom: 20px; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
-                                            <div style="display:flex; align-items:center; gap: 12px; margin-bottom: 15px;">
+                                    recordingsList.innerHTML = visibleRecordings.map(rec => {
+                                        const deletedRecs = JSON.parse(localStorage.getItem(`deleted_recs_${userId}`) || '[]');
+                                        if (deletedRecs.includes(rec.id)) return '';
+                                        
+                                        return `
+                                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.15); padding: 22px 25px; border-radius: 12px; margin-bottom: 20px; transition: transform 0.2s; position: relative;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''" data-rec-id="${rec.id}">
+                                            <button onclick="deleteRecording('${rec.id}', '${rec.title.replace(/'/g, "\\'")}')" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: rgba(255,255,255,0.5); cursor: pointer; padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,0,0,0.2)'; this.style.color='#ff4d4d'" onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.color='rgba(255,255,255,0.5)'" title="Delete recording">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                            <div style="display:flex; align-items:center; gap: 12px; margin-bottom: 15px; padding-right: 40px;">
                                                 <div style="width:42px; height:42px; background: rgba(212,175,55,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
                                                     <i class="fas fa-microphone" style="color: var(--accent-gold);"></i>
                                                 </div>
                                                 <div>
                                                     <h4 style="color: var(--text-white); font-size: 1rem; margin-bottom: 3px;">${rec.title}</h4>
-                                                    <span style="font-size: 0.75rem; opacity: 0.5;">${new Date(rec.created_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})}</span>
+                                                    <span style="font-size: 0.75rem; opacity: 0.5;">${new Date(rec.created_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})} &bull; ${new Date(rec.created_at).toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})}</span>
                                                 </div>
                                             </div>
                                             <audio controls style="width:100%; border-radius: 8px; outline:none; accent-color: var(--accent-gold);">
@@ -406,7 +416,16 @@
                                                 Your browser does not support the audio element.
                                             </audio>
                                         </div>
-                                    `).join('');
+                                    `}).join('');
+                                    
+                                    const actualRecs = recordingsList.querySelectorAll('[data-rec-id]');
+                                    if (actualRecs.length === 0) {
+                                        recordingsList.innerHTML = `
+                                            <div style="text-align:center; padding: 60px 20px; opacity: 0.5;">
+                                                <i class="fas fa-headphones fa-3x" style="color: var(--accent-gold); margin-bottom: 20px;"></i>
+                                                <p style="font-size: 1rem;">No recordings available for your plan yet.</p>
+                                            </div>`;
+                                    }
                                 }
                             }
                         } catch (err) {
@@ -501,6 +520,80 @@
                 }
             }, 100);
         });
+        // Global function: delete a notification (hide it locally)
+        function deleteNotification(notifId, notifTitle) {
+            if (!confirm(`Delete notification "${notifTitle}"?`)) return;
+
+            // Get the userId from the session (stored during init)
+            const userId = window._currentUserId;
+            if (!userId) return;
+
+            // Save deletion to localStorage
+            const key = `deleted_notifs_${userId}`;
+            const deleted = JSON.parse(localStorage.getItem(key) || '[]');
+            if (!deleted.includes(notifId)) {
+                deleted.push(notifId);
+                localStorage.setItem(key, JSON.stringify(deleted));
+            }
+
+            // Remove the card from the DOM
+            const card = document.querySelector(`[data-notif-id="${notifId}"]`);
+            if (card) {
+                card.style.transition = 'opacity 0.3s, transform 0.3s';
+                card.style.opacity = '0';
+                card.style.transform = 'translateX(30px)';
+                setTimeout(() => {
+                    card.remove();
+                    // Update badge
+                    const remaining = document.querySelectorAll('[data-notif-id]').length;
+                    const badge = document.getElementById('notif-badge');
+                    if (badge) {
+                        badge.textContent = remaining;
+                        if (remaining === 0) {
+                            badge.style.display = 'none';
+                            document.getElementById('notifications-list').innerHTML = `
+                                <div style="text-align:center; padding: 60px 20px; opacity: 0.5;">
+                                    <i class="fas fa-bell-slash fa-3x" style="color: var(--accent-gold); margin-bottom: 20px;"></i>
+                                    <p style="font-size: 1rem;">No notifications yet. Check back soon!</p>
+                                </div>`;
+                        }
+                    }
+                }, 300);
+            }
+        }
+
+        // Global function: delete a recording (hide it locally)
+        function deleteRecording(recId, recTitle) {
+            if (!confirm(`Delete recording "${recTitle}"?`)) return;
+
+            const userId = window._currentUserId;
+            if (!userId) return;
+
+            const key = `deleted_recs_${userId}`;
+            const deleted = JSON.parse(localStorage.getItem(key) || '[]');
+            if (!deleted.includes(recId)) {
+                deleted.push(recId);
+                localStorage.setItem(key, JSON.stringify(deleted));
+            }
+
+            const card = document.querySelector(`[data-rec-id="${recId}"]`);
+            if (card) {
+                card.style.transition = 'opacity 0.3s, transform 0.3s';
+                card.style.opacity = '0';
+                card.style.transform = 'translateX(30px)';
+                setTimeout(() => {
+                    card.remove();
+                    const remaining = document.querySelectorAll('[data-rec-id]').length;
+                    if (remaining === 0) {
+                        document.getElementById('recordings-list').innerHTML = `
+                            <div style="text-align:center; padding: 60px 20px; opacity: 0.5;">
+                                <i class="fas fa-headphones fa-3x" style="color: var(--accent-gold); margin-bottom: 20px;"></i>
+                                <p style="font-size: 1rem;">No recordings available for your plan yet.</p>
+                            </div>`;
+                    }
+                }, 300);
+            }
+        }
     </script>
 </body>
 
