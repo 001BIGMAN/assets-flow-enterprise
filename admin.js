@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 4. Setup Forms
     setupNotificationForm();
     setupAudioForm();
+    setupAdminChat(userId, fullName);
 
     // Setup Logout
     document.getElementById('btn-logout-sidebar').addEventListener('click', async () => {
@@ -334,5 +335,102 @@ function setupAudioForm() {
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
         }
+    });
+}
+
+function setupAdminChat(currentUserId, currentUserName) {
+    const chatContainer = document.getElementById('chat-messages');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    if (!chatContainer || !chatForm) return;
+
+    async function loadMessages() {
+        const { data: messages, error } = await sb
+            .from('admin_messages')
+            .select('*')
+            .order('created_at', { ascending: true })
+            .limit(100);
+
+        if (error) {
+            console.error('Error loading chat:', error);
+            chatContainer.innerHTML = '<p style="color: #ff4d4d; text-align:center;">Failed to load messages.</p>';
+            return;
+        }
+
+        if (!messages || messages.length === 0) {
+            chatContainer.innerHTML = `
+                <div style="text-align:center; padding: 60px 20px; opacity: 0.4;">
+                    <i class="fas fa-comments fa-3x" style="color: var(--accent-gold); margin-bottom: 15px;"></i>
+                    <p>No messages yet. Start the conversation!</p>
+                </div>`;
+            return;
+        }
+
+        chatContainer.innerHTML = messages.map(msg => {
+            const isMe = msg.sender_id === currentUserId;
+            const time = new Date(msg.created_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+            const date = new Date(msg.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+
+            return `
+                <div style="display: flex; justify-content: ${isMe ? 'flex-end' : 'flex-start'}; width: 100%;" data-chat-id="${msg.id}">
+                    <div style="max-width: 75%; padding: 14px 18px; border-radius: ${isMe ? '16px 16px 4px 16px' : '16px 16px 16px 4px'}; background: ${isMe ? 'rgba(212,175,55,0.15)' : 'rgba(255,255,255,0.06)'}; border: 1px solid ${isMe ? 'rgba(212,175,55,0.25)' : 'rgba(255,255,255,0.08)'}; position: relative;">
+                        <button onclick="deleteAdminMsg('${msg.id}')" style="position:absolute; top:6px; right:6px; background:none; border:none; color:rgba(255,255,255,0.2); cursor:pointer; font-size:0.7rem; padding:4px 6px; border-radius:4px; transition:all 0.2s;" onmouseover="this.style.color='#ff4d4d'; this.style.background='rgba(255,0,0,0.15)'" onmouseout="this.style.color='rgba(255,255,255,0.2)'; this.style.background='none'" title="Delete message">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                        <div style="font-size: 0.75rem; font-weight: 700; color: ${isMe ? 'var(--accent-gold)' : '#aaa'}; margin-bottom: 6px; padding-right: 20px;">
+                            ${isMe ? 'You' : msg.sender_name}
+                        </div>
+                        <p style="font-size: 0.95rem; line-height: 1.5; margin: 0; color: #ddd;">${msg.message}</p>
+                        <div style="font-size: 0.65rem; opacity: 0.4; margin-top: 8px; text-align: right;">${date}, ${time}</div>
+                    </div>
+                </div>`;
+        }).join('');
+
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    loadMessages();
+    setInterval(loadMessages, 5000);
+
+    // Global delete function
+    window.deleteAdminMsg = async function(msgId) {
+        if (!confirm('Delete this message?')) return;
+        const { error } = await sb.from('admin_messages').delete().eq('id', msgId);
+        if (error) {
+            alert('Failed to delete: ' + error.message);
+        } else {
+            const el = document.querySelector(`[data-chat-id="${msgId}"]`);
+            if (el) {
+                el.style.transition = 'opacity 0.3s, transform 0.3s';
+                el.style.opacity = '0';
+                el.style.transform = 'scale(0.9)';
+                setTimeout(() => { el.remove(); }, 300);
+            }
+        }
+    };
+
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const text = chatInput.value.trim();
+        if (!text) return;
+
+        chatInput.disabled = true;
+
+        const { error } = await sb.from('admin_messages').insert({
+            sender_id: currentUserId,
+            sender_name: currentUserName,
+            message: text
+        });
+
+        if (error) {
+            console.error('Error sending message:', error);
+            alert('Failed to send message: ' + error.message);
+        } else {
+            chatInput.value = '';
+            await loadMessages();
+        }
+
+        chatInput.disabled = false;
+        chatInput.focus();
     });
 }
