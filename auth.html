@@ -259,6 +259,37 @@
                     </div>
                 </form>
 
+                <!-- Forgot Password Form -->
+                <form id="reset-password-form" class="auth-form">
+                    <h2>Reset Password</h2>
+                    <p>Enter your email address and we'll send you a link to reset your password.</p>
+                    <div class="input-group">
+                        <label for="reset-email">Email Address</label>
+                        <input type="email" id="reset-email" placeholder="name@example.com" required>
+                    </div>
+                    <button type="submit" class="btn-auth">Send Reset Link <i class="fas fa-paper-plane"></i></button>
+                    <div class="auth-footer" style="text-align: center; margin-top: 20px;">
+                        <a href="#" id="back-to-login-link" style="color: var(--accent-gold); font-size: 0.9rem; text-decoration: none;">
+                            <i class="fas fa-arrow-left" style="margin-right: 6px;"></i> Back to Login
+                        </a>
+                    </div>
+                </form>
+
+                <!-- Set New Password Form (shown after clicking email link) -->
+                <form id="update-password-form" class="auth-form">
+                    <h2>Set New Password</h2>
+                    <p>Enter your new password below.</p>
+                    <div class="input-group">
+                        <label for="new-password">New Password</label>
+                        <input type="password" id="new-password" placeholder="••••••••" required minlength="6">
+                    </div>
+                    <div class="input-group">
+                        <label for="confirm-new-password">Confirm New Password</label>
+                        <input type="password" id="confirm-new-password" placeholder="••••••••" required minlength="6">
+                    </div>
+                    <button type="submit" class="btn-auth">Update Password <i class="fas fa-lock"></i></button>
+                </form>
+
                 <div id="auth-message" class="auth-message"></div>
             </div>
         </div>
@@ -300,6 +331,97 @@
                 switchTab('signup');
             }
         });
+
+        // Detect PASSWORD_RECOVERY event from Supabase (user clicked email link)
+        function waitForSupabase() {
+            let attempts = 0;
+            const check = setInterval(() => {
+                attempts++;
+                if (typeof sb !== 'undefined') {
+                    clearInterval(check);
+                    sb.auth.onAuthStateChange((event, session) => {
+                        if (event === 'PASSWORD_RECOVERY') {
+                            // Hide all other forms, show the update password form
+                            forms.forEach(f => f.classList.remove('active'));
+                            tabs.forEach(t => t.classList.remove('active'));
+                            document.querySelector('.auth-tabs').style.display = 'none';
+                            document.getElementById('update-password-form').classList.add('active');
+                        }
+                    });
+                }
+                if (attempts > 40) clearInterval(check);
+            }, 100);
+        }
+        waitForSupabase();
+
+        // Handle "Set New Password" form submission
+        const updatePwForm = document.getElementById('update-password-form');
+        if (updatePwForm) {
+            updatePwForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const newPw = document.getElementById('new-password').value;
+                const confirmPw = document.getElementById('confirm-new-password').value;
+                const msgEl = document.getElementById('auth-message');
+
+                if (newPw !== confirmPw) {
+                    if (msgEl) {
+                        msgEl.textContent = 'Passwords do not match!';
+                        msgEl.className = 'auth-message error';
+                        msgEl.style.display = 'block';
+                    }
+                    return;
+                }
+
+                if (newPw.length < 6) {
+                    if (msgEl) {
+                        msgEl.textContent = 'Password must be at least 6 characters.';
+                        msgEl.className = 'auth-message error';
+                        msgEl.style.display = 'block';
+                    }
+                    return;
+                }
+
+                const submitBtn = updatePwForm.querySelector('button[type="submit"]');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+
+                try {
+                    const checkSb = setInterval(async () => {
+                        if (typeof sb !== 'undefined') {
+                            clearInterval(checkSb);
+                            const { error } = await sb.auth.updateUser({ password: newPw });
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = 'Update Password <i class="fas fa-lock"></i>';
+
+                            if (error) {
+                                if (msgEl) {
+                                    msgEl.textContent = error.message;
+                                    msgEl.className = 'auth-message error';
+                                    msgEl.style.display = 'block';
+                                }
+                            } else {
+                                if (msgEl) {
+                                    msgEl.textContent = 'Password updated successfully! Redirecting...';
+                                    msgEl.className = 'auth-message success';
+                                    msgEl.style.display = 'block';
+                                }
+                                setTimeout(() => {
+                                    window.location.href = 'dashboard.html';
+                                }, 2000);
+                            }
+                        }
+                    }, 100);
+                } catch (err) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Update Password <i class="fas fa-lock"></i>';
+                    if (msgEl) {
+                        msgEl.textContent = 'An unexpected error occurred.';
+                        msgEl.className = 'auth-message error';
+                        msgEl.style.display = 'block';
+                    }
+                }
+            });
+        }
     </script>
 </body>
 

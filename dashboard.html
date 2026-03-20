@@ -33,6 +33,7 @@
                     <li><a href="#" data-tab="progress-view"><i class="fas fa-book-open"></i> My Progress</a></li>
                     <li><a href="#" data-tab="notifications-view"><i class="fas fa-bell"></i> Notifications <span id="notif-badge" style="display:none; background:var(--accent-gold); color:#000; border-radius:50%; width:20px; height:20px; font-size:0.7rem; font-weight:800; line-height:20px; text-align:center; margin-left:6px;"></span></a></li>
                     <li><a href="#" data-tab="recordings-view"><i class="fas fa-headphones"></i> Class Recordings</a></li>
+                    <li><a href="#" data-tab="settings-view"><i class="fas fa-cog"></i> Settings</a></li>
                     <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
                     <li><a href="https://chat.whatsapp.com/GBN5T5sTaEf4kK5gYaZDGH" target="_blank"><i class="fab fa-whatsapp"></i> Whatsapp Group</a></li>
                     <li><a href="index.html"><i class="fas fa-home"></i> Back to Home</a></li>
@@ -144,6 +145,37 @@
                         <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--accent-gold);"></i>
                         <p style="margin-top: 15px;">Loading recordings...</p>
                     </div>
+                </div>
+            </div>
+
+            <!-- Settings View -->
+            <div id="settings-view" class="tab-content">
+                <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;"><i class="fas fa-cog" style="color: var(--accent-gold); margin-right: 12px;"></i>Account Settings</h2>
+                <p style="opacity: 0.6; margin-bottom: 30px; font-size: 0.9rem;">Manage your account preferences and security.</p>
+                
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.15); padding: 35px; border-radius: 16px; max-width: 500px;">
+                    <h3 style="font-size: 1.2rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;"><i class="fas fa-lock" style="color: var(--accent-gold);"></i> Change Password</h3>
+                    <form id="change-password-form">
+                        <div style="margin-bottom: 18px;">
+                            <label style="display: block; font-size: 0.85rem; opacity: 0.7; margin-bottom: 6px;">Current Password</label>
+                            <input type="password" id="current-password" placeholder="Enter current password" required
+                                style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; font-size: 0.95rem; font-family: inherit; box-sizing: border-box;">
+                        </div>
+                        <div style="margin-bottom: 18px;">
+                            <label style="display: block; font-size: 0.85rem; opacity: 0.7; margin-bottom: 6px;">New Password</label>
+                            <input type="password" id="settings-new-password" placeholder="Enter new password" required minlength="6"
+                                style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; font-size: 0.95rem; font-family: inherit; box-sizing: border-box;">
+                        </div>
+                        <div style="margin-bottom: 25px;">
+                            <label style="display: block; font-size: 0.85rem; opacity: 0.7; margin-bottom: 6px;">Confirm New Password</label>
+                            <input type="password" id="settings-confirm-password" placeholder="Re-enter new password" required minlength="6"
+                                style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; font-size: 0.95rem; font-family: inherit; box-sizing: border-box;">
+                        </div>
+                        <div id="change-pw-message" style="display: none; padding: 12px 16px; border-radius: 10px; margin-bottom: 18px; font-size: 0.9rem;"></div>
+                        <button type="submit" style="width: 100%; padding: 14px; background: var(--accent-gold); color: #000; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.3s;">
+                            Update Password <i class="fas fa-check"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
         <footer>
@@ -647,6 +679,93 @@
                     }
                 }, 300);
             }
+        }
+
+        // ===== CHANGE PASSWORD HANDLER =====
+        const changePwForm = document.getElementById('change-password-form');
+        if (changePwForm) {
+            changePwForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const msgDiv = document.getElementById('change-pw-message');
+                const currentPw = document.getElementById('current-password').value;
+                const newPw = document.getElementById('settings-new-password').value;
+                const confirmPw = document.getElementById('settings-confirm-password').value;
+                const submitBtn = changePwForm.querySelector('button[type="submit"]');
+
+                // Validation
+                if (newPw !== confirmPw) {
+                    msgDiv.textContent = 'New passwords do not match!';
+                    msgDiv.style.display = 'block';
+                    msgDiv.style.background = 'rgba(255,0,0,0.15)';
+                    msgDiv.style.color = '#ff6b6b';
+                    msgDiv.style.border = '1px solid rgba(255,0,0,0.3)';
+                    return;
+                }
+
+                if (newPw.length < 6) {
+                    msgDiv.textContent = 'New password must be at least 6 characters.';
+                    msgDiv.style.display = 'block';
+                    msgDiv.style.background = 'rgba(255,0,0,0.15)';
+                    msgDiv.style.color = '#ff6b6b';
+                    msgDiv.style.border = '1px solid rgba(255,0,0,0.3)';
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+                msgDiv.style.display = 'none';
+
+                try {
+                    // Step 1: Verify current password by re-signing in
+                    const { data: { session } } = await sb.auth.getSession();
+                    const userEmail = session.user.email;
+
+                    const { error: signInErr } = await sb.auth.signInWithPassword({
+                        email: userEmail,
+                        password: currentPw
+                    });
+
+                    if (signInErr) {
+                        msgDiv.textContent = 'Current password is incorrect.';
+                        msgDiv.style.display = 'block';
+                        msgDiv.style.background = 'rgba(255,0,0,0.15)';
+                        msgDiv.style.color = '#ff6b6b';
+                        msgDiv.style.border = '1px solid rgba(255,0,0,0.3)';
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = 'Update Password <i class="fas fa-check"></i>';
+                        return;
+                    }
+
+                    // Step 2: Update to new password
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+                    const { error: updateErr } = await sb.auth.updateUser({ password: newPw });
+
+                    if (updateErr) {
+                        msgDiv.textContent = updateErr.message;
+                        msgDiv.style.display = 'block';
+                        msgDiv.style.background = 'rgba(255,0,0,0.15)';
+                        msgDiv.style.color = '#ff6b6b';
+                        msgDiv.style.border = '1px solid rgba(255,0,0,0.3)';
+                    } else {
+                        msgDiv.textContent = '✅ Password changed successfully!';
+                        msgDiv.style.display = 'block';
+                        msgDiv.style.background = 'rgba(212,175,55,0.15)';
+                        msgDiv.style.color = 'var(--accent-gold)';
+                        msgDiv.style.border = '1px solid rgba(212,175,55,0.3)';
+                        changePwForm.reset();
+                    }
+                } catch (err) {
+                    console.error('Password change error:', err);
+                    msgDiv.textContent = 'An unexpected error occurred.';
+                    msgDiv.style.display = 'block';
+                    msgDiv.style.background = 'rgba(255,0,0,0.15)';
+                    msgDiv.style.color = '#ff6b6b';
+                    msgDiv.style.border = '1px solid rgba(255,0,0,0.3)';
+                }
+
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Update Password <i class="fas fa-check"></i>';
+            });
         }
     </script>
 </body>

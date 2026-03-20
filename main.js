@@ -453,11 +453,40 @@ function handleAuthForms() {
             showMessage(error.message, "error");
           }
         } else {
-          console.log("Signup success!");
-          showMessage(
-            "Success! Please check your email inbox to confirm your account.",
-            "success",
-          );
+          // Supabase quirk: If email confirmation is ON, duplicate emails return
+          // a "fake" success with an empty identities array. Detect that here.
+          if (data?.user?.identities?.length === 0) {
+            // User already exists!
+            const authMessage = document.getElementById("auth-message");
+            if (authMessage) {
+              authMessage.innerHTML = 'This email is already registered. Try <a href="#" id="suggest-login" style="color: var(--accent-gold); font-weight: 700; text-decoration: underline;">logging in</a> instead, or <a href="#" id="suggest-forgot" style="color: var(--accent-gold); font-weight: 700; text-decoration: underline;">reset your password</a>.';
+              authMessage.className = "auth-message error";
+              authMessage.style.display = "block";
+
+              document.getElementById("suggest-login")?.addEventListener("click", (ev) => {
+                ev.preventDefault();
+                const loginTab = document.querySelector('[data-tab="login"]');
+                if (loginTab) loginTab.click();
+                authMessage.style.display = "none";
+              });
+
+              document.getElementById("suggest-forgot")?.addEventListener("click", (ev) => {
+                ev.preventDefault();
+                document.querySelectorAll(".auth-form").forEach(f => f.classList.remove("active"));
+                const resetForm2 = document.getElementById("reset-password-form");
+                if (resetForm2) resetForm2.classList.add("active");
+                const signupEmail = document.getElementById("signup-email")?.value;
+                if (signupEmail) document.getElementById("reset-email").value = signupEmail;
+                authMessage.style.display = "none";
+              });
+            }
+          } else {
+            console.log("Signup success!");
+            showMessage(
+              "Success! Please check your email inbox to confirm your account.",
+              "success",
+            );
+          }
         }
       } catch (err) {
         console.error("Unexpected signup error:", err);
