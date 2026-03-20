@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community | ASSETSFLOW CRYPTO EDUCATION SYSTEM</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .community-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 5% 80px;
+            background: #000;
+        }
+
+        .community-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            max-width: 480px;
+            width: 100%;
+        }
+
+        .community-card-header {
+            text-align: center;
+        }
+
+        .community-card-header h1 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            margin-bottom: 12px;
+        }
+
+        .community-card-header p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .community-screenshot-wrapper {
+            width: 100%;
+            max-width: 340px;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 2px solid rgba(212, 175, 55, 0.15);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.06),
+                        0 20px 40px rgba(0, 0, 0, 0.5);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .community-screenshot-wrapper:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.1),
+                        0 30px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .community-screenshot-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .btn-join-community {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--accent-gold);
+            color: #000;
+            padding: 1rem 2.4rem;
+            border-radius: 10px;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+        }
+
+        .btn-join-community:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-join-community i {
+            font-size: 1.2rem;
+        }
+
+        .community-note {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        @media (max-width: 480px) {
+            .community-card-header h1 {
+                font-size: 2rem;
+            }
+
+            .community-screenshot-wrapper {
+                max-width: 290px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                    <img src="logo.jpg" alt="ASSETSFLOW CRYPTO EDUCATION SYSTEM Logo">
+                </a>
+            </div>
+            <a href="menu.html" class="mobile-menu-btn" style="text-decoration: none;"><i class="fas fa-bars"></i></a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="index.html">Content</a></li>
+                <li><a href="index.html#curriculum">Curriculum</a></li>
+                <li><a href="index.html#pricing">Pricing</a></li>
+                <li><a href="founder.html">Founder</a></li>
+            </ul>
+            <div class="nav-actions" id="nav-actions">
+                <i class="fas fa-search search-icon"></i>
+                <a href="auth.html#signup" class="btn-join">Sign up</a>
+                <a href="auth.html" class="btn-login">Log in</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="community-section">
+            <div class="community-card">
+                <div class="community-card-header">
+                    <h1 style="color: var(--accent-gold); font-size: 2.2rem; line-height: 1.2; margin-bottom: 20px;">ASSETSFLOW CRYPTO EDUCATION SYSTEM</h1>
+                    <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.1rem; margin-bottom: 15px;">Learn cryptocurrency the right way through a structured program designed to help you understand the market, invest wisely, and grow with confidence.</p>
+                    <p style="color: rgba(255, 255, 255, 0.7); font-size: 1.1rem; line-height: 1.5;">From beginner to advanced level, AssetsFlow gives you the knowledge, guidance, and support needed to build real understanding and better financial opportunities.</p>
+                </div>
+
+                <div class="community-screenshot-wrapper">
+                    <img src="community.jpeg" alt="AssetsFlow Enterprise WhatsApp Community - 10 Groups">
+                </div>
+
+                <a href="https://chat.whatsapp.com/GBN5T5sTaEf4kK5gYaZDGH?mode=gi_t" target="_blank" class="btn-join-community">
+                    <i class="fab fa-whatsapp"></i> Join Now
+                </a>
+
+                <p class="community-note">You'll be redirected to WhatsApp to join the community.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="index.html#pricing">Pricing</a></li>
+                        <li><a href="index.html#curriculum">Curriculum</a></li>
+                        <li><a href="community.html">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="founder.html">Our Founder</a></li>
+                        <li><a href="https://wa.link/pf3fok" target="_blank">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Important</h4>
+                    <ul>
+                        <li><a href="rules.html">Rules</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 AssetsFlow Enterprise, LLC. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+
+</html>

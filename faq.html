@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ | Assets Flow Enterprise</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .faq-page-section {
+            padding: 140px 5% 100px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .faq-category {
+            margin-bottom: 60px;
+        }
+        
+        .category-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .faq-accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+            background: rgba(212, 175, 55, 0.02);
+        }
+        
+        .faq-question {
+            padding: 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-white);
+        }
+        
+        .faq-answer {
+            padding: 0 25px 25px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            display: none;
+        }
+        
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+        
+        .faq-item.active .faq-question {
+            color: var(--accent-gold);
+        }
+        
+        .faq-icon {
+            transition: transform 0.3s;
+            color: var(--accent-gold);
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                    <img src="logo.jpg" alt="Assets Flow Enterprise Logo">
+                </a>
+            </div>
+            <a href="menu.html" class="mobile-menu-btn" style="text-decoration: none;"><i class="fas fa-bars"></i></a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="index.html#pricing">Courses</a></li>
+                <li><a href="founder.html">Founder</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="faq-page-section">
+        <h1 class="section-title" style="margin-bottom: 20px;">Questions & Answers</h1>
+        <p style="text-align: center; margin-bottom: 60px; opacity: 0.7;">Everything you need to know about the AssetsFlow Crypto Education System.</p>
+
+        <div class="faq-category">
+            <h2 class="category-title">General</h2>
+            <div class="faq-accordion">
+                <div class="faq-item">
+                    <div class="faq-question">What is AssetsFlow Enterprise? <i class="fas fa-chevron-down faq-icon"></i></div>
+                    <div class="faq-answer">AssetsFlow Enterprise is a structured educational platform and community designed to help individuals master cryptocurrency trading and blockchain technology. We focus on building real understanding and long-term financial growth.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Do I need any previous experience? <i class="fas fa-chevron-down faq-icon"></i></div>
+                    <div class="faq-answer">No! Our Basic and Level 1 courses are specifically designed for beginners with zero prior knowledge. We take you from the very basics to advanced market analysis.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-category">
+            <h2 class="category-title">Courses & Learning</h2>
+            <div class="faq-accordion">
+                <div class="faq-item">
+                    <div class="faq-question">How are the courses delivered? <i class="fas fa-chevron-down faq-icon"></i></div>
+                    <div class="faq-answer">Courses are delivered through a mix of structured content, recorded video lessons, community forums, and direct mentorship (depending on your level).</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Can I upgrade my level later? <i class="fas fa-chevron-down faq-icon"></i></div>
+                    <div class="faq-answer">Absolutely! Many of our members start at Level 1 and upgrade as they build confidence and see results. You can reach out to support at any time to upgrade your package.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-category">
+            <h2 class="category-title">Requirements</h2>
+            <div class="faq-accordion">
+                <div class="faq-item">
+                    <div class="faq-question">Do I need a laptop to learn? <i class="fas fa-chevron-down faq-icon"></i></div>
+                    <div class="faq-answer">Not at all. Our entire program is optimized for mobile users. If you can use a smartphone, you can master the crypto market with us.</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="index.html#pricing">Pricing</a></li>
+                        <li><a href="index.html#curriculum">Curriculum</a></li>
+                        <li><a href="community.html">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="founder.html">Our Founder</a></li>
+                        <li><a href="https://wa.link/pf3fok" target="_blank">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Important</h4>
+                    <ul>
+                        <li><a href="rules.html">Rules</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 AssetsFlow Enterprise, LLC. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                const faqItem = item.parentElement;
+                faqItem.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

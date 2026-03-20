@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup | ASSETSFLOW CRYPTO EDUCATION SYSTEM</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.85rem;
+        }
+        .auth-divider::before, .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+        .btn-google {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        .btn-google:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(212,175,55,0.4);
+            transform: translateY(-2px);
+        }
+        .btn-google img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Split Screen Styles */
+        .auth-main-split {
+            flex: 1;
+            display: flex;
+            min-height: calc(100vh - 80px);
+            margin-top: 80px; /* Offset for fixed header */
+        }
+
+        .brand-panel {
+            flex: 1.1;
+            background: linear-gradient(135deg, #000 0%, #0a0a0a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+            border-right: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .brand-panel-content {
+            z-index: 2;
+            max-width: 500px;
+        }
+
+        .brand-panel h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 25px;
+            color: var(--text-white);
+        }
+
+        .brand-panel p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+
+        .feature-item i {
+            font-size: 1.2rem;
+        }
+
+        .form-panel {
+            flex: 1;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .auth-box {
+            width: 100%;
+            max-width: 440px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        @media (max-width: 991px) {
+            .auth-main-split {
+                flex-direction: column;
+            }
+            .brand-panel {
+                padding: 40px 20px;
+                display: none; /* Hide brand panel on mobile for focus */
+            }
+            .form-panel {
+                padding: 20px;
+            }
+            .auth-box {
+                padding: 30px 20px;
+                background: transparent;
+                border: none;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="auth-body">
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.jpg" alt="ASSETSFLOW CRYPTO EDUCATION SYSTEM Logo">
+                </a>
+            </div>
+            <a href="menu.html" class="mobile-menu-btn" style="text-decoration: none;"><i class="fas fa-bars"></i></a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="index.html#curriculum">Curriculum</a></li>
+                <li><a href="index.html#pricing">Pricing</a></li>
+                <li><a href="founder.html">Founder</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="auth-main-split">
+        <div class="brand-panel">
+            <div class="brand-panel-content">
+                <div class="floating-badge">Member Access</div>
+                <h1>Start Your Professional Crypto Journey</h1>
+                <p>Learn cryptocurrency the right way through a structured program designed to help you understand the market, invest wisely, and grow with confidence.</p>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Structured Learning Path (L1 - L4)</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>VIP Mentorship & Community Access</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Real-time Market Insights</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Background Elements -->
+            <div class="floating-crypto bitcoin" style="opacity: 0.1; font-size: 8rem; position: absolute; bottom: 10%; right: 5%;"><i class="fab fa-bitcoin"></i></div>
+        </div>
+
+        <div class="form-panel">
+            <div class="auth-box">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="login" onclick="switchTab('login')">Log In</button>
+                    <button class="auth-tab" data-tab="signup" onclick="switchTab('signup')">Sign Up</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="auth-form active">
+                    <h2>Welcome Back</h2>
+                    <p>Enter your credentials to access your account.</p>
+                    <div class="input-group">
+                        <label for="login-email">Email Address</label>
+                        <input type="email" id="login-email" placeholder="name@example.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-auth">Log In <i class="fas fa-sign-in-alt"></i></button>
+                    <div class="auth-divider">or</div>
+                    <button type="button" id="btn-google-login" class="btn-google">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                        Continue with Google
+                    </button>
+                    <div class="auth-footer" style="text-align: center; margin-top: 20px;">
+                        <a href="#" id="forgot-password-link" style="display: block; margin-bottom: 15px; font-size: 0.85rem; color: var(--text-gray);">Forgot password?</a>
+                        <p style="color: rgba(255,255,255,0.4); font-size: 0.9rem;">
+                            Don't have an account? <a href="#" onclick="switchTab('signup')" style="color: var(--accent-gold); text-decoration: underline;">Sign up now</a>
+                        </p>
+                    </div>
+                </form>
+
+                <!-- Signup Form -->
+                <form id="signup-form" class="auth-form">
+                    <h2>Join the Community</h2>
+                    <p>Limited to 1,000 elite members. Secure your spot today.</p>
+                    <div class="input-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" placeholder="John Doe" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="signup-email">Email Address</label>
+                        <input type="email" id="signup-email" placeholder="name@example.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-auth">Create Account <i class="fas fa-user-plus"></i></button>
+                    <div class="auth-divider">or</div>
+                    <button type="button" id="btn-google-signup" class="btn-google">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                        Sign up with Google
+                    </button>
+                    <div class="auth-footer" style="text-align: center; margin-top: 25px;">
+                        <p style="color: rgba(255,255,255,0.4); font-size: 0.9rem;">
+                            Already have an account? <a href="#" onclick="switchTab('login')" style="color: var(--accent-gold); text-decoration: underline;">Log in now</a>
+                        </p>
+                    </div>
+                </form>
+
+                <div id="auth-message" class="auth-message"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            &copy; 2026 AssetsFlow Enterprise, LLC. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        // Tab Switching Logic
+        const tabs = document.querySelectorAll('.auth-tab');
+        const forms = document.querySelectorAll('.auth-form');
+
+        function switchTab(tabId) {
+            tabs.forEach(t => t.classList.remove('active'));
+            forms.forEach(f => f.classList.remove('active'));
+
+            const targetTab = document.querySelector(`[data-tab="${tabId}"]`);
+            if (targetTab) {
+                targetTab.classList.add('active');
+                const formId = tabId === 'login' ? 'login-form' : 'signup-form';
+                document.getElementById(formId).classList.add('active');
+            }
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                switchTab(tab.dataset.tab);
+            });
+        });
+
+        // Handle direct links (e.g., auth.html#signup)
+        window.addEventListener('load', () => {
+            if (window.location.hash === '#signup') {
+                switchTab('signup');
+            }
+        });
+    </script>
+</body>
+
+</html>
