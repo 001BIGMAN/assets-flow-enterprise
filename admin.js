@@ -108,15 +108,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 3. Load Data
     loadStudentsOverview();
 
-    // TEMPORARY WIPE ALL NOTIFICATIONS (Requested by user)
-    try {
-        console.log("Attempting to wipe all notifications...");
-        const wipeRes = await sb.from('notifications').delete().neq('id', '0');
-        console.log("Wipe result:", wipeRes);
-    } catch(err) {
-        console.error("Wipe failed", err);
-    }
-
     // 4. Setup Forms
     try {
         setupNotificationForm();

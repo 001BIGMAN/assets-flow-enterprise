@@ -287,6 +287,17 @@ nav {
   display: flex;
   align-items: center;
   gap: 1.2rem;
+  flex-wrap: wrap; /* Prevent clustering */
+  justify-content: flex-end;
+}
+
+@media (max-width: 600px) {
+  .user-greeting {
+    display: none; /* Hide greeting to save space on small screens */
+  }
+  .nav-actions {
+    gap: 0.8rem;
+  }
 }
 
 .search-icon {
@@ -671,6 +682,7 @@ nav {
     background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.1), transparent 60%);
     opacity: 0;
     transition: opacity 0.4s;
+    pointer-events: none; /* Prevent blocking clicks to buttons inside */
 }
 
 .pricing-card:hover::before {
@@ -1035,7 +1047,7 @@ nav {
 
 footer {
   border-top: 1px solid rgba(212, 175, 55, 0.1);
-  padding: 100px 5% 40px;
+  padding: 140px 5% 60px; /* More premium desktop breathing room */
   background: #020202;
 }
 
@@ -1572,8 +1584,8 @@ footer {
 
 .dashboard-content {
   flex: 1;
-  padding: 40px 60px;
-  /* Consistent desktop padding */
+  padding: 50px 80px;
+  /* More spacious desktop padding to prevent clustering */
   overflow-y: auto;
 }
 
@@ -1582,8 +1594,8 @@ footer {
   /* MUST BE RELATIVE to respect margins */
   top: auto !important;
   display: block !important;
-  margin-bottom: 50px !important;
-  /* Reduced to 50px as requested (half of the half) */
+  margin-bottom: 80px !important;
+  /* Increased for better desktop breathing room */
   width: 100%;
 }
 
@@ -1600,8 +1612,8 @@ footer {
 /* Dashboard Cards */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 35px; /* Increased gap for desktop clarity */
 }
 
 .dashboard-card {
@@ -1777,8 +1789,8 @@ footer {
   }
 
   .dashboard-content {
-    padding: 85px 20px 20px 20px !important;
-    /* Balanced top padding for fixed menu top-bar */
+    padding: 100px 20px 20px 20px !important;
+    /* Increased to clear fixed mobile logo/menu */
   }
 
   .dashboard-header {
@@ -1811,24 +1823,24 @@ footer {
   .mobile-sidebar-toggle {
     display: flex !important;
     position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 60px !important;
+    top: 15px !important;
+    left: 15px !important;
     z-index: 100010 !important;
     /* Topmost */
-    background: #000 !important;
-    color: var(--accent-gold) !important;
-    padding: 0 20px !important;
-    border-radius: 0 !important;
+    background: var(--accent-gold) !important;
+    color: #000 !important;
+    padding: 6px 12px !important;
+    /* Slightly smaller padding */
+    border-radius: 6px !important;
     align-items: center !important;
-    justify-content: flex-start !important;
-    gap: 10px !important;
-    font-size: 1.1rem !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    font-size: 0.8rem !important;
+    /* Slightly smaller font */
     font-weight: bold !important;
     cursor: pointer !important;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.2) !important;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8) !important;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4) !important;
+    border: none !important;
   }
 
   .sidebar-overlay {

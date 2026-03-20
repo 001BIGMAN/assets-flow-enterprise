@@ -169,90 +169,17 @@ async function updateHeader(session) {
   if (!navActions) return;
 
   if (session) {
-    document.querySelectorAll('.hide-when-logged-in').forEach(el => el.style.display = 'none');
-    const userEmail = session.user.email;
     const userId = session.user.id;
-    const savedPlan = localStorage.getItem(`plan_${userId}`);
-
-    if (savedPlan) {
-      if (curriculumSection) curriculumSection.style.display = "none";
-
-      const pricingTitle = document.getElementById("pricing-title");
-      const pricingSubtitle = document.getElementById("pricing-subtitle");
-      const finalCta = document.getElementById("final-cta");
-
-      if (pricingTitle) {
-          pricingTitle.textContent = "Upgrade Your Learning Level";
-      }
-      if (pricingSubtitle) {
-          pricingSubtitle.innerHTML = "<p>Unlock advanced sections of the curriculum to continue your growth journey.</p>";
-      }
-      if (finalCta && finalCta.querySelector('p')) {
-          finalCta.querySelector('p').textContent = "Take the next step in your crypto education journey today.";
-      }
-
-      const cards = {
-        'basic': document.getElementById('card-basic'),
-        'level1': document.getElementById('card-level1'),
-        'level2': document.getElementById('card-level2'),
-        'level3': document.getElementById('card-level3'),
-        'level4': document.getElementById('card-level4')
-      };
-      
-      const planLevels = ['basic', 'level1', 'level2', 'level3', 'level4'];
-      const userLevelIndex = planLevels.indexOf(savedPlan);
-      
-      if (userLevelIndex >= 0) {
-          planLevels.forEach((level, index) => {
-              const card = cards[level];
-              if (card) {
-                  const btn = card.querySelector('.btn-card');
-                  if (index < userLevelIndex) {
-                      // Already included in plan — style only, keep the original WhatsApp link
-                      if (btn) {
-                          btn.innerHTML = `<i class="fas fa-check-circle"></i> Included`;
-                          btn.style.opacity = "0.75";
-                      }
-                  } else if (index === userLevelIndex) {
-                      // Current level — style only, KEEP original WhatsApp link so they can access group
-                      if (btn) {
-                          btn.innerHTML = `<i class="fas fa-star"></i> Current Plan`;
-                          // Do NOT change btn.href — preserve the WhatsApp group link
-                          btn.style.background = "transparent";
-                          btn.style.border = "2px solid var(--accent-gold)";
-                          btn.style.color = "var(--accent-gold)";
-                      }
-                      card.style.border = "2px solid var(--accent-gold)";
-                  }
-                  // For higher levels, everything stays as default (upgrade option)
-              }
-          });
-      }
-    } else {
-      // If logged in but no saved plan, ensure cards are visible
-      const planLevels = ['basic', 'level1', 'level2', 'level3', 'level4'];
-      planLevels.forEach(level => {
-        const card = document.getElementById(`card-${level}`);
-        if(card) {
-          card.style.display = 'block';
-        }
-      });
-    }
-
-    if (heroGuestCTA) heroGuestCTA.style.display = "none";
-    if (heroLoggedInCTA) heroLoggedInCTA.style.display = "block";
-    if (heroFounderSection) heroFounderSection.style.display = "flex";
-
-    // Check if user is an admin
+    const userEmail = session.user.email;
+    
+    // 1. Determine Role First (so we know if we should show/hide sales stuff)
     let isAdmin = false;
     try {
-      console.log("Checking role in updateHeader for user:", userId);
-      const { data: profile, error } = await sb
+      const { data: profile } = await sb
         .from("profiles")
         .select("role")
         .eq("id", userId)
         .single();
-      console.log("Role check result - Profile:", profile, "Error:", error);
       if (profile && profile.role === "admin") {
         isAdmin = true;
       }
@@ -260,9 +187,68 @@ async function updateHeader(session) {
       console.error("Error checking role:", e);
     }
 
+    // 2. Global Toggles
+    document.querySelectorAll('.hide-when-logged-in').forEach(el => el.style.display = 'none');
+    if (heroGuestCTA) heroGuestCTA.style.display = "none";
+    if (heroLoggedInCTA) heroLoggedInCTA.style.display = "block";
+    if (heroFounderSection) heroFounderSection.style.display = "flex";
+
+    // 3. Admin vs Student Homepage Tweaks
+    if (isAdmin) {
+      // Hide all sales/pricing elements for Admins permanently
+      const sectionsToHide = [
+        document.getElementById("pricing"),
+        document.getElementById("curriculum"),
+        document.querySelector(".access-summary-section"),
+        document.querySelector(".why-choose-section"),
+        document.querySelector(".who-can-join-section"),
+        document.getElementById("final-cta") // any other CTA containers
+      ];
+      sectionsToHide.forEach(sec => { if (sec) sec.style.display = "none"; });
+
+      // Admin navigation links simplification (hide Pricing for Admins in main nav)
+      const navPricingLink = document.querySelector('nav a[href*="#pricing"]');
+      if (navPricingLink) navPricingLink.parentElement.style.display = 'none';
+
+      // Welcome Banner Update
+      const heroTitle = document.querySelector(".hero-content h1");
+      const heroSubtitle = document.querySelector(".hero-content p");
+      if (heroTitle) heroTitle.textContent = "Admin Control Center";
+      if (heroSubtitle) heroSubtitle.textContent = "You have full administrative access to manage the system, curriculum, and students.";
+    } else {
+      // START Student-only logic (only runs if NOT admin)
+      const savedPlan = localStorage.getItem(`plan_${userId}`);
+      if (savedPlan) {
+        if (curriculumSection) curriculumSection.style.display = "none";
+        const pricingTitle = document.getElementById("pricing-title");
+        const pricingSubtitle = document.getElementById("pricing-subtitle");
+  
+        if (pricingTitle) pricingTitle.textContent = "Upgrade Your Learning Level";
+        if (pricingSubtitle) {
+            pricingSubtitle.innerHTML = "<p>Unlock advanced sections of the curriculum to continue your growth journey.</p>";
+        }
+  
+        const cardIds = ['card-basic', 'card-level1', 'card-level2', 'card-level3', 'card-level4'];
+        let hideList = [];
+        if (savedPlan === 'basic') hideList = ['card-basic'];
+        if (savedPlan === 'level1') hideList = ['card-basic', 'card-level1'];
+        if (savedPlan === 'level2') hideList = ['card-basic', 'card-level1', 'card-level2'];
+        if (savedPlan === 'level3') hideList = ['card-basic', 'card-level1', 'card-level2', 'card-level3'];
+        if (savedPlan === 'level4') hideList = ['card-basic', 'card-level1', 'card-level2', 'card-level3', 'card-level4'];
+        
+        hideList.forEach(id => {
+           const el = document.getElementById(id);
+           if (el) el.style.display = 'none';
+        });
+  
+        if (savedPlan === 'level4') {
+            if (pricingSection) pricingSection.style.display = "none";
+        }
+      }
+    }
+
     const dashboardLink = isAdmin ? "admin.html" : "dashboard.html";
     const dashboardText = isAdmin ? "Admin Dashboard" : "My Dashboard";
-
     if (heroDashboardBtn) heroDashboardBtn.href = dashboardLink;
 
     navActions.innerHTML = `
