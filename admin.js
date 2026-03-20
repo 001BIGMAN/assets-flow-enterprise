@@ -81,15 +81,25 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     clearTimeout(safetyTimeout); // Stop timeout if we get a result
 
-    if (profileErr || !profile || profile.role !== 'admin') {
-        console.error("Access Denied. Not an admin.", profileErr);
-        // If not an admin, send them to the regular dashboard
+    const userRole = (profile?.role || '').toLowerCase();
+    if (profileErr || !profile || (userRole !== 'admin' && userRole !== 'founder')) {
+        console.error("Access Denied. Insufficient permissions.", profileErr);
         window.location.replace('dashboard.html');
         return;
     }
     
-    // AUTHORIZED: Reveal Content
+    // AUTHORIZED: Reveal Content and Setup Dashboard
     document.body.classList.add('authorized');
+    
+    const isFounder = (userRole === 'founder');
+    if (isFounder) {
+        const founderTab = document.getElementById('founder-only-tab');
+        if (founderTab) {
+            founderTab.style.display = 'block';
+            loadFounderUsersList();
+        }
+    }
+
     const loadingOverlay = document.getElementById('loading-overlay');
     const adminContent = document.getElementById('admin-content');
     if (loadingOverlay) loadingOverlay.style.display = 'none';
@@ -102,12 +112,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Set Welcome text
     const welcomeTitle = document.getElementById('admin-welcome-title');
     if (welcomeTitle) {
-        welcomeTitle.textContent = `Welcome, ${fullName}`;
+        welcomeTitle.textContent = `Welcome, ${fullName} ${isFounder ? '(FOUNDER)' : ''}`;
     }
-
-    // If we reach here, the user is an admin. Remove loading screen and show content.
-    document.getElementById('loading-overlay').style.display = 'none';
-    document.getElementById('admin-content').style.display = 'flex';
 
     // 2. Setup Navigation
     setupAdminNavigation();
@@ -588,4 +594,51 @@ function setupAdminChat(currentUserId, currentUserName) {
         chatInput.focus();
     });
 }
+async function loadFounderUsersList() {
+    const listBody = document.getElementById('founder-users-list');
+    if (!listBody) return;
 
+    // Fetch from both tables to map them
+    const { data: profiles, error: pErr } = await sb.from('student_profiles').select('*');
+    const { data: roles, error: rErr } = await sb.from('profiles').select('*');
+
+    if (pErr || rErr) {
+        listBody.innerHTML = `<tr><td colspan="4">Error loading data.</td></tr>`;
+        return;
+    }
+
+    listBody.innerHTML = profiles.map(student => {
+        const userRole = roles.find(r => r.id === student.id)?.role || 'student';
+        return `
+        <tr>
+            <td style="padding: 15px; font-weight: bold;">${student.full_name || 'N/A'}</td>
+            <td style="padding: 15px;">${student.email || 'N/A'}</td>
+            <td style="padding: 15px;"><span style="color: ${userRole === 'admin' ? 'var(--accent-gold)' : 'white'}; font-weight: 800;">${userRole.toUpperCase()}</span></td>
+            <td style="padding: 15px;">
+                ${userRole === 'admin' 
+                    ? `<button onclick="updateRole('${student.id}', 'student')" class="btn-card" style="background:#ff4d4d; color:white; padding:5px 10px; width:auto; font-size:0.8rem; border:none; cursor:pointer; border-radius:5px;">Demote to Student</button>`
+                    : userRole === 'founder'
+                        ? '<span style="color:var(--accent-gold); font-weight:900;">[CHIEF ADMIN]</span>'
+                        : `<button onclick="updateRole('${student.id}', 'admin')" class="btn-card" style="background:var(--accent-gold); color:black; padding:5px 10px; width:auto; font-size:0.8rem; border:none; cursor:pointer; border-radius:5px;">Promote to Admin</button>`
+                }
+            </td>
+        </tr>
+    `;}).join('');
+}
+
+window.updateRole = async (targetId, newRole) => {
+    if (!confirm(`Are you sure you want to change this user's role to ${newRole}?`)) return;
+    
+    // For promoting/demoting, we just update the 'profiles' table.
+    // The Profiles table is our single source of truth for Roles.
+    const { error } = await sb
+        .from('profiles')
+        .upsert({ id: targetId, role: newRole });
+
+    if (error) {
+        alert("Action Denied: " + error.message);
+    } else {
+        alert("Role updated! Access level changed.");
+        loadFounderUsersList();
+    }
+}

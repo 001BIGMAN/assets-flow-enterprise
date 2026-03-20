@@ -109,8 +109,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           return 'student'; // Default to student if all retries fail
         };
 
-        const role = await checkRole();
-        if (role === "admin") {
+        const role = (await checkRole() || '').toLowerCase();
+        if (role === "admin" || role === "founder") {
           window.location.replace("admin.html");
         } else {
           window.location.replace("dashboard.html");
@@ -126,9 +126,10 @@ document.addEventListener("DOMContentLoaded", async () => {
           .select("role")
           .eq("id", session.user.id)
           .single();
-        if (profile && profile.role === "admin") {
+        const dashRole = profile?.role?.toLowerCase();
+        if (dashRole === "admin" || dashRole === "founder") {
           console.log(
-            "Admin detected on student dashboard, redirecting to admin.html",
+            "Admin/Founder detected on student dashboard, redirecting to admin.html",
           );
           window.location.href = "admin.html";
           return;
@@ -180,8 +181,11 @@ async function updateHeader(session) {
         .select("role")
         .eq("id", userId)
         .single();
-      if (profile && profile.role === "admin") {
-        isAdmin = true;
+      if (profile && profile.role) {
+        const role = profile.role.toLowerCase();
+        if (role === "admin" || role === "founder") {
+          isAdmin = true;
+        }
       }
     } catch (e) {
       console.error("Error checking role:", e);
@@ -378,7 +382,8 @@ function handleAuthForms() {
               "Role:",
               profile?.role,
             );
-            if (profile && profile.role === "admin") {
+            const loginRole = profile?.role?.toLowerCase();
+            if (loginRole === "admin" || loginRole === "founder") {
               console.log("Redirecting to admin.html");
               window.location.href = "admin.html";
             } else {

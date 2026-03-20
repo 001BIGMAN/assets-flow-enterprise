@@ -232,6 +232,30 @@
 
                     const user = session.user;
                     const userId = user.id;
+
+                    // === ADMIN/FOUNDER REDIRECT CHECK (Independent of main.js) ===
+                    try {
+                        const { data: roleCheck, error: roleErr } = await sb
+                            .from('profiles')
+                            .select('role')
+                            .eq('id', userId)
+                            .maybeSingle();
+                        
+                        console.log('🔐 Dashboard Role Check:', { roleCheck, roleErr, userId });
+                        
+                        if (!roleErr && roleCheck && roleCheck.role) {
+                            const r = roleCheck.role.toLowerCase();
+                            if (r === 'admin' || r === 'founder') {
+                                console.log('🚀 Admin/Founder detected! Redirecting to admin.html...');
+                                window.location.replace('admin.html');
+                                return;
+                            }
+                        }
+                    } catch(e) {
+                        console.error('Role check failed:', e);
+                    }
+                    // === END ADMIN CHECK ===
+
                     window._currentUserId = userId; // Store globally for deleteNotification()
                     const displayName = user.user_metadata?.full_name || user.email.split('@')[0];
                     document.getElementById('user-display-name').textContent = displayName;
@@ -315,7 +339,7 @@
                                 const thirtyDaysInMs = 30 * 24 * 60 * 60 * 1000;
                                 
                                 // Final Hard wipe of all previous notifications (Requested by user)
-                                if (notifDate < new Date('2026-03-20T18:30:00+01:00')) return false;
+                                if (notifDate < new Date('2026-03-20T19:50:00+01:00')) return false;
 
                                 // Only show notifications sent on or after the user's signup date
                                 if (notifDate < userSignupDate) return false;
