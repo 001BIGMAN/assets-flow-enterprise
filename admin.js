@@ -84,9 +84,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (profileErr || !profile || profile.role !== 'admin') {
         console.error("Access Denied. Not an admin.", profileErr);
         // If not an admin, send them to the regular dashboard
-        window.location.href = 'dashboard.html';
+        window.location.replace('dashboard.html');
         return;
     }
+    
+    // AUTHORIZED: Reveal Content
+    document.body.classList.add('authorized');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const adminContent = document.getElementById('admin-content');
+    if (loadingOverlay) loadingOverlay.style.display = 'none';
+    if (adminContent) adminContent.style.display = 'flex';
     
     // Get user metadata for the name
     const { data: { user } } = await sb.auth.getUser();
