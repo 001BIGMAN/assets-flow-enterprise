@@ -226,7 +226,41 @@
             .dashboard-card {
                 width: 100% !important;
                 margin-left: 0 !important;
-                margin-right: 0 !important;
+            }
+        }
+            
+            /* Enhanced Table Scroller for Mobile */
+            .admin-table-container {
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch;
+                border-radius: 12px;
+                background: rgba(255, 255, 255, 0.02);
+                border: 1px solid rgba(212, 175, 55, 0.1);
+                margin-top: 15px;
+            }
+            
+            .admin-table {
+                min-width: 800px; /* Force minimum width to guarantee scrolling for all info */
+                margin-bottom: 0px;
+            }
+            
+            @media (max-width: 600px) {
+                .admin-table th, .admin-table td {
+                    padding: 12px 10px;
+                    font-size: 0.8rem;
+                }
+                /* Visual indicator that it's scrollable */
+                .admin-table-container::after {
+                    content: '← Swipe left to view all details →';
+                    display: block;
+                    text-align: center;
+                    font-size: 0.7rem;
+                    color: var(--accent-gold);
+                    padding: 12px;
+                    opacity: 0.6;
+                    background: rgba(0,0,0,0.2);
+                    border-top: 1px solid rgba(255,255,255,0.05);
+                }
             }
     </style>
 </head>
@@ -333,7 +367,7 @@
 
                     <div class="dashboard-card wide" style="grid-column: 1 / -1;">
                         <h3 style="margin-bottom: 25px; font-size: 1.2rem; letter-spacing: 1px; text-transform: uppercase;">Student Directory</h3>
-                        <div class="admin-table-container" style="border-radius: 12px; overflow: hidden;">
+                        <div class="admin-table-container">
                             <table class="admin-table">
                                 <thead>
                                     <tr>
