@@ -463,6 +463,27 @@ function setupAudioForm() {
 
             if (dbError) throw dbError;
 
+            // 4. Send email notification
+            try {
+                let targetEmails = [];
+                if (targetTier === 'all') {
+                    const { data: users } = await sb.from('student_profiles').select('email');
+                    targetEmails = users.map(u => u.email);
+                } else if (targetTier === 'individual' && targetUserId) {
+                    const { data: user } = await sb.from('student_profiles').select('email').eq('id', targetUserId).single();
+                    if (user) targetEmails = [user.email];
+                } else {
+                    const { data: users } = await sb.from('student_profiles').select('email');
+                    targetEmails = users.map(u => u.email);
+                }
+
+                if (targetEmails.length > 0) {
+                    await sendEmailNotification(targetEmails, `New Class Recording: ${title}`, `A new class recording has been uploaded titled: ${title}. Log in to your dashboard to listen.`);
+                }
+            } catch (emailErr) {
+                console.warn("Audio uploaded to DB, but email failed:", emailErr);
+            }
+
             alertEl.textContent = 'Sent';
             alertEl.className = 'admin-alert success';
             alertEl.style.display = 'block';
