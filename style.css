@@ -2693,6 +2693,32 @@ footer {
   font-size: 1rem;
 }
 
+/* Marquee Wrapper */
+.testimonials-marquee-wrapper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  /* Fade edges for a polished look */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.testimonials-marquee-wrapper:hover .testimonials-marquee-track {
+  animation-play-state: paused;
+}
+
+.testimonials-marquee-track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation: marquee-scroll 30s linear infinite;
+}
+
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 .testimonials-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2709,6 +2735,8 @@ footer {
   position: relative;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
+  width: 360px;
+  flex-shrink: 0;
 }
 
 .testimonial-card::before {
