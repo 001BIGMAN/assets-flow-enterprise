@@ -263,10 +263,10 @@ async function loadStudentsOverview() {
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td style="padding: 18px; font-weight: bold;">${name}</td>
-            <td style="padding: 18px; opacity: 0.7;">${email}</td>
-            <td style="padding: 18px;"><span style="color: var(--accent-gold); font-weight: 600; text-transform: uppercase; font-size: 0.85rem;">${plan}</span></td>
-            <td style="padding: 18px; opacity: 0.6; font-size: 0.9rem;">${date}</td>
+            <td style="padding: 18px; font-weight: bold;">${Security.escapeHTML(name)}</td>
+            <td style="padding: 18px; opacity: 0.7;">${Security.escapeHTML(email)}</td>
+            <td style="padding: 18px;"><span style="color: var(--accent-gold); font-weight: 600; text-transform: uppercase; font-size: 0.85rem;">${Security.escapeHTML(plan)}</span></td>
+            <td style="padding: 18px; opacity: 0.6; font-size: 0.9rem;">${Security.escapeHTML(date)}</td>
         `;
         tbody.appendChild(tr);
 
@@ -560,9 +560,9 @@ function setupAdminChat(currentUserId, currentUserName) {
                             <i class="fas fa-trash-alt"></i>
                         </button>
                         <div style="font-size: 0.75rem; font-weight: 700; color: #fff; margin-bottom: 6px; padding-right: 20px;">
-                            ${isMe ? 'You' : msg.sender_name}
+                            ${isMe ? 'You' : Security.escapeHTML(msg.sender_name)}
                         </div>
-                        <p style="font-size: 0.95rem; line-height: 1.5; margin: 0; color: #fff;">${msg.message}</p>
+                        <p style="font-size: 0.95rem; line-height: 1.5; margin: 0; color: #fff;">${Security.sanitizeMessage(msg.message)}</p>
                         <div style="font-size: 0.65rem; color: #fff; opacity: 0.6; margin-top: 8px; text-align: right;">${date}, ${time}</div>
                     </div>
                 </div>`;
