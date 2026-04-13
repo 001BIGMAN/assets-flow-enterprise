@@ -759,3 +759,28 @@ window.addEventListener('click', (e) => {
         hideCourseModal();
     }
 });
+
+// Global Challenge Modal Functions
+window.openChallengeModal = function() {
+    const modal = document.getElementById("challengeModal");
+    if (modal) {
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden"; // Prevent background scrolling
+    }
+};
+
+window.closeChallengeModal = function() {
+    const modal = document.getElementById("challengeModal");
+    if (modal) {
+        modal.classList.remove("active");
+        document.body.style.overflow = "auto";
+    }
+};
+
+// Close challenge modal when clicking outside of it
+window.addEventListener("click", function(event) {
+    const challengeModal = document.getElementById("challengeModal");
+    if (event.target === challengeModal) {
+        window.closeChallengeModal();
+    }
+});
