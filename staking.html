@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staking Pool | ASSETSFLOW CRYPTO EDUCATION SYSTEM</title>
+    <title>Staking Pool | QUANTARA ALPHA ENTERPRISE</title>
     <link rel="stylesheet" href="style.css">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -16,7 +16,7 @@
         <nav>
             <div class="logo">
                 <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
-                    <img src="logo.jpg" alt="ASSETSFLOW CRYPTO EDUCATION SYSTEM Logo">
+                    <img src="logo.png" alt="QUANTARA ALPHA ENTERPRISE Logo">
                 </a>
             </div>
             <a href="menu.html" class="mobile-menu-btn" style="text-decoration: none;"><i class="fas fa-bars"></i></a>
@@ -38,7 +38,7 @@
 
     <main>
         <section id="staking" class="pricing-section" style="padding-top: 120px; min-height: 70vh;">
-            <h2 class="section-title">ASSETSFLOW ENTERPRISE STAKING POOL</h2>
+            <h2 class="section-title">QUANTARA ALPHA ENTERPRISE STAKING POOL</h2>
             <div style="max-width: 800px; margin: 0 auto 50px; text-align: center; line-height: 1.6; opacity: 0.9;">
                 <p>Grow your capital with our high-yield staking options.</p>
             </div>
@@ -74,6 +74,73 @@
                         <p>₦100,000 = ₦6,250 weekly<br>= ₦50,000 total profit</p>
                     </div>
                     <a href="https://wa.link/c0w7rt" target="_blank" class="btn-stake">Start Staking</a>
+                </div>
+            </div>
+
+            <!-- OR Challenge Section -->
+            <div class="challenge-separator">
+                <span>OR</span>
+            </div>
+
+            <div class="stake-cards-container" style="justify-content: center; margin-bottom: 100px;">
+                <div class="stake-card highlighted" style="max-width: 600px; width: 100%; position: relative;">
+                    <div class="challenge-badge" style="background: var(--accent-gold); color: #000; top: 15px; right: 15px;">GROWTH CHALLENGE</div>
+                    <h2 style="font-size: 1.8rem; margin-top: 15px;">50K → 70K CHALLENGE</h2>
+                    <p style="margin-bottom: 25px; text-align: center; color: rgba(255, 255, 255, 0.9); font-size: 1.05rem;">Turn <strong>₦50,000 into ₦70,000</strong> within just 2—3 days through founder-researched signals.</p>
+                    
+                    <ul class="stake-features" style="justify-content: center; text-align: left; margin-bottom: 35px;">
+                        <li><i class="fas fa-rocket"></i> <strong>2—3 Days Duration</strong></li>
+                        <li><i class="fas fa-hand-holding-usd"></i> <strong>₦20,000 Fixed Profit</strong></li>
+                    </ul>
+
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn-info" onclick="openChallengeModal()"><i class="fas fa-question-circle"></i> How this works?</button>
+                        <a href="https://wa.link/v50p6s" target="_blank" class="btn-stake" style="margin: 0; display: flex; align-items: center;">JOIN CHALLENGE</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How This Works Modal -->
+            <div class="modal-overlay" id="challengeModal">
+                <div class="modal-card">
+                    <button class="modal-close" onclick="closeChallengeModal()">&times;</button>
+                    <div class="modal-header">
+                        <span class="challenge-icon"><i class="fas fa-trophy"></i></span>
+                        <h3>50K → 70K Challenge: Details</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="info-block">
+                            <i class="fas fa-coins"></i>
+                            <div>
+                                <strong>Investment</strong>
+                                <p>You invest exactly ₦50,000. Within 2—3 days, your capital grows to ₦70,000 through founder-researched signals.</p>
+                            </div>
+                        </div>
+                        <div class="info-block">
+                            <i class="fas fa-chart-line"></i>
+                            <div>
+                                <strong>How It Works</strong>
+                                <p>The founder personally executes high-probability trades that have been verified through deep research and technical analysis.</p>
+                            </div>
+                        </div>
+                        <div class="info-block">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <strong>Your Safety</strong>
+                                <p>Capital is managed securely. Results are shared transparently with the community after every cycle.</p>
+                            </div>
+                        </div>
+                        <div class="info-block warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div>
+                                <strong>Disclaimer</strong>
+                                <p>All investments carry risk. Past performance does not guarantee future results. Invest responsibly.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="https://wa.link/v50p6s" target="_blank" class="btn-stake" style="margin: 0;">JOIN THE CHALLENGE</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -115,7 +182,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                &copy; 2026 AssetsFlow Enterprise, LLC. All Rights Reserved.
+                &copy; 2026 Quantara Alpha Enterprise, LLC. All Rights Reserved.
             </div>
         </div>
     </footer>
