@@ -11,37 +11,9 @@ async function initSupabase() {
         await new Promise(r => setTimeout(r, 50));
         retries++;
     }
-
     if (typeof window.supabase !== 'undefined') {
         try {
             sb = window.supabase.createClient(SUPABASE_URL.trim(), SUPABASE_ANON_KEY.trim());
-            
-            // Founder Image Rotation on Scroll (Consistency with Homepage)
-            const rotateElements = document.querySelectorAll(".rotate-on-scroll");
-            let ticking = false;
-
-            const applyRotation = (y) => {
-                const rotation = y * 0.5;
-                rotateElements.forEach(el => {
-                    el.style.transform = `rotateY(${rotation}deg)`;
-                });
-                ticking = false;
-            };
-
-            const onScroll = (y) => {
-                if (!ticking && rotateElements.length > 0) {
-                    window.requestAnimationFrame(() => applyRotation(y));
-                    ticking = true;
-                }
-            };
-
-            window.addEventListener("scroll", () => onScroll(window.scrollY), { passive: true });
-            
-            const dashContent = document.querySelector(".dashboard-content");
-            if (dashContent) {
-                dashContent.addEventListener("scroll", () => onScroll(dashContent.scrollTop), { passive: true });
-            }
-
             return true;
         } catch (e) {
             console.error("Failed to create Supabase client:", e);

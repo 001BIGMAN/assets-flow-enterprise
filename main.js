@@ -53,37 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       heroContent.style.transform = "translateY(0)";
     }, 300);
   }
-  
-  // Founder Image Rotation on Scroll
-  const rotateElements = document.querySelectorAll(".rotate-on-scroll");
-  let ticking = false;
 
-  const applyRotation = (y) => {
-    const rotation = y * 0.5;
-    rotateElements.forEach(el => {
-      el.style.transform = `rotateY(${rotation}deg)`;
-    });
-    ticking = false;
-  };
-
-  const onScroll = (y) => {
-    if (!ticking && rotateElements.length > 0) {
-      window.requestAnimationFrame(() => applyRotation(y));
-      ticking = true;
-    }
-  };
-
-  window.addEventListener("scroll", () => onScroll(window.scrollY), { passive: true });
-  
-  // For portals where the content div scrolls instead of the window
-  const dashContent = document.querySelector(".dashboard-content");
-  if (dashContent) {
-    dashContent.addEventListener("scroll", () => onScroll(dashContent.scrollTop), { passive: true });
-  }
-
-  // Removed Mobile Menu setup since we now use a dedicated menu.html
-
-  // Supabase Initialization
   const initialized = await initSupabase();
 
   if (initialized) {
