@@ -55,20 +55,30 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
   
   // Founder Image Rotation on Scroll
+  const rotateElements = document.querySelectorAll(".rotate-on-scroll");
+  let ticking = false;
+
   const applyRotation = (y) => {
     const rotation = y * 0.5;
-    const rotateElements = document.querySelectorAll(".rotate-on-scroll");
     rotateElements.forEach(el => {
       el.style.transform = `rotateY(${rotation}deg)`;
     });
+    ticking = false;
   };
 
-  window.addEventListener("scroll", () => applyRotation(window.scrollY));
+  const onScroll = (y) => {
+    if (!ticking && rotateElements.length > 0) {
+      window.requestAnimationFrame(() => applyRotation(y));
+      ticking = true;
+    }
+  };
+
+  window.addEventListener("scroll", () => onScroll(window.scrollY), { passive: true });
   
   // For portals where the content div scrolls instead of the window
   const dashContent = document.querySelector(".dashboard-content");
   if (dashContent) {
-    dashContent.addEventListener("scroll", () => applyRotation(dashContent.scrollTop));
+    dashContent.addEventListener("scroll", () => onScroll(dashContent.scrollTop), { passive: true });
   }
 
   // Removed Mobile Menu setup since we now use a dedicated menu.html
