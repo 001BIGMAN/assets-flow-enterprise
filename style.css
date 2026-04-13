@@ -1006,6 +1006,8 @@ nav {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
+  filter: grayscale(100%) contrast(115%) brightness(0.9);
 }
 
 .founder-tagline {
@@ -3215,12 +3217,12 @@ footer {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top center;
     filter: grayscale(100%) contrast(115%) brightness(0.9);
     transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .portrait-frame:hover img {
-    filter: grayscale(0%) contrast(100%) brightness(1);
     transform: scale(1.1);
 }
 
@@ -3268,8 +3270,9 @@ footer {
         max-width: 300px;
     }
     .portrait-frame {
-        width: 45%;
-        height: 220px;
+        width: 48%;
+        aspect-ratio: 3/4;
+        height: auto;
         margin-bottom: 5px;
     }
 }
