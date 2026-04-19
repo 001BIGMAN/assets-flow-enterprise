@@ -1,177 +1,245 @@
 <!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Team | Quantara Alpha Enterprise</title>
-    <meta name="description" content="Learn about Favour Danladi, the visionary founder of Assets Flow Enterprise, and his mission to provide practical financial education in cryptocurrency.">
-    <link rel="canonical" href="https://quantaraalphaenterprise.com/founder.html">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Founder - Meet the Team</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Outfit:wght@700;900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "outline": "#737686",
+                        "on-secondary-container": "#745c00",
+                        "on-tertiary-container": "#ecf1ff",
+                        "on-secondary-fixed": "#241a00",
+                        "on-tertiary-fixed": "#111c2d",
+                        "secondary-fixed-dim": "#e9c349",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#d8e3fb",
+                        "surface-container": "#e5eeff",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "background": "#0b1c30",
+                        "surface-tint": "#2563EB",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#dbe1ff",
+                        "primary-container": "#2563eb",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#d3e4fe",
+                        "on-surface": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "surface": "#0b1c30",
+                        "surface-dim": "#cbdbf5",
+                        "secondary-fixed": "#ffe088",
+                        "on-primary-fixed": "#00174b",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container-high": "#dce9ff",
+                        "on-primary-container": "#eeefff",
+                        "tertiary-fixed-dim": "#bcc7de",
+                        "inverse-primary": "#b4c5ff",
+                        "secondary-container": "#fed65b",
+                        "on-surface-variant": "#434655",
+                        "on-background": "#f8f9ff",
+                        "tertiary-container": "#636e83",
+                        "tertiary": "#4b566a",
+                        "primary": "#2563EB",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#735c00",
+                        "outline-variant": "#c3c6d7",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-tertiary-fixed-variant": "#3c475a",
+                        "inverse-surface": "#213145",
+                        "gold-accent": "#e9c349"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    fontFamily: {
+                        "headline": ["Outfit", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-ring {
+            box-shadow: 0 0 20px 2px rgba(37, 99, 235, 0.4);
+        }
+        .gold-glow-ring {
+            box-shadow: 0 0 15px 0px rgba(233, 195, 73, 0.3);
+        }
+        .text-glow {
+            text-shadow: 0 0 12px rgba(37, 99, 235, 0.3);
+        }
+    </style>
+    <!-- Legacy Styles for Core UI Components -->
+    <link href="style.css" rel="stylesheet"/>
 </head>
-
-<body>
-    <header>
-        <nav>
-            <div class="logo">
-                <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
-                    <img src="logo.png" alt="QUANTARA ALPHA ENTERPRISE Logo">
-                </a>
+<body class="bg-[#0b1c30] text-[#f8f9ff] font-['Inter'] selection:bg-[#2563EB]/30">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#0b1c30]/80 backdrop-blur-xl shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
+<!-- Brand Logo -->
+<div class="font-['Outfit'] text-2xl font-bold tracking-tighter text-[#f8f9ff]">
+                Founder
             </div>
-            <a href="menu.html" class="mobile-menu-btn" style="text-decoration: none;"><i class="fas fa-bars"></i></a>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="community.html">Community</a></li>
-                <li><a href="staking.html">Staking Pool</a></li>
-                <li><a href="index.html#curriculum">Curriculum</a></li>
-                <li><a href="index.html#pricing">Pricing</a></li>
-                <li><a href="founder.html">Founder</a></li>
-            </ul>
-            <div class="nav-actions">
-                <i class="fas fa-search search-icon"></i>
-                <a href="auth.html#signup" class="btn-join">Join free</a>
-                <a href="auth.html" class="btn-login">Log in</a>
-            </div>
-        </nav>
-    </header>
+<!-- Desktop Links -->
+<div class="hidden md:flex items-center space-x-8 font-['Inter'] text-sm tracking-tight font-medium">
+<a class="text-[#0b1c30]/70 dark:text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="index.html">Home</a>
+<a class="text-[#0b1c30]/70 dark:text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="community.html">Community</a>
+<a class="text-[#0b1c30]/70 dark:text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="staking.html">Staking Pool</a>
+<a class="text-[#0b1c30]/70 dark:text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="index.html#pricing">Pricing</a>
+<a class="text-[#2563EB] dark:text-[#3b82f6] font-semibold border-b-2 border-[#2563EB] pb-1" href="founder.html">Founder</a>
+</div>
+<!-- Actions -->
+<div class="nav-actions flex items-center space-x-4">
+<a href="auth.html" id="btn-login-main" class="text-[#f8f9ff]/70 font-medium text-sm hover:text-[#2563EB] transition-all">Log in</a>
+<a href="auth.html#signup" id="btn-signup-main" class="bg-[#2563EB] text-white px-5 py-2 rounded-full font-semibold text-sm active:scale-95 transition-transform">Sign up</a>
+</div>
+<div class="bg-[#1a2b3c] h-[1px] w-full absolute bottom-0 left-0"></div>
+</div>
+</nav>
+<main class="pt-32 pb-24 px-6 max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="text-center mb-24 relative">
+<h2 class="text-[#2563EB] font-['Outfit'] font-bold tracking-widest text-sm mb-4">MEET THE TEAM</h2>
+<!-- Decorative line -->
+<div class="w-24 h-1 bg-[#2563EB] mx-auto mb-8 rounded-full"></div>
+<h1 class="font-['Outfit'] text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-none uppercase">
+                Building the <br/> Future Together
+            </h1>
+<p class="text-[#f8f9ff]/60 max-w-2xl mx-auto text-lg">
+                Our diverse team of experts is dedicated to creating the most innovative decentralized ecosystem for the next generation of founders.
+            </p>
+</div>
+<!-- Team Grid (Updated style based on Image 6 and Screen 23) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
+<!-- Member 1: Favour -->
+<div class="group flex flex-col items-center">
+<div class="relative mb-8 w-full aspect-[3/4] overflow-hidden border-2 border-gold-accent gold-glow-ring transition-transform duration-500 group-hover:scale-[1.02]">
+<img alt="Favour" class="w-full h-full object-cover filter grayscale" src="Favour (Founder).jpeg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="text-center">
+<h3 class="font-['Outfit'] text-2xl font-bold mb-1 uppercase tracking-tight">Favour</h3>
+<p class="text-[#2563EB] font-semibold text-xs tracking-widest uppercase mb-4">CEO &amp; Founder</p>
+    <p class="text-[#f8f9ff]/70 text-sm leading-relaxed max-w-sm mx-auto">As the founder, Favour leads the overarching vision of Quantara Alpha. Dedicated to financial empowerment and strategic asset growth, Favour sets the standard for disciplined learning.</p>
+</div>
+</div>
+<!-- Member 2: Gracefilled -->
+<div class="group flex flex-col items-center">
+<div class="relative mb-8 w-full aspect-[3/4] overflow-hidden border-2 border-gold-accent gold-glow-ring transition-transform duration-500 group-hover:scale-[1.02]">
+<img alt="Gracefilled" class="w-full h-full object-cover filter grayscale" src="Grace.jpeg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="text-center">
+<h3 class="font-['Outfit'] text-2xl font-bold mb-1 uppercase tracking-tight">Gracefilled</h3>
+<p class="text-[#2563EB] font-semibold text-xs tracking-widest uppercase mb-4">Head of Community</p>
+    <p class="text-[#f8f9ff]/70 text-sm leading-relaxed max-w-sm mx-auto">Gracefilled plays a pivotal role in the operations and growth strategy at Quantara Alpha Enterprise. She ensures that the entire learning ecosystem remains efficient, supportive, and completely focused on student success.</p>
+</div>
+</div>
+<!-- Member 3: Jerry -->
+<div class="group flex flex-col items-center">
+<div class="relative mb-8 w-full aspect-[3/4] overflow-hidden border-2 border-gold-accent gold-glow-ring transition-transform duration-500 group-hover:scale-[1.02]">
+<img alt="Jerry" class="w-full h-full object-cover filter grayscale" src="Jerry.jpeg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="text-center">
+<h3 class="font-['Outfit'] text-2xl font-bold mb-1 uppercase tracking-tight">Jerry</h3>
+<p class="text-[#2563EB] font-semibold text-xs tracking-widest uppercase mb-4">CTO &amp; Lead Dev</p>
+    <p class="text-[#f8f9ff]/70 text-sm leading-relaxed max-w-sm mx-auto">Jerry is instrumental in shaping our community strategy and ecosystem development. He coordinates our growing network of members and ensures each individual has access to the resources needed to excel.</p>
+</div>
+</div>
+<!-- Member 4: Favour (Marketing) -->
+<div class="group flex flex-col items-center">
+<div class="relative mb-8 w-full aspect-[3/4] overflow-hidden border-2 border-gold-accent gold-glow-ring transition-transform duration-500 group-hover:scale-[1.02]">
+<img alt="Favour" class="w-full h-full object-cover filter grayscale" src="Favour.jpeg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="text-center">
+<h3 class="font-['Outfit'] text-2xl font-bold mb-1 uppercase tracking-tight">Favour</h3>
+<p class="text-[#2563EB] font-semibold text-xs tracking-widest uppercase mb-4">Marketing Director</p>
+    <p class="text-[#f8f9ff]/70 text-sm leading-relaxed max-w-sm mx-auto">Favour brings extensive financial expertise and immense dedication to the Quantara Alpha mission. Working alongside the team, she meticulously tracks market trends to provide deep, actionable insights to our traders.</p>
+</div>
+</div>
+</div>
+<!-- Descriptive Text Sections -->
+<div class="mt-40 grid md:grid-cols-2 gap-16">
+<div class="border-l-4 border-[#2563EB] pl-8 py-4">
+<h4 class="font-['Outfit'] text-3xl font-black mb-4 uppercase tracking-tighter">OUR VISION</h4>
+<p class="text-[#f8f9ff]/70 leading-relaxed">
+                    We aim to democratize the founding process, providing every individual with the tools, community, and capital needed to turn bold ideas into global realities. Our platform serves as the bedrock for the next generation of decentralized businesses.
+                </p>
+</div>
+<div class="border-l-4 border-[#2563EB] pl-8 py-4">
+<h4 class="font-['Outfit'] text-3xl font-black mb-4 uppercase tracking-tighter">OUR CULTURE</h4>
+<p class="text-[#f8f9ff]/70 leading-relaxed">
+                    Integrity, innovation, and inclusivity are not just words—they are our operating system. We foster an environment where technical excellence meets creative freedom, ensuring that every voice in our ecosystem is heard and valued.
+                </p>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-16 px-8 bg-[#0b1c30]">
+<div class="bg-gradient-to-r from-transparent via-[#2563EB]/20 to-transparent h-[1px] mb-12 max-w-7xl mx-auto"></div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-7xl mx-auto">
+<div>
+<div class="font-['Outfit'] text-xl font-black text-[#f8f9ff] mb-6">Founder</div>
+<p class="text-[#f8f9ff]/60 font-['Inter'] text-sm leading-relaxed">The premier ecosystem for decentralized growth and innovation.</p>
+</div>
+<div>
+<h5 class="text-[#f8f9ff] font-bold text-sm mb-4">Explore</h5>
+<ul class="space-y-3">
+<li><a class="text-[#f8f9ff]/60 hover:translate-x-1 transition-transform duration-200 block text-sm" href="#">Ecosystem</a></li>
+<li><a class="text-[#f8f9ff]/60 hover:translate-x-1 transition-transform duration-200 block text-sm" href="#">Staking</a></li>
+<li><a class="text-[#f8f9ff]/60 hover:translate-x-1 transition-transform duration-200 block text-sm" href="#">Voting</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-[#f8f9ff] font-bold text-sm mb-4">Company</h5>
+<ul class="space-y-3">
+<li><a class="text-[#f8f9ff]/60 hover:translate-x-1 transition-transform duration-200 block text-sm" href="#">About Us</a></li>
+<li><a class="text-[#f8f9ff]/60 hover:translate-x-1 transition-transform duration-200 block text-sm" href="#">Careers</a></li>
+<li><a class="text-[#f8f9ff]/60 hover:translate-x-1 transition-transform duration-200 block text-sm" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-[#f8f9ff] font-bold text-sm mb-4">Follow Us</h5>
+<div class="flex space-x-4">
+<span class="material-symbols-outlined text-[#2563EB] cursor-pointer">public</span>
+<span class="material-symbols-outlined text-[#2563EB] cursor-pointer">chat</span>
+<span class="material-symbols-outlined text-[#2563EB] cursor-pointer">campaign</span>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-[#1a2b3c] flex flex-col md:flex-row justify-between items-center text-[#f8f9ff]/40 text-xs">
+<p>© 2024 Founder. All rights reserved.</p>
+<div class="flex space-x-6 mt-4 md:mt-0">
+<a class="hover:text-[#2563EB]" href="#">Privacy Policy</a>
+<a class="hover:text-[#2563EB]" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
 
-    <main>
-        <!-- Team Banner Section -->
-        <section class="team-banner" style="padding-top: 160px; margin-top: 60px;">
-            <div class="team-banner-content">
-                <div class="team-brand">
-                    <img src="logo.png" alt="Quantara Alpha Enterprise Logo">
-                </div>
-                <div class="team-portraits">
-                    <div class="portrait-frame"><img src="Favour(Founder).jpeg" alt="Favour" onerror="this.src='founder.jpg'"></div>
-                    <div class="portrait-frame"><img src="Grace.jpeg" alt="Gracefilled" onerror="this.src='founder.jpg'"></div>
-                    <div class="portrait-frame"><img src="Jerry.jpeg" alt="Jerry" onerror="this.src='founder.jpg'"></div>
-                    <div class="portrait-frame"><img src="Favour.jpeg" alt="Favour" onerror="this.src='founder.jpg'"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Our Team (Introductions) -->
-        <section class="team-members">
-            <h2 class="section-title" style="margin-bottom: 80px;">Meet The Team</h2>
-
-            <!-- Original Founder Favour -->
-            <div class="founder-container team-member">
-                <div class="founder-image">
-                    <img src="Favour(Founder).jpeg" alt="Favour Danladi - Founder" class="rotate-on-scroll" onerror="this.src='founder.jpg'">
-                </div>
-                <div class="founder-info">
-                    <p class="founder-tagline">Visionary behind Quantara Alpha Enterprise</p>
-                    <h1 class="founder-name">Favour Danladi</h1>
-                    <div class="statement-card full-bio">
-                        <p>As the founder, Favour leads the overarching vision of Quantara Alpha. Dedicated to financial empowerment and strategic asset growth, Favour sets the standard for disciplined learning.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Team Member: Gracefilled -->
-            <div class="founder-container team-member reverse">
-                <div class="founder-image">
-                    <img src="Grace.jpeg" alt="Gracefilled" class="rotate-on-scroll" onerror="this.src='founder.jpg'">
-                </div>
-                <div class="founder-info">
-                    <p class="founder-tagline">Partner / Director</p>
-                    <h1 class="founder-name">Gracefilled</h1>
-                    <div class="statement-card full-bio">
-                        <p>Gracefilled plays a pivotal role in the operations and growth strategy at Quantara Alpha Enterprise. She ensures that the entire learning ecosystem remains efficient, supportive, and completely focused on student success.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Team Member: Jerry -->
-            <div class="founder-container team-member">
-                <div class="founder-image">
-                    <img src="Jerry.jpeg" alt="Jerry" class="rotate-on-scroll" onerror="this.src='founder.jpg'">
-                </div>
-                <div class="founder-info">
-                    <p class="founder-tagline">Community Strategist</p>
-                    <h1 class="founder-name">Jerry</h1>
-                    <div class="statement-card full-bio">
-                        <p>Jerry is instrumental in shaping our community strategy and ecosystem development. He coordinates our growing network of members and ensures each individual has access to the resources needed to excel.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Team Member: Favour (Second) -->
-            <div class="founder-container team-member reverse" style="margin-bottom: 50px;">
-                <div class="founder-image">
-                    <img src="Favour.jpeg" alt="Favour" class="rotate-on-scroll" onerror="this.src='founder.jpg'">
-                </div>
-                <div class="founder-info">
-                    <p class="founder-tagline">Core Analyst</p>
-                    <h1 class="founder-name">Favour</h1>
-                    <div class="statement-card full-bio">
-                        <p>Favour brings extensive financial expertise and immense dedication to the Quantara Alpha mission. Working alongside the team, she meticulously tracks market trends to provide deep, actionable insights to our traders.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Original Mission & Vision Full-width at the bottom -->
-            <div class="founder-vision-mission" style="max-width: 1200px; margin: 40px auto; padding: 0 5%;">
-                <div class="statement-card">
-                    <h3>Mission Statement</h3>
-                    <p>To provide structured, practical, and disciplined financial education in cryptocurrency and digital assets, empowering individuals to make informed investment decisions through knowledge, risk management, and long-term strategy.</p>
-                </div>
-                <div class="statement-card">
-                    <h3>Vision Statement</h3>
-                    <p>To become a leading digital financial education ecosystem that transforms beginners into disciplined asset builders and expands beyond cryptocurrency into multi-asset wealth education across Africa and globally.</p>
-                </div>
-            </div>
-
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>Explore</h4>
-                    <ul>
-                        <li><a href="index.html#pricing">Pricing</a></li>
-                        <li><a href="index.html#curriculum">Curriculum</a></li>
-                        <li><a href="community.html">Community</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="founder.html">Our Founder</a></li>
-                        <li><a href="https://wa.link/pf3fok" target="_blank">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Important</h4>
-                    <ul>
-                        <li><a href="rules.html">Rules</a></li>
-                        <li><a href="faq.html">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Follow Us</h4>
-                    <ul>
-                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
-                        <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                &copy; 2026 Quantara Alpha Enterprise, LLC. All Rights Reserved.
-            </div>
-        </div>
-    </footer>
-
-    <script src="main.js"></script>
-</body>
-
-</html>
+<!-- Supabase and Auth Logic -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="main.js" defer></script>
+</body></html>

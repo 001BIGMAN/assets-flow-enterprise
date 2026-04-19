@@ -1,193 +1,313 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staking Pool | QUANTARA ALPHA ENTERPRISE</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Quantara Alpha | Staking Pool</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Outfit:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#bcc7de",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-surface-variant": "#434655",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "on-background": "#0b1c30",
+                        "primary-fixed": "#dbe1ff",
+                        "on-tertiary-container": "#ecf1ff",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#4b566a",
+                        "inverse-on-surface": "#eaf1ff",
+                        "background": "#f8f9ff",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#eeefff",
+                        "primary-container": "#2563eb",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#fed65b",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "inverse-primary": "#b4c5ff",
+                        "surface-container-low": "#eff4ff",
+                        "tertiary-fixed": "#d8e3fb",
+                        "secondary-fixed": "#ffe088",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container": "#e5eeff",
+                        "secondary": "#735c00",
+                        "on-surface": "#0b1c30",
+                        "surface-dim": "#cbdbf5",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#dce9ff",
+                        "on-tertiary-fixed": "#111c2d",
+                        "tertiary-container": "#636e83",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-fixed-dim": "#e9c349",
+                        "outline": "#737686",
+                        "surface": "#f8f9ff",
+                        "outline-variant": "#c3c6d7",
+                        "surface-tint": "#0053db",
+                        "on-tertiary-fixed-variant": "#3c475a",
+                        "inverse-surface": "#213145",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#745c00",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-secondary-fixed": "#241a00",
+                        "on-primary-fixed": "#00174b",
+                        "primary": "#004ac6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Outfit", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .editorial-gradient {
+            background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+        }
+    </style>
+    <link href="style.css" rel="stylesheet">
 </head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#f8f9ff]/80 backdrop-blur-xl shadow-sm">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
+<div class="flex items-center gap-8">
+<span class="font-['Outfit'] text-2xl font-bold tracking-tighter text-[#0b1c30]">Quantara Alpha</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="font-['Inter'] text-sm tracking-tight font-medium text-[#0b1c30]/70 hover:text-[#2563EB] transition-all duration-300" href="index.html">Home</a>
+<a class="font-['Inter'] text-sm tracking-tight font-medium text-[#0b1c30]/70 hover:text-[#2563EB] transition-all duration-300" href="community.html">Community</a>
+<a class="font-['Inter'] text-sm tracking-tight font-medium text-[#2563EB] font-semibold border-b-2 border-[#2563EB] pb-1" href="staking.html">Staking Pool</a>
+<a class="font-['Inter'] text-sm tracking-tight font-medium text-[#0b1c30]/70 hover:text-[#2563EB] transition-all duration-300" href="index.html#pricing">Pricing</a>
+<a class="font-['Inter'] text-sm tracking-tight font-medium text-[#0b1c30]/70 hover:text-[#2563EB] transition-all duration-300" href="founder.html">Founder</a>
+</div>
+</div>
+<div class="nav-actions flex items-center gap-4">
+<a href="auth.html" id="btn-login-main" class="font-['Inter'] text-sm font-medium text-[#0b1c30]/70 hover:bg-[#eff4ff] px-4 py-2 rounded-full transition-all active:scale-95">Log in</a>
+<a href="auth.html#signup" id="btn-signup-main" class="font-['Inter'] text-sm font-medium bg-[#2563EB] text-white px-6 py-2 rounded-full hover:shadow-lg transition-all active:scale-95">Sign up</a>
+</div>
+<div class="bg-[#eff4ff] h-[1px] w-full absolute bottom-0 left-0"></div>
+</div>
+</nav>
+<main class="pt-24 pb-20">
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-6 py-12 md:py-20 text-center">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-highest rounded-full mb-6">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: &quot;FILL&quot; 1;">verified</span>
+<span class="text-xs font-bold tracking-widest text-on-surface-variant uppercase font-label">Verified Pool</span>
+</div>
+<h1 class="font-headline text-5xl md:text-7xl font-extrabold tracking-tighter text-on-background mb-6 leading-none">
+                Quantara Alpha Enterprise <br>
+<span class="text-primary">Staking Pool</span>
+</h1>
+<p class="max-w-2xl mx-auto text-on-surface-variant text-lg md:text-xl leading-relaxed mb-12">
+                Secure your digital assets with high-yield architectural staking. Optimized for the modern investor seeking stability and growth.
+            </p>
+</section>
+<!-- Staking Cards Grid -->
+<section class="max-w-6xl mx-auto px-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch relative">
+<!-- 1 Month Plan -->
+<div class="group relative bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/15 hover:shadow-2xl transition-all duration-500 flex flex-col">
+<div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-9xl text-primary">schedule</span>
+</div>
+<div class="p-8 md:p-10 flex flex-col h-full">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-headline text-3xl font-bold mb-2">1 Month</h3>
+<div class="h-1 w-12 bg-primary rounded-full"></div>
+</div>
+<span class="bg-secondary-fixed text-on-secondary-fixed px-3 py-1 rounded-full text-xs font-bold font-label uppercase tracking-widest">Low Risk</span>
+</div>
+<div class="space-y-6 mb-10 flex-grow">
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-headline font-black text-on-background">25%</span>
+<span class="text-on-surface-variant font-medium">Total Return</span>
+</div>
+<ul class="space-y-4">
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
+<span>Withdraw your initial seed anytime</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
+<span>Interest accrued daily</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
+<span>Instant automated processing</span>
+</li>
+</ul>
+</div>
+<div class="bg-surface-container-low rounded-xl p-6 mb-8">
+<div class="flex justify-between items-center text-sm font-medium">
+<span class="text-on-surface-variant">Min Amount</span>
+<span class="text-on-surface font-bold">N50,000</span>
+</div>
+<div class="h-[1px] bg-outline-variant/20 my-4"></div>
+<div class="flex justify-between items-center text-sm font-medium">
+<span class="text-on-surface-variant">Max Amount</span>
+<span class="text-on-surface font-bold">N500,000</span>
+</div>
+</div>
+<button class="w-full editorial-gradient text-on-primary font-headline font-bold py-4 rounded-full active:scale-95 transition-transform shadow-lg shadow-primary/20">
+                            Stake Now
+                        </button>
+</div>
+</div>
+<!-- 2 Months Plan -->
+<div class="group relative bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/15 hover:shadow-2xl transition-all duration-500 flex flex-col">
+<div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-9xl text-primary">analytics</span>
+</div>
+<div class="p-8 md:p-10 flex flex-col h-full">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h3 class="font-headline text-3xl font-bold mb-2">2 Months</h3>
+<div class="h-1 w-12 bg-primary rounded-full"></div>
+</div>
+<span class="bg-primary text-on-primary px-3 py-1 rounded-full text-xs font-bold font-label uppercase tracking-widest">Best Value</span>
+</div>
+<div class="space-y-6 mb-10 flex-grow">
+<div class="flex items-baseline gap-2">
+<span class="text-4xl font-headline font-black text-on-background">50%</span>
+<span class="text-on-surface-variant font-medium">Total Return</span>
+</div>
+<ul class="space-y-4">
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
+<span>Interest paid at maturity</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
+<span>Compound earnings eligible</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
+<span>Priority support access</span>
+</li>
+</ul>
+</div>
+<div class="bg-surface-container-low rounded-xl p-6 mb-8">
+<div class="flex justify-between items-center text-sm font-medium">
+<span class="text-on-surface-variant">Min Amount</span>
+<span class="text-on-surface font-bold">N50,000</span>
+</div>
+<div class="h-[1px] bg-outline-variant/20 my-4"></div>
+<div class="flex justify-between items-center text-sm font-medium">
+<span class="text-on-surface-variant">Max Amount</span>
+<span class="text-on-surface font-bold">N500,000</span>
+</div>
+</div>
+<button class="w-full editorial-gradient text-on-primary font-headline font-bold py-4 rounded-full active:scale-95 transition-transform shadow-lg shadow-primary/20">
+                            Stake Now
+                        </button>
+</div>
+</div>
+<!-- OR Divider -->
+<div class="col-span-full flex items-center justify-center py-12">
+<div class="h-[1px] flex-grow bg-outline-variant/20"></div>
+<span class="px-6 font-headline font-black text-2xl text-on-surface-variant/40">OR</span>
+<div class="h-[1px] flex-grow bg-outline-variant/20"></div>
+</div>
+<!-- Challenge Card -->
+<div class="col-span-full group bg-[#0b1c30] rounded-2xl overflow-hidden relative border border-white/5 shadow-2xl">
+<div class="absolute inset-0 opacity-20 pointer-events-none">
+<img class="w-full h-full object-cover" data-alt="abstract glowing technological blue network lines with futuristic dark background and architectural depth" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkd3Cs3z2gUvfOyND_LF3HMF2RWv9RYNhv-Qs_97wFMMgUc3s4NPAaTrUecVGKEr_vtjb7JQCBAEAo8YUEad0lLr-UUnZ5kvreG2jiz3l6xIrXjvcdGqtyK70NSKQVAy07TyrwZQ5bjN23zLM6MxzH1V0ghGbH9G0x2JmTbmI0tHeLJwhsZ2vrmLptZ3axXIASyB69_Fg1QkFsrp1zpR3zHcbuXyxV33lKtZOzv34urV1mpPz6RxOoOHHmdkrzj0IOWfRJa0uegFlR">
+</div>
+<div class="relative z-10 p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
+<div class="flex-grow text-center md:text-left">
+<div class="inline-block bg-primary px-4 py-1 rounded-full mb-6">
+<span class="text-xs font-bold tracking-widest text-white uppercase font-label">The Elite Circle Challenge</span>
+</div>
+<h2 class="font-headline text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
+                                50K <span class="text-primary">→</span> 70K Challenge
+                            </h2>
+<p class="text-blue-100/70 text-lg leading-relaxed max-w-xl mb-8">
+                                A high-intensity staking marathon for the focused investor. Reach your milestones with accelerated returns and institutional-grade security.
+                            </p>
+<div class="flex flex-wrap gap-4 justify-center md:justify-start">
+<div class="bg-white/5 backdrop-blur px-6 py-4 rounded-xl border border-white/10">
+<div class="text-xs text-blue-200/50 uppercase tracking-widest font-bold mb-1">Status</div>
+<div class="text-white font-bold">Open for Enrollment</div>
+</div>
+<div class="bg-white/5 backdrop-blur px-6 py-4 rounded-xl border border-white/10">
+<div class="text-xs text-blue-200/50 uppercase tracking-widest font-bold mb-1">Capacity</div>
+<div class="text-white font-bold">Limited Slots</div>
+</div>
+</div>
+</div>
+<div class="flex-shrink-0 w-full md:w-auto">
+<button class="w-full md:w-72 editorial-gradient text-on-primary font-headline font-bold py-6 px-10 rounded-full active:scale-95 transition-transform text-xl shadow-2xl shadow-primary/40">
+                                Join Challenge
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-16 px-8 border-t border-transparent bg-[#f8f9ff]">
+<div class="bg-gradient-to-r from-transparent via-[#eff4ff] to-transparent h-[1px] mb-12"></div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-7xl mx-auto">
+<div>
+<div class="font-['Outfit'] text-xl font-black text-[#0b1c30] mb-6">Quantara Alpha</div>
+<p class="font-['Inter'] text-sm leading-relaxed text-[#0b1c30]/60 mb-6">Building the next generation of financial infrastructure through architectural precision.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-[#0b1c30]/40 cursor-pointer hover:text-primary transition-colors">public</span>
+<span class="material-symbols-outlined text-[#0b1c30]/40 cursor-pointer hover:text-primary transition-colors">hub</span>
+<span class="material-symbols-outlined text-[#0b1c30]/40 cursor-pointer hover:text-primary transition-colors">terminal</span>
+</div>
+</div>
+<div>
+<h4 class="font-bold text-[#0b1c30] mb-6">Explore</h4>
+<ul class="space-y-4">
+<li><a class="font-['Inter'] text-sm text-[#0b1c30]/60 hover:translate-x-1 transition-transform duration-200 inline-block" href="#">Pools</a></li>
+<li><a class="font-['Inter'] text-sm text-[#0b1c30]/60 hover:translate-x-1 transition-transform duration-200 inline-block" href="#">Yields</a></li>
+<li><a class="font-['Inter'] text-sm text-[#0b1c30]/60 hover:translate-x-1 transition-transform duration-200 inline-block" href="#">Governance</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-[#0b1c30] mb-6">Company</h4>
+<ul class="space-y-4">
+<li><a class="font-['Inter'] text-sm text-[#0b1c30]/60 hover:translate-x-1 transition-transform duration-200 inline-block" href="about.html">About Us</a></li>
+<li><a class="font-['Inter'] text-sm text-[#0b1c30]/60 hover:translate-x-1 transition-transform duration-200 inline-block" href="#">Security</a></li>
+<li><a class="font-['Inter'] text-sm text-[#0b1c30]/60 hover:translate-x-1 transition-transform duration-200 inline-block" href="#">Careers</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-[#0b1c30] mb-6">Important</h4>
+<ul class="space-y-4">
+<li><a class="font-['Inter'] text-sm text-[#0b1c30]/60 hover:translate-x-1 transition-transform duration-200 inline-block" href="#">Risk Disclosure</a></li>
+<li><a class="font-['Inter'] text-sm text-[#0b1c30]/60 hover:translate-x-1 transition-transform duration-200 inline-block" href="#">Privacy Policy</a></li>
+<li><a class="font-['Inter'] text-sm text-[#0b1c30]/60 hover:translate-x-1 transition-transform duration-200 inline-block" href="#">Terms of Service</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-outline-variant/10 flex justify-between items-center">
+<p class="font-['Inter'] text-sm text-[#0b1c30]/60">© 2024 Quantara Alpha Enterprise. All rights reserved.</p>
+</div>
+</footer>
 
-<body>
-    <header>
-        <nav>
-            <div class="logo">
-                <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
-                    <img src="logo.png" alt="QUANTARA ALPHA ENTERPRISE Logo">
-                </a>
-            </div>
-            <a href="menu.html" class="mobile-menu-btn" style="text-decoration: none;"><i class="fas fa-bars"></i></a>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="community.html">Community</a></li>
-                <li><a href="staking.html">Staking Pool</a></li>
-                <li><a href="index.html#curriculum">Curriculum</a></li>
-                <li><a href="index.html#pricing">Pricing</a></li>
-                <li><a href="founder.html">Founder</a></li>
-            </ul>
-            <div class="nav-actions" id="nav-actions">
-                <i class="fas fa-search search-icon"></i>
-                <a href="auth.html#signup" class="btn-join">Sign up</a>
-                <a href="auth.html" class="btn-login">Log in</a>
-            </div>
-        </nav>
-    </header>
-
-    <main>
-        <section id="staking" class="pricing-section" style="padding-top: 120px; min-height: 70vh;">
-            <h2 class="section-title">QUANTARA ALPHA ENTERPRISE STAKING POOL</h2>
-            <div style="max-width: 800px; margin: 0 auto 50px; text-align: center; line-height: 1.6; opacity: 0.9;">
-                <p>Grow your capital with our high-yield staking options.</p>
-            </div>
-
-            <div class="stake-cards-container">
-                <!-- 1 MONTH PLAN -->
-                <div class="stake-card">
-                    <h2>1 MONTH PLAN</h2>
-                    <ul class="stake-features">
-                        <li><i class="fas fa-chart-pie"></i> <strong>25% Total Return</strong></li>
-                        <li><i class="fas fa-hand-holding-usd"></i> <strong>6.25% Weekly Payout</strong></li>
-                        <li><i class="fas fa-clock"></i> <strong>4 Weeks Duration</strong></li>
-                        <li><i class="fas fa-money-bill-wave"></i> <strong>Min: ₦50,000 | Max: ₦500,000</strong></li>
-                    </ul>
-                    <div class="stake-example-box">
-                        <strong>Example:</strong>
-                        <p>₦100,000 = ₦6,250 weekly<br>= ₦25,000 total profit</p>
-                    </div>
-                    <a href="https://wa.link/dx334n" target="_blank" class="btn-stake">Start Staking</a>
-                </div>
-
-                <!-- 2 MONTHS PLAN -->
-                <div class="stake-card highlighted">
-                    <h2>2 MONTHS PLAN</h2>
-                    <ul class="stake-features">
-                        <li><i class="fas fa-chart-line"></i> <strong>50% Total Return</strong></li>
-                        <li><i class="fas fa-hand-holding-usd"></i> <strong>6.25% Weekly Payout</strong></li>
-                        <li><i class="fas fa-clock"></i> <strong>8 Weeks Duration</strong></li>
-                        <li><i class="fas fa-money-bill-wave"></i> <strong>Min: ₦50,000 | Max: ₦500,000</strong></li>
-                    </ul>
-                    <div class="stake-example-box">
-                        <strong>Example:</strong>
-                        <p>₦100,000 = ₦6,250 weekly<br>= ₦50,000 total profit</p>
-                    </div>
-                    <a href="https://wa.link/c0w7rt" target="_blank" class="btn-stake">Start Staking</a>
-                </div>
-            </div>
-
-            <!-- OR Challenge Section -->
-            <div class="challenge-separator">
-                <span>OR</span>
-            </div>
-
-            <div class="stake-cards-container" style="justify-content: center; margin-bottom: 100px;">
-                <div class="stake-card highlighted" style="max-width: 600px; width: 100%; position: relative;">
-                    <div class="challenge-badge" style="background: var(--accent-gold); color: #000; top: 15px; right: 15px;">GROWTH CHALLENGE</div>
-                    <h2 style="font-size: 1.8rem; margin-top: 15px;">50K → 70K CHALLENGE</h2>
-                    <p style="margin-bottom: 25px; text-align: center; color: rgba(255, 255, 255, 0.9); font-size: 1.05rem;">Turn <strong>₦50,000 into ₦70,000</strong> within just 2—3 days through founder-researched signals.</p>
-                    
-                    <ul class="stake-features" style="justify-content: center; text-align: left; margin-bottom: 35px;">
-                        <li><i class="fas fa-rocket"></i> <strong>2—3 Days Duration</strong></li>
-                        <li><i class="fas fa-hand-holding-usd"></i> <strong>₦20,000 Fixed Profit</strong></li>
-                    </ul>
-
-                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                        <button class="btn-info" onclick="openChallengeModal()"><i class="fas fa-question-circle"></i> How this works?</button>
-                        <a href="https://wa.link/v50p6s" target="_blank" class="btn-stake" style="margin: 0; display: flex; align-items: center;">JOIN CHALLENGE</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- How This Works Modal -->
-            <div class="modal-overlay" id="challengeModal">
-                <div class="modal-card">
-                    <button class="modal-close" onclick="closeChallengeModal()">&times;</button>
-                    <div class="modal-header">
-                        <span class="challenge-icon"><i class="fas fa-trophy"></i></span>
-                        <h3>50K → 70K Challenge: Details</h3>
-                    </div>
-                    <div class="modal-body">
-                        <div class="info-block">
-                            <i class="fas fa-coins"></i>
-                            <div>
-                                <strong>Investment</strong>
-                                <p>You invest exactly ₦50,000. Within 2—3 days, your capital grows to ₦70,000 through founder-researched signals.</p>
-                            </div>
-                        </div>
-                        <div class="info-block">
-                            <i class="fas fa-chart-line"></i>
-                            <div>
-                                <strong>How It Works</strong>
-                                <p>The founder personally executes high-probability trades that have been verified through deep research and technical analysis.</p>
-                            </div>
-                        </div>
-                        <div class="info-block">
-                            <i class="fas fa-shield-alt"></i>
-                            <div>
-                                <strong>Your Safety</strong>
-                                <p>Capital is managed securely. Results are shared transparently with the community after every cycle.</p>
-                            </div>
-                        </div>
-                        <div class="info-block warning">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <div>
-                                <strong>Disclaimer</strong>
-                                <p>All investments carry risk. Past performance does not guarantee future results. Invest responsibly.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="https://wa.link/v50p6s" target="_blank" class="btn-stake" style="margin: 0;">JOIN THE CHALLENGE</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>Explore</h4>
-                    <ul>
-                        <li><a href="index.html#pricing">Pricing</a></li>
-                        <li><a href="index.html#curriculum">Curriculum</a></li>
-                        <li><a href="community.html">Community</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="founder.html">Our Founder</a></li>
-                        <li><a href="https://wa.link/pf3fok" target="_blank">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Important</h4>
-                    <ul>
-                        <li><a href="rules.html">Rules</a></li>
-                        <li><a href="faq.html">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Follow Us</h4>
-                    <ul>
-                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
-                        <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                &copy; 2026 Quantara Alpha Enterprise, LLC. All Rights Reserved.
-            </div>
-        </div>
-    </footer>
-
-    <script src="main.js"></script>
-</body>
-
-</html>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="main.js" defer></script>
+</body></html>

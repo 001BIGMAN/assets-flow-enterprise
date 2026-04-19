@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quantara Alpha Enterprise - Crypto Learning</title>
+<!-- Tailwind CSS v3 CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#2563EB',
+              dark: '#1d4ed8',
+              light: '#60a5fa'
+            },
+            accent: '#facc15'
+          }
+        }
+      }
+    }
+  </script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style data-purpose="typography">
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+    h1, h2, h3 {
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .text-gold { color: #facc15; }
+  </style>
+<style data-purpose="layout-utilities">
+    .pricing-card {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+    }
+    .pricing-card-highlight {
+      border: 1px solid #2563EB;
+      background: linear-gradient(180deg, rgba(37, 99, 235, 0.1) 0%, rgba(0,0,0,0) 100%);
+    }
+    .feature-icon-box {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+  </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+<!-- BEGIN: Navigation -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10" data-purpose="main-navigation">
+<div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<img alt="Quantara Logo" class="h-10 w-auto" src="https://lh3.googleusercontent.com/aida/ADBb0uii8xjtEbLh8_SrQ9QiQRSOngTjuCYD_sljCSTehYymTmFZTE-PQt0aOoWkngELKMDIzcjN-XylQAkoDy_kUAISMzOryymX-wyMtadIuse6EcCz3NevLqrrvboWJuX1PAZS_t35l_h8M77Ps7_Tanl0il8xEqgGUlYwOiVB5PcU1CdNIloNGqpVZqHxteE5kWfk_pmTypPTUJLDs0KmOASZXbLoxhiPwcVBL1qbD1QBRtgnVP5HEt6FzpCHKwvVSjxbbetbSTOhbg"/>
+<div class="hidden md:flex gap-8 text-sm font-semibold tracking-wide">
+<a class="hover:text-brand transition-colors" href="#">Home</a>
+<a class="hover:text-brand transition-colors" href="#">Community</a>
+<a class="hover:text-brand transition-colors" href="#">Staking Pool</a>
+<a class="hover:text-brand transition-colors" href="#">Pricing</a>
+<a class="hover:text-brand transition-colors" href="#">Founder</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-white/10 rounded-full transition-colors">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<button class="bg-brand text-white px-6 py-2 rounded font-bold text-sm uppercase">Sign up</button>
+<button class="border border-white/20 px-6 py-2 rounded font-bold text-sm uppercase">Log in</button>
+</div>
+</div>
+</nav>
+<!-- END: Navigation -->
+<!-- BEGIN: Hero Section -->
+<section class="pt-32 pb-20 px-4 max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center" data-purpose="hero">
+<div>
+<h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6">
+        Quantara<br/>
+        Alpha<br/>
+        Enterprise
+      </h1>
+<p class="text-gray-400 text-lg mb-8 max-w-lg">
+        Learn cryptocurrency the right way through a structured program designed to help you understand the market, invest wisely, and grow with confidence.
+      </p>
+<p class="text-gray-400 text-lg mb-10 max-w-lg">
+        From beginner to advanced level, Quantara Alpha gives you the knowledge, guidance, and support needed to build real understanding and better financial opportunities.
+      </p>
+<div class="flex flex-wrap gap-4">
+<button class="border border-brand text-brand hover:bg-brand hover:text-white px-8 py-4 rounded-md font-bold transition-all">Join Community</button>
+<button class="border border-brand text-brand hover:bg-brand hover:text-white px-8 py-4 rounded-md font-bold transition-all">Start Learning</button>
+</div>
+</div>
+<div class="relative">
+<!-- Representing the Hero Dashboard Graphic from Image 12 -->
+<img alt="Dashboard Preview" class="rounded-2xl shadow-2xl border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvq4uvAGjx4naO_-zIlg6h-b1WG8mb16SxXWnn-NcfWinySsZXDL5L5EtxaciuLx8tsLdHZI2iwBSzV0gyOEpYKUqrMR5K_Ye7wo8KNeBdTbfZzb_4R71D8KrptzQ3-ZdwSipt7llmxOOz1Wb8D-kG9QX5QDfUI8FhSY1GwL-dXl1EURhTLMWETXGnDEXBlUKwW2eBaYrj9yEUAFhfv0WNHzPFE2471vzlIT6Ez3sn1JSyEAFSipiKz4oyxMQglka2JWR8I97lwPh4"/>
+<div class="absolute -top-4 -right-4 bg-brand px-4 py-2 rounded text-xs font-bold">+5.2k Users</div>
+</div>
+</section>
+<!-- END: Hero Section -->
+<!-- BEGIN: Pricing/Levels Section -->
+<section class="py-20 bg-zinc-950" data-purpose="learning-levels">
+<div class="max-w-7xl mx-auto px-4 text-center">
+<h2 class="text-3xl font-bold mb-4">Choose Your Learning Level</h2>
+<div class="w-24 h-1 bg-brand mx-auto mb-6"></div>
+<p class="text-gray-400 mb-16">Start from the level that matches your current stage and gain access based on your package.</p>
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+<!-- Level 0: Basic -->
+<div class="pricing-card p-6 rounded-xl flex flex-col justify-between">
+<div>
+<h3 class="text-sm font-bold mb-6 text-gray-300">Basic Access (Waitlist Group)</h3>
+<ul class="text-xs text-left space-y-3 mb-8 text-gray-400">
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> Introduction to Cryptocurrency</li>
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> Community Forum Access</li>
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> Content Library Access</li>
+</ul>
+</div>
+<div class="mt-auto">
+<div class="text-3xl font-bold mb-4">₦0</div>
+<button class="w-full bg-brand py-3 rounded font-bold uppercase text-xs">Start Free</button>
+</div>
+</div>
+<!-- Level 1 -->
+<div class="pricing-card p-6 rounded-xl flex flex-col justify-between">
+<div>
+<h3 class="text-sm font-bold mb-6 text-gray-300">Level 1 — Crypto Quick Start</h3>
+<ul class="text-xs text-left space-y-3 mb-8 text-gray-400">
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> Introduction to Cryptocurrency and its Evolution</li>
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> How Blockchain Works</li>
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> How People Make Money in Crypto</li>
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> How to Open and Secure a Crypto Wallet</li>
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> Introduction to Spot Trading</li>
+</ul>
+</div>
+<div class="mt-auto">
+<div class="text-3xl font-bold mb-2">₦25,000</div>
+<div class="text-[10px] text-brand mb-4 uppercase font-bold">Access: Level 1 Only</div>
+<button class="w-full bg-brand py-3 rounded font-bold uppercase text-xs">Join Level 1</button>
+</div>
+</div>
+<!-- Level 2 -->
+<div class="pricing-card p-6 rounded-xl flex flex-col justify-between">
+<div>
+<h3 class="text-sm font-bold mb-6 text-gray-300">Level 2 — Crypto Research Mentorship</h3>
+<ul class="text-xs text-left space-y-3 mb-8 text-gray-400">
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> Includes Level 1</li>
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> How to Research Crypto Projects</li>
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> How to Identify Profitable Narratives</li>
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> Tokenomics and Fundamental Analysis</li>
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> How to Identify Scams and Rug Pulls</li>
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> How to Build a Profitable Portfolio</li>
+</ul>
+</div>
+<div class="mt-auto">
+<div class="text-3xl font-bold mb-2">₦50,000</div>
+<div class="text-[10px] text-brand mb-4 uppercase font-bold">Access: Levels 1 and 2</div>
+<button class="w-full bg-brand py-3 rounded font-bold uppercase text-xs">Start Mentorship</button>
+</div>
+</div>
+<!-- Level 3 -->
+<div class="pricing-card p-6 rounded-xl flex flex-col justify-between">
+<div>
+<h3 class="text-sm font-bold mb-6 text-gray-300">Level 3 — Advanced Market Foundation</h3>
+<ul class="text-xs text-left space-y-3 mb-8 text-gray-400">
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> Includes Levels 1 and 2</li>
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> Understanding Market Cycles</li>
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> Bull Market and Bear Market Strategies</li>
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> Liquidity and Smart Money Concepts</li>
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> Advanced Fundamental Analysis</li>
+<li class="flex items-start gap-2"><span class="text-brand">✓</span> Risk Management and Capital Allocation</li>
+</ul>
+</div>
+<div class="mt-auto">
+<div class="text-3xl font-bold mb-2">₦100,000</div>
+<div class="text-[10px] text-brand mb-4 uppercase font-bold">Access: Levels 1, 2, and 3</div>
+<button class="w-full bg-brand py-3 rounded font-bold uppercase text-xs">Become Pro</button>
+</div>
+</div>
+<!-- Level 4 -->
+<div class="pricing-card-highlight p-6 rounded-xl flex flex-col justify-between border-2">
+<div>
+<h3 class="text-sm font-bold mb-6 text-brand">Level 4 — VIP Investor Network</h3>
+<ul class="text-xs text-left space-y-3 mb-8 text-gray-200 font-medium">
+<li class="flex items-start gap-2"><span class="text-brand">★</span> Includes all previous levels</li>
+<li class="flex items-start gap-2"><span class="text-brand">★</span> Direct Access to the Mentor</li>
+<li class="flex items-start gap-2"><span class="text-brand">★</span> Advanced Market Breakdowns</li>
+<li class="flex items-start gap-2"><span class="text-brand">★</span> Bull Run Positioning Strategies</li>
+<li class="flex items-start gap-2"><span class="text-brand">★</span> Exclusive Investor Community</li>
+<li class="flex items-start gap-2"><span class="text-brand">★</span> Priority Support and Market Intelligence</li>
+</ul>
+</div>
+<div class="mt-auto">
+<div class="text-3xl font-bold mb-2 text-white">₦250,000</div>
+<div class="text-[10px] text-brand mb-4 uppercase font-bold">Access: All Levels</div>
+<button class="w-full bg-brand py-3 rounded font-bold uppercase text-xs text-white">Get VIP Access</button>
+</div>
+</div>
+</div>
+<!-- Access Summary -->
+<div class="mt-16 max-w-2xl mx-auto text-center" data-purpose="access-summary">
+<h4 class="uppercase font-bold text-xs tracking-widest mb-8 text-brand">Access Summary</h4>
+<div class="space-y-4">
+<div class="bg-white/5 py-3 rounded border border-white/5 text-sm">
+<span class="text-brand font-bold">₦25,000</span> — Access to Level 1 only
+          </div>
+<div class="bg-white/5 py-3 rounded border border-white/5 text-sm">
+<span class="text-brand font-bold">₦50,000</span> — Access to Levels 1 and 2
+          </div>
+<div class="bg-white/5 py-3 rounded border border-white/5 text-sm">
+<span class="text-brand font-bold">₦100,000</span> — Access to Levels 1, 2, and 3
+          </div>
+<div class="bg-white/5 py-3 rounded border border-white/5 text-sm">
+<span class="text-brand font-bold">₦250,000</span> — Access to all levels
+          </div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Pricing/Levels Section -->
+<!-- BEGIN: Why Choose Section -->
+<section class="py-20 px-4" data-purpose="features">
+<div class="max-w-7xl mx-auto text-center">
+<h2 class="text-3xl font-bold mb-12">Why Choose Quantara Alpha?</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+<div class="feature-icon-box p-4 rounded-lg flex items-center gap-4 text-left">
+<div class="bg-brand/20 p-2 rounded text-brand"><svg class="w-6 h-6" fill="currentColor" viewbox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12V11.75a1 1 0 00.553.894l2.5 1.25a1 1 0 00.894 0l2.5-1.25a1 1 0 00.553-.894V10.12l1.69-.724a1 1 0 00-.787-1.838l-1.94.831-2.06-.883a1 1 0 00-.788 0l-4 1.714a1 1 0 00-.356.257z"></path></svg></div>
+<span class="text-sm font-medium">Structured and easy-to-follow learning path</span>
+</div>
+<div class="feature-icon-box p-4 rounded-lg flex items-center gap-4 text-left">
+<div class="bg-brand/20 p-2 rounded text-brand"><svg class="w-6 h-6" fill="currentColor" viewbox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg></div>
+<span class="text-sm font-medium">Beginner-friendly and growth-focused</span>
+</div>
+<div class="feature-icon-box p-4 rounded-lg flex items-center gap-4 text-left">
+<div class="bg-brand/20 p-2 rounded text-brand"><svg class="w-6 h-6" fill="currentColor" viewbox="0 0 20 20"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"></path></svg></div>
+<span class="text-sm font-medium">Practical crypto education with clear guidance</span>
+</div>
+<div class="feature-icon-box p-4 rounded-lg flex items-center gap-4 text-left">
+<div class="bg-brand/20 p-2 rounded text-brand"><svg class="w-6 h-6" fill="currentColor" viewbox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg></div>
+<span class="text-sm font-medium">Access to mentorship, strategy, and community</span>
+</div>
+<div class="feature-icon-box p-4 rounded-lg flex items-center gap-4 text-left md:col-span-2">
+<div class="bg-brand/20 p-2 rounded text-brand"><svg class="w-6 h-6" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M2.166 4.9L9.03 9.031a2.003 2.003 0 012.87 0l6.863-4.13a1 1 0 011.237 1.604l-7.469 4.495a4.002 4.002 0 00-5.062 0L1.442 6.505A1 1 0 012.166 4.9z" fill-rule="evenodd"></path></svg></div>
+<span class="text-sm font-medium">Designed to help members build knowledge and confidence</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Why Choose Section -->
+<!-- BEGIN: Middle CTA -->
+<section class="py-20 px-4 bg-zinc-950 border-y border-white/10" data-purpose="middle-cta">
+<div class="max-w-4xl mx-auto text-center border border-white/5 p-12 rounded-3xl bg-white/5">
+<h3 class="text-xl font-bold mb-2">Take the next step in your crypto education journey today.</h3>
+<h3 class="text-xl font-bold mb-8">Choose your level, start learning, and position yourself for better opportunities in the digital asset space.</h3>
+<button class="border border-brand text-brand hover:bg-brand hover:text-white px-10 py-4 rounded font-bold uppercase transition-all">Get Started Now</button>
+</div>
+</section>
+<!-- END: Middle CTA -->
+<!-- BEGIN: Comparison Table Section -->
+<section class="py-20 px-4" data-purpose="comparison">
+<div class="max-w-7xl mx-auto overflow-x-auto">
+<h2 class="text-xl font-bold mb-8 text-center text-brand">QUANTARA ALPHA CURRICULUM — LEVEL COMPARISON</h2>
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr class="bg-zinc-900">
+<th class="p-4 border border-white/10 text-brand text-sm uppercase">Curriculum features</th>
+<th class="p-4 border border-white/10 text-center text-sm uppercase">Basic</th>
+<th class="p-4 border border-white/10 text-center text-sm uppercase">Level 1</th>
+<th class="p-4 border border-white/10 text-center text-sm uppercase">Level 2</th>
+<th class="p-4 border border-white/10 text-center text-sm uppercase">Level 3</th>
+<th class="p-4 border border-white/10 text-center text-sm uppercase">Level 4</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<tr>
+<td class="p-4 border border-white/10 text-gray-300">Crypto Basics &amp; Evolution</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+</tr>
+<tr>
+<td class="p-4 border border-white/10 text-gray-300">How Blockchain Works</td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+</tr>
+<tr>
+<td class="p-4 border border-white/10 text-gray-300">Wallet Setup &amp; Security</td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+</tr>
+<tr>
+<td class="p-4 border border-white/10 text-gray-300">Spot Trading Basics</td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+</tr>
+<tr>
+<td class="p-4 border border-white/10 text-gray-300">Identify Profitable Narratives</td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+</tr>
+<tr>
+<td class="p-4 border border-white/10 text-gray-300">Early Project Research</td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+</tr>
+<tr>
+<td class="p-4 border border-white/10 text-gray-300">Identifying Scams &amp; Rug Pulls</td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+</tr>
+<tr>
+<td class="p-4 border border-white/10 text-gray-300">Deep Market Cycle Understanding</td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+</tr>
+<tr>
+<td class="p-4 border border-white/10 text-gray-300">Liquidity &amp; Smart Money</td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+</tr>
+<tr>
+<td class="p-4 border border-white/10 text-gray-300">Professional Bull Run Strategies</td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+<td class="p-4 border border-white/10 text-center text-brand">✓</td>
+</tr>
+<tr>
+<td class="p-4 border border-white/10 text-gray-300">Direct Mentorship (1-on-1)</td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center text-brand">★</td>
+</tr>
+<tr>
+<td class="p-4 border border-white/10 text-gray-300">VIP Investor Group Access</td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center"></td>
+<td class="p-4 border border-white/10 text-center text-brand">★</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- END: Comparison Table Section -->
+<!-- BEGIN: Community Invitation -->
+<section class="py-20 bg-zinc-950 text-center px-4" data-purpose="who-can-join">
+<h2 class="text-2xl font-bold mb-4 uppercase">Who Can Join Our Community?</h2>
+<div class="w-24 h-1 bg-brand mx-auto mb-10"></div>
+<div class="max-w-xl mx-auto bg-white/5 border border-white/10 p-4 rounded-xl flex items-center justify-center gap-4 mb-8">
+<svg class="w-6 h-6 text-brand" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="text-sm">Anyone with basic understanding of how to use a mobile phone.</span>
+</div>
+<button class="bg-brand text-white px-10 py-4 rounded-md font-extrabold uppercase">Sign up now</button>
+</section>
+<!-- END: Community Invitation -->
+<!-- BEGIN: Testimonials Section -->
+<section class="py-20 px-4" data-purpose="testimonials">
+<div class="max-w-7xl mx-auto text-center">
+<h2 class="text-3xl font-bold mb-4 uppercase">What Our Members Say</h2>
+<div class="w-24 h-1 bg-brand mx-auto mb-4"></div>
+<p class="text-gray-400 mb-16">Real results from real community members across all levels.</p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Testimonial 1 -->
+<div class="bg-white/5 p-8 rounded-xl border border-white/5 text-left flex flex-col justify-between">
+<div>
+<div class="text-brand text-xl mb-4">★★★★★</div>
+<p class="text-sm italic text-gray-300 leading-relaxed">"The content is absolutely premium. Understanding market cycles and smart money concepts has given me an edge."</p>
+</div>
+<div class="mt-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center border border-white/10">
+<svg class="w-5 h-5 text-gray-500" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" fill-rule="evenodd"></path></svg>
+</div>
+<div>
+<div class="text-sm font-bold">MR. MARTINS</div>
+<div class="text-[10px] text-gray-500 uppercase">Community Member</div>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="bg-white/5 p-8 rounded-xl border border-brand/30 text-left flex flex-col justify-between scale-105 shadow-2xl shadow-brand/10">
+<div>
+<div class="text-brand text-xl mb-4">★★★★★</div>
+<p class="text-sm italic text-gray-300 leading-relaxed">"I was skeptical at first, but after joining the VIP group I could see this is different. The market breakdowns and support are top-notch."</p>
+</div>
+<div class="mt-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center border border-white/10">
+<svg class="w-5 h-5 text-gray-500" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" fill-rule="evenodd"></path></svg>
+</div>
+<div>
+<div class="text-sm font-bold">MR. SAM</div>
+<div class="text-[10px] text-gray-500 uppercase">Community Member</div>
+</div>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="bg-white/5 p-8 rounded-xl border border-white/5 text-left flex flex-col justify-between">
+<div>
+<div class="text-brand text-xl mb-4">★★★★★</div>
+<p class="text-sm italic text-gray-300 leading-relaxed">"Quantara Alpha completely changed how I see crypto. The structured levels made everything so clear. I went from lost to confident."</p>
+</div>
+<div class="mt-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center border border-white/10">
+<svg class="w-5 h-5 text-gray-500" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" fill-rule="evenodd"></path></svg>
+</div>
+<div>
+<div class="text-sm font-bold">MR. JEREMIAH</div>
+<div class="text-[10px] text-gray-500 uppercase">Community Member</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Testimonials Section -->
+<!-- BEGIN: Footer -->
+<footer class="bg-black pt-20 pb-10 border-t border-white/10 px-4" data-purpose="main-footer">
+<div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 mb-20">
+<div>
+<h5 class="text-xs font-bold uppercase tracking-widest text-brand mb-6">Explore</h5>
+<ul class="text-gray-400 text-sm space-y-4">
+<li><a class="hover:text-white" href="#">Pricing</a></li>
+<li><a class="hover:text-white" href="#">Curriculum</a></li>
+<li><a class="hover:text-white" href="#">Community</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-xs font-bold uppercase tracking-widest text-brand mb-6">Company</h5>
+<ul class="text-gray-400 text-sm space-y-4">
+<li><a class="hover:text-white" href="#">About Us</a></li>
+<li><a class="hover:text-white" href="#">Our Founder</a></li>
+<li><a class="hover:text-white" href="#">Contact Us</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-xs font-bold uppercase tracking-widest text-brand mb-6">Important</h5>
+<ul class="text-gray-400 text-sm space-y-4">
+<li><a class="hover:text-white" href="#">Rules</a></li>
+<li><a class="hover:text-white" href="#">FAQ</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-xs font-bold uppercase tracking-widest text-brand mb-6">Follow Us</h5>
+<ul class="text-gray-400 text-sm space-y-4">
+<li class="flex items-center gap-2"><svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg> Facebook</li>
+<li class="flex items-center gap-2"><svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg> Instagram</li>
+<li class="flex items-center gap-2"><svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg> YouTube</li>
+</ul>
+</div>
+</div>
+<div class="text-center text-gray-600 text-[10px]">
+      © 2024 Quantara Alpha Enterprise, LLC. All Rights Reserved.
+    </div>
+</footer>
+<!-- END: Footer -->
+</body></html>

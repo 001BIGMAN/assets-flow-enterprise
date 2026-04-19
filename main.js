@@ -254,7 +254,6 @@ async function updateHeader(session) {
     document.querySelectorAll('.hide-when-logged-in').forEach(el => el.style.display = '');
     // Logged out structure
     navActions.innerHTML = `
-            <i class="fas fa-search search-icon"></i>
             <a href="auth.html#signup" id="btn-signup-main" class="btn-join">Sign up</a>
             <a href="auth.html" id="btn-login-main" class="btn-login">Log in</a>
         `;

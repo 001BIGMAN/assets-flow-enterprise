@@ -2,8 +2,8 @@
 
 :root {
   --bg-dark: #000000;
-  --accent-gold: #d4af37;
-  --accent-gold-glow: rgba(212, 175, 55, 0.15);
+  --accent-gold: #2563EB; /* New Brand Blue */
+  --accent-gold-glow: rgba(37, 99, 235, 0.15);
   --text-white: #ffffff;
   --text-gray: #a0a0a0;
   --font-main: "Inter", sans-serif;
@@ -59,7 +59,7 @@ header {
 .btn-dashboard,
 .btn-logout-nav {
   background: var(--accent-gold) !important;
-  color: #000 !important;
+  color: #fff !important;
   padding: 8px 15px;
   border-radius: 8px;
   font-weight: 700;
@@ -309,7 +309,7 @@ nav {
 
 .btn-join {
   background-color: var(--accent-gold);
-  color: #000;
+  color: #fff;
   padding: 0.6rem 1.4rem;
   border-radius: 8px;
   font-weight: 800;
@@ -325,7 +325,7 @@ nav {
 
 .btn-login {
   background-color: var(--accent-gold);
-  color: #000;
+  color: #fff;
   padding: 0.6rem 1.8rem;
   border-radius: 8px;
   font-weight: 800;
