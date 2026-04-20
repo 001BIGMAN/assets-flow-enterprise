@@ -681,12 +681,16 @@
     if (toggle && menu && close) {
         toggle.addEventListener('click', () => {
             menu.classList.remove('hidden');
+            menu.classList.add('flex');
             setTimeout(() => menu.classList.remove('translate-x-full'), 10);
         });
 
         const closeNav = () => {
             menu.classList.add('translate-x-full');
-            setTimeout(() => menu.classList.add('hidden'), 500);
+            setTimeout(() => {
+                menu.classList.add('hidden');
+                menu.classList.remove('flex');
+            }, 500);
         };
 
         close.addEventListener('click', closeNav);
