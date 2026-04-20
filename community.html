@@ -125,10 +125,14 @@
 <body>
     <nav class="fixed top-0 w-full z-50 bg-[#0b1c30]/80 backdrop-blur-xl shadow-sm border-b border-white/10">
         <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
-            <!-- Brand Logo -->
-            <div class="font-['Outfit'] text-2xl font-bold tracking-tighter text-[#f8f9ff]">
-                <a href="index.html">Founder</a>
+            <!-- Brand Logo & Mobile Toggle -->
+            <div class="flex items-center gap-4">
+                <div class="font-['Outfit'] text-2xl font-bold tracking-tighter text-[#f8f9ff]">
+                    <a href="index.html">Founder</a>
+                </div>
+                <a href="menu.html" class="md:hidden text-[#f8f9ff] text-xl hover:text-[#2563EB] transition-colors"><i class="fas fa-bars"></i></a>
             </div>
+            
             <!-- Desktop Links -->
             <div class="hidden md:flex items-center space-x-8 font-['Inter'] text-sm tracking-tight font-medium">
                 <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="index.html">Home</a>
@@ -137,8 +141,9 @@
                 <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="index.html#pricing">Pricing</a>
                 <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="founder.html">Founder</a>
             </div>
-            <!-- Actions -->
-            <div class="nav-actions flex items-center space-x-4">
+
+            <!-- Actions (Hidden on Mobile) -->
+            <div class="hidden md:flex nav-actions items-center space-x-4">
                 <a href="auth.html" id="btn-login-main" class="text-[#f8f9ff]/70 font-medium text-sm hover:text-[#2563EB] transition-all">Log in</a>
                 <a href="auth.html#signup" id="btn-signup-main" class="bg-[#2563EB] text-white px-5 py-2 rounded-full font-semibold text-sm active:scale-95 transition-transform">Sign up</a>
             </div>
