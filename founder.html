@@ -95,33 +95,51 @@
 </head>
 <body class="bg-[#0b1c30] text-[#f8f9ff] font-['Inter'] selection:bg-[#2563EB]/30">
 <!-- TopNavBar -->
-<nav class="fixed top-0 w-full z-50 bg-[#0b1c30]/80 backdrop-blur-xl shadow-sm border-b border-white/10">
-    <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
-        <!-- Brand Logo & Mobile Toggle -->
-        <div class="flex items-center gap-4">
-            <a href="index.html" class="flex items-center">
-                <img src="logo.png" alt="Quantara Alpha Enterprise Logo" class="h-16 md:h-20 w-auto object-contain bg-transparent">
-            </a>
-            <a href="menu.html" class="md:hidden text-[#f8f9ff] text-xl hover:text-[#2563EB] transition-colors"><i class="fas fa-bars"></i></a>
-        </div>
-        
-        <!-- Desktop Links -->
-        <div class="hidden md:flex items-center space-x-8 font-['Inter'] text-sm tracking-tight font-medium">
-            <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="index.html">Home</a>
-            <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="community.html">Community</a>
-            <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="staking.html">Staking Pool</a>
-            <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="index.html#pricing">Pricing</a>
-            <a class="text-[#2563EB] dark:text-[#3b82f6] font-semibold border-b-2 border-[#2563EB] pb-1" href="founder.html">Founder</a>
+    <nav id="main-nav" class="fixed top-0 w-full z-[2000] bg-transparent border-b border-transparent backdrop-blur-none transition-all duration-500">
+        <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="flex items-center">
+                    <img src="logo.png" alt="Quantara Alpha Logo" class="h-12 md:h-16 w-auto object-contain">
+                </a>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8 font-['Inter'] text-sm tracking-tight font-medium">
+                <a class="text-slate-400 hover:text-brand transition-all" href="index.html">Home</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="community.html">Community</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="staking.html">Staking Pool</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="about.html">About Us</a>
+                <a class="text-brand font-bold border-b-2 border-brand pb-1" href="founder.html">Founder</a>
+            </div>
+
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="auth.html" class="text-slate-400 font-['Inter'] font-medium text-sm hover:text-brand transition-all">Log in</a>
+                <a href="auth.html#signup" class="bg-brand text-white px-6 py-2.5 rounded-xl font-['Inter'] font-bold text-sm active:scale-95 transition-all shadow-lg shadow-brand/20">Sign up</a>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <button id="mobile-menu-toggle" class="md:hidden text-white p-2 focus:outline-none transition-transform active:scale-90">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
         </div>
 
-        <!-- Actions (Hidden on Mobile) -->
-        <div class="hidden md:flex nav-actions items-center space-x-4">
-            <a href="auth.html" id="btn-login-main" class="text-[#f8f9ff]/70 font-medium text-sm hover:text-[#2563EB] transition-all">Log in</a>
-            <a href="auth.html#signup" id="btn-signup-main" class="bg-[#2563EB] text-white px-5 py-2 rounded-full font-semibold text-sm active:scale-95 transition-transform">Sign up</a>
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-slate-950/98 z-[2001] hidden flex-col items-center justify-center p-10 backdrop-blur-2xl transition-all duration-500 translate-x-full">
+            <button id="close-mobile-menu" class="absolute top-10 right-10 text-white p-2">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="flex flex-col gap-8 text-center">
+                <a href="index.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Home</a>
+                <a href="community.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Community</a>
+                <a href="staking.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Staking Pool</a>
+                <a href="about.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">About Us</a>
+                <a href="founder.html" class="text-2xl font-black text-brand uppercase tracking-tighter">Founder</a>
+                <div class="pt-8 flex flex-col gap-4">
+                    <a href="auth.html" class="text-lg font-bold text-slate-400">Log in</a>
+                    <a href="auth.html#signup" class="bg-brand text-white px-10 py-3 rounded-xl font-bold uppercase text-xs">Sign up now</a>
+                </div>
+            </div>
         </div>
-        <div class="bg-[#1a2b3c] h-[1px] w-full absolute bottom-0 left-0"></div>
-    </div>
-</nav>
+    </nav>
 <main class="pt-32 pb-24 px-6 max-w-7xl mx-auto">
 <!-- Header Section -->
 <div class="text-center mb-24 relative">
@@ -135,67 +153,110 @@
                 Our diverse team of experts is dedicated to creating the most innovative decentralized ecosystem for the next generation of founders.
             </p>
 </div>
-<!-- Team Grid (Updated style based on Image 6 and Screen 23) -->
+<!-- Team Grid -->
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
-<!-- Member 1: Favour -->
-<div class="group flex flex-col items-center">
-<div class="relative mb-8 w-full aspect-[3/4] overflow-hidden border-2 border-gold-accent gold-glow-ring transition-transform duration-500 group-hover:scale-[1.02]">
-<img alt="Favour" class="w-full h-full object-cover filter grayscale" src="Favour (Founder).jpeg"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+    <!-- Member 1: Favour Davladi -->
+    <div class="group member-card p-6 rounded-[32px] flex flex-col items-center text-center">
+        <div class="relative mb-6 w-full aspect-[4/5] overflow-hidden rounded-2xl glass-panel p-2 border border-brand/50">
+            <img alt="Favour" class="w-full h-full object-cover filter grayscale transition-transform duration-700 group-hover:scale-105" src="Favour (Founder).jpeg">
+        </div>
+        <h3 class="text-white text-xl font-black mb-1 uppercase tracking-tight">Favour Davladi</h3>
+        <p class="text-brand font-black text-[10px] uppercase tracking-[0.2em] mb-4">CEO & Founder, Lead Division</p>
+    </div>
+    <!-- Member 2: Grace Field -->
+    <div class="group member-card p-6 rounded-[32px] flex flex-col items-center text-center">
+        <div class="relative mb-6 w-full aspect-[4/5] overflow-hidden rounded-2xl glass-panel p-2 border border-brand/50">
+            <img alt="Grace" class="w-full h-full object-cover object-top filter grayscale transition-transform duration-700 group-hover:scale-105" src="Grace.jpeg">
+        </div>
+        <h3 class="text-white text-xl font-black mb-1 uppercase tracking-tight">Grace Field</h3>
+        <p class="text-brand font-black text-[10px] uppercase tracking-[0.2em] mb-4">Head of Community</p>
+    </div>
+    <!-- Member 3: Jerry -->
+    <div class="group member-card p-6 rounded-[32px] flex flex-col items-center text-center">
+        <div class="relative mb-6 w-full aspect-[4/5] overflow-hidden rounded-2xl glass-panel p-2 border border-brand/50">
+            <img alt="Jerry" class="w-full h-full object-cover filter grayscale transition-transform duration-700 group-hover:scale-105" src="Jerry.jpeg">
+        </div>
+        <h3 class="text-white text-xl font-black mb-1 uppercase tracking-tight">Jerry</h3>
+        <p class="text-brand font-black text-[10px] uppercase tracking-[0.2em] mb-4">CTO & Lead Dev</p>
+    </div>
+    <!-- Member 4: Favour (Marketing) -->
+    <div class="group member-card p-6 rounded-[32px] flex flex-col items-center text-center">
+        <div class="relative mb-6 w-full aspect-[4/5] overflow-hidden rounded-2xl glass-panel p-2 border border-brand/50">
+            <img alt="Favour" class="w-full h-full object-cover filter grayscale transition-transform duration-700 group-hover:scale-105" src="Favour.jpeg">
+        </div>
+        <h3 class="text-white text-xl font-black mb-1 uppercase tracking-tight">Favour</h3>
+        <p class="text-brand font-black text-[10px] uppercase tracking-[0.2em] mb-4">Marketing Director</p>
+    </div>
 </div>
-<div class="text-center">
-<h3 class="font-['Outfit'] text-2xl font-bold mb-1 uppercase tracking-tight">Favour</h3>
-<p class="text-[#2563EB] font-semibold text-xs tracking-widest uppercase mb-4">CEO &amp; Founder</p>
-    <p class="text-[#f8f9ff]/70 text-sm leading-relaxed max-w-sm mx-auto">As the founder, Favour leads the overarching vision of Quantara Alpha. Dedicated to financial empowerment and strategic asset growth, Favour sets the standard for disciplined learning.</p>
+
+<!-- Individual Team Bios Section -->
+<div class="mt-40 space-y-40">
+    <!-- Bio 1: Favour Davladi -->
+    <div class="flex flex-col md:flex-row gap-16 items-center">
+        <div class="w-full md:w-5/12 aspect-[4/5] overflow-hidden rounded-[48px] glass-panel p-4 border border-brand/30">
+            <img src="Favour (Founder).jpeg" alt="Favour Davladi" class="w-full h-full object-cover rounded-[36px] filter grayscale">
+        </div>
+        <div class="flex-1">
+            <h2 class="text-brand font-black text-xs uppercase tracking-[0.4em] mb-6">CEO & Global Lead</h2>
+            <h3 class="text-5xl md:text-7xl font-black text-white mb-8 uppercase tracking-tighter leading-none">Favour <br> Davladi</h3>
+            <p class="text-slate-400 text-xl leading-relaxed font-medium">
+                As the executive visionary behind Quantara Alpha Enterprise, Favour Davladi spearheads the platform's strategic expansion and core asset management divisions. With a deep foundation in institutional market dynamics and decentralized architecture, he has successfully scaled the community into a powerhouse of elite traders and educated investors.
+            </p>
+        </div>
+    </div>
+
+    <!-- Bio 2: Grace Field -->
+    <div class="flex flex-col md:flex-row-reverse gap-16 items-center">
+        <div class="w-full md:w-5/12 aspect-[4/5] overflow-hidden rounded-[48px] glass-panel p-4 border border-brand/30">
+            <img src="Grace.jpeg" alt="Grace Field" class="w-full h-full object-cover rounded-[36px] filter grayscale">
+        </div>
+        <div class="flex-1">
+            <h2 class="text-brand font-black text-xs uppercase tracking-[0.4em] mb-6">Head of Community</h2>
+            <h3 class="text-5xl md:text-7xl font-black text-white mb-8 uppercase tracking-tighter leading-none">Grace <br> Field</h3>
+            <p class="text-slate-400 text-xl leading-relaxed font-medium">
+                Grace Field orchestrates the human element of Quantara Alpha. Her leadership ensures that the enterprise remains a supportive, high-performance ecosystem for all members. By bridging technical education with actionable support, she empowers thousands of individuals to transition from beginners to confident market participants.
+            </p>
+        </div>
+    </div>
+
+    <!-- Bio 3: Jerry -->
+    <div class="flex flex-col md:flex-row gap-16 items-center">
+        <div class="w-full md:w-5/12 aspect-[4/5] overflow-hidden rounded-[48px] glass-panel p-4 border border-brand/30">
+            <img src="Jerry.jpeg" alt="Jerry" class="w-full h-full object-cover rounded-[36px] filter grayscale">
+        </div>
+        <div class="flex-1">
+            <h2 class="text-brand font-black text-xs uppercase tracking-[0.4em] mb-6">CTO & Lead Dev</h2>
+            <h3 class="text-5xl md:text-7xl font-black text-white mb-8 uppercase tracking-tighter leading-none">Jerry</h3>
+            <p class="text-slate-400 text-xl leading-relaxed font-medium">
+                Jerry leads the technical frontier of Quantara Alpha, overseeing the architecture of our digital ecosystem. His focus on security, scalability, and seamless user experience drives the platform's technical core, ensuring that our community interacts with state-of-the-art decentralized tools and interfaces.
+            </p>
+        </div>
+    </div>
+
+    <!-- Bio 4: Favour (Marketing) -->
+    <div class="flex flex-col md:flex-row-reverse gap-16 items-center">
+        <div class="w-full md:w-5/12 aspect-[4/5] overflow-hidden rounded-[48px] glass-panel p-4 border border-brand/30">
+            <img src="Favour.jpeg" alt="Favour" class="w-full h-full object-cover rounded-[36px] filter grayscale">
+        </div>
+        <div class="flex-1">
+            <h2 class="text-brand font-black text-xs uppercase tracking-[0.4em] mb-6">Marketing Director</h2>
+            <h3 class="text-5xl md:text-7xl font-black text-white mb-8 uppercase tracking-tighter leading-none">Favour</h3>
+            <p class="text-slate-400 text-xl leading-relaxed font-medium">
+                Strategy and brand perception are managed by Favour, our Marketing Director. He is responsible for the platform's global outreach and the precision of our market presence. Through data-driven insights and creative storytelling, he ensures the Quantara Alpha brand remains synonymous with premium education and financial growth.
+            </p>
+        </div>
+    </div>
 </div>
-</div>
-<!-- Member 2: Gracefilled -->
-<div class="group flex flex-col items-center">
-<div class="relative mb-8 w-full aspect-[3/4] overflow-hidden border-2 border-gold-accent gold-glow-ring transition-transform duration-500 group-hover:scale-[1.02]">
-<img alt="Gracefilled" class="w-full h-full object-cover filter grayscale" src="Grace.jpeg"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-</div>
-<div class="text-center">
-<h3 class="font-['Outfit'] text-2xl font-bold mb-1 uppercase tracking-tight">Gracefilled</h3>
-<p class="text-[#2563EB] font-semibold text-xs tracking-widest uppercase mb-4">Head of Community</p>
-    <p class="text-[#f8f9ff]/70 text-sm leading-relaxed max-w-sm mx-auto">Gracefilled plays a pivotal role in the operations and growth strategy at Quantara Alpha Enterprise. She ensures that the entire learning ecosystem remains efficient, supportive, and completely focused on student success.</p>
-</div>
-</div>
-<!-- Member 3: Jerry -->
-<div class="group flex flex-col items-center">
-<div class="relative mb-8 w-full aspect-[3/4] overflow-hidden border-2 border-gold-accent gold-glow-ring transition-transform duration-500 group-hover:scale-[1.02]">
-<img alt="Jerry" class="w-full h-full object-cover filter grayscale" src="Jerry.jpeg"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-</div>
-<div class="text-center">
-<h3 class="font-['Outfit'] text-2xl font-bold mb-1 uppercase tracking-tight">Jerry</h3>
-<p class="text-[#2563EB] font-semibold text-xs tracking-widest uppercase mb-4">CTO &amp; Lead Dev</p>
-    <p class="text-[#f8f9ff]/70 text-sm leading-relaxed max-w-sm mx-auto">Jerry is instrumental in shaping our community strategy and ecosystem development. He coordinates our growing network of members and ensures each individual has access to the resources needed to excel.</p>
-</div>
-</div>
-<!-- Member 4: Favour (Marketing) -->
-<div class="group flex flex-col items-center">
-<div class="relative mb-8 w-full aspect-[3/4] overflow-hidden border-2 border-gold-accent gold-glow-ring transition-transform duration-500 group-hover:scale-[1.02]">
-<img alt="Favour" class="w-full h-full object-cover filter grayscale" src="Favour.jpeg"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-</div>
-<div class="text-center">
-<h3 class="font-['Outfit'] text-2xl font-bold mb-1 uppercase tracking-tight">Favour</h3>
-<p class="text-[#2563EB] font-semibold text-xs tracking-widest uppercase mb-4">Marketing Director</p>
-    <p class="text-[#f8f9ff]/70 text-sm leading-relaxed max-w-sm mx-auto">Favour brings extensive financial expertise and immense dedication to the Quantara Alpha mission. Working alongside the team, she meticulously tracks market trends to provide deep, actionable insights to our traders.</p>
-</div>
-</div>
-</div>
-<!-- Descriptive Text Sections -->
+<!-- Narrative Sections -->
 <div class="mt-40 grid md:grid-cols-2 gap-16">
-<div class="border-l-4 border-[#2563EB] pl-8 py-4">
-<h4 class="font-['Outfit'] text-3xl font-black mb-4 uppercase tracking-tighter">OUR VISION</h4>
+<div class="border-l-4 border-brand pl-8 py-4">
+<h4 class="font-['Outfit'] text-3xl font-black mb-4 uppercase tracking-tighter">OUR MISSION</h4>
 <p class="text-[#f8f9ff]/70 leading-relaxed">
                     We aim to democratize the founding process, providing every individual with the tools, community, and capital needed to turn bold ideas into global realities. Our platform serves as the bedrock for the next generation of decentralized businesses.
                 </p>
 </div>
-<div class="border-l-4 border-[#2563EB] pl-8 py-4">
-<h4 class="font-['Outfit'] text-3xl font-black mb-4 uppercase tracking-tighter">OUR CULTURE</h4>
+<div class="border-l-4 border-brand pl-8 py-4">
+<h4 class="font-['Outfit'] text-3xl font-black mb-4 uppercase tracking-tighter">OUR VISION</h4>
 <p class="text-[#f8f9ff]/70 leading-relaxed">
                     Integrity, innovation, and inclusivity are not just words—they are our operating system. We foster an environment where technical excellence meets creative freedom, ensuring that every voice in our ecosystem is heard and valued.
                 </p>
@@ -244,6 +305,41 @@
 <!-- END: Footer -->
 
 <!-- Supabase and Auth Logic -->
+<script src="security.js"></script>
+<script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // Navigation Scroll Logic
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('main-nav');
+        if (window.scrollY > 20) {
+            nav.classList.add('bg-slate-950/95', 'backdrop-blur-2xl', 'py-2', 'border-white/10');
+            nav.classList.remove('bg-transparent', 'backdrop-blur-none');
+        } else {
+            nav.classList.remove('bg-slate-950/95', 'backdrop-blur-2xl', 'py-2', 'border-white/10');
+            nav.classList.add('bg-transparent', 'backdrop-blur-none');
+        }
+    });
+
+    // Mobile Menu Logic
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const close = document.getElementById('close-mobile-menu');
+
+    if (toggle && menu && close) {
+        toggle.addEventListener('click', () => {
+            menu.classList.remove('hidden');
+            setTimeout(() => menu.classList.remove('translate-x-full'), 10);
+        });
+
+        const closeNav = () => {
+            menu.classList.add('translate-x-full');
+            setTimeout(() => menu.classList.add('hidden'), 500);
+        };
+
+        close.addEventListener('click', closeNav);
+        menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav));
+    }
+</script>
 <script src="main.js" defer></script>
 </body></html>

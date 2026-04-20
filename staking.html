@@ -1,332 +1,282 @@
-<!DOCTYPE html><html class="light" lang="en"><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Quantara Alpha | Staking Pool</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Outfit:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<script id="tailwind-config">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Staking Pool | Quantara Alpha Enterprise</title>
+    
+    <!-- Tailwind CSS v3 CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
         tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "tertiary-fixed-dim": "#bcc7de",
-                        "on-error-container": "#93000a",
-                        "surface-container-highest": "#d3e4fe",
-                        "on-surface-variant": "#434655",
-                        "on-primary-fixed-variant": "#003ea8",
-                        "on-background": "#0b1c30",
-                        "primary-fixed": "#dbe1ff",
-                        "on-tertiary-container": "#ecf1ff",
-                        "error-container": "#ffdad6",
-                        "on-secondary": "#ffffff",
-                        "tertiary": "#4b566a",
-                        "inverse-on-surface": "#eaf1ff",
-                        "background": "#f8f9ff",
-                        "on-tertiary": "#ffffff",
-                        "on-primary-container": "#eeefff",
-                        "primary-container": "#2563eb",
-                        "on-error": "#ffffff",
-                        "secondary-container": "#fed65b",
-                        "error": "#ba1a1a",
-                        "primary-fixed-dim": "#b4c5ff",
-                        "inverse-primary": "#b4c5ff",
-                        "surface-container-low": "#eff4ff",
-                        "tertiary-fixed": "#d8e3fb",
-                        "secondary-fixed": "#ffe088",
-                        "surface-variant": "#d3e4fe",
-                        "surface-container": "#e5eeff",
-                        "secondary": "#735c00",
-                        "on-surface": "#0b1c30",
-                        "surface-dim": "#cbdbf5",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-container-high": "#dce9ff",
-                        "on-tertiary-fixed": "#111c2d",
-                        "tertiary-container": "#636e83",
-                        "surface-bright": "#f8f9ff",
-                        "secondary-fixed-dim": "#e9c349",
-                        "outline": "#737686",
-                        "surface": "#f8f9ff",
-                        "outline-variant": "#c3c6d7",
-                        "surface-tint": "#0053db",
-                        "on-tertiary-fixed-variant": "#3c475a",
-                        "inverse-surface": "#213145",
-                        "on-primary": "#ffffff",
-                        "on-secondary-container": "#745c00",
-                        "on-secondary-fixed-variant": "#574500",
-                        "on-secondary-fixed": "#241a00",
-                        "on-primary-fixed": "#00174b",
-                        "primary": "#004ac6"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
-                    },
-                    "fontFamily": {
-                        "headline": ["Outfit", "sans-serif"],
-                        "body": ["Inter", "sans-serif"],
-                        "label": ["Inter", "sans-serif"]
-                    }
+          theme: {
+            extend: {
+              colors: {
+                brand: {
+                  DEFAULT: '#0066FF',
+                  dark: '#0052CC',
+                  light: '#3385FF',
+                  glow: 'rgba(0, 102, 255, 0.4)'
                 },
-            },
+                accent: {
+                  DEFAULT: '#FFD700',
+                  glow: 'rgba(255, 215, 0, 0.3)'
+                }
+              }
+            }
+          }
         }
     </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            vertical-align: middle;
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <style data-purpose="premium-design-system">
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
         }
-        .editorial-gradient {
-            background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .staking-card {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .staking-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 102, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 102, 255, 0.2);
+        }
+        nav { transition: all 0.4s ease; }
     </style>
-    <link href="style.css" rel="stylesheet">
 </head>
-<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
-<!-- TopNavBar -->
-<nav class="fixed top-0 w-full z-50 bg-[#0b1c30]/80 backdrop-blur-xl shadow-sm border-b border-white/10">
-    <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
-        <!-- Brand Logo & Mobile Toggle -->
-        <div class="flex items-center gap-4">
-            <a href="index.html" class="flex items-center">
-                <img src="logo.png" alt="Quantara Alpha Enterprise Logo" class="h-16 md:h-20 w-auto object-contain bg-transparent">
-            </a>
-            <a href="menu.html" class="md:hidden text-[#f8f9ff] text-xl hover:text-[#2563EB] transition-colors"><i class="fas fa-bars"></i></a>
-        </div>
-        
-        <!-- Desktop Links -->
-        <div class="hidden md:flex items-center space-x-8 font-['Inter'] text-sm tracking-tight font-medium">
-            <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="index.html">Home</a>
-            <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="community.html">Community</a>
-            <a class="text-[#2563EB] dark:text-[#3b82f6] font-semibold border-b-2 border-[#2563EB] pb-1" href="staking.html">Staking Pool</a>
-            <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="index.html#pricing">Pricing</a>
-            <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="founder.html">Founder</a>
+<body class="antialiased overflow-x-hidden">
+
+    <!-- Universal Navigation -->
+    <nav id="main-nav" class="fixed top-0 w-full z-[2000] bg-transparent border-b border-transparent backdrop-blur-none transition-all duration-500">
+        <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="flex items-center">
+                    <img src="logo.png" alt="Quantara Alpha Logo" class="h-12 md:h-16 w-auto object-contain">
+                </a>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8 font-['Inter'] text-sm tracking-tight font-medium">
+                <a class="text-slate-400 hover:text-brand transition-all" href="index.html">Home</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="community.html">Community</a>
+                <a class="text-brand font-bold border-b-2 border-brand pb-1" href="staking.html">Staking Pool</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="about.html">About Us</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="founder.html">Founder</a>
+            </div>
+
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="auth.html" class="text-slate-400 font-['Inter'] font-medium text-sm hover:text-brand transition-all">Log in</a>
+                <a href="auth.html#signup" class="bg-brand text-white px-6 py-2.5 rounded-xl font-['Inter'] font-bold text-sm active:scale-95 transition-all shadow-lg shadow-brand/20">Sign up</a>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <button id="mobile-menu-toggle" class="md:hidden text-white p-2 focus:outline-none transition-transform active:scale-90">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
         </div>
 
-        <!-- Actions (Hidden on Mobile) -->
-        <div class="hidden md:flex nav-actions items-center space-x-4">
-            <a href="auth.html" id="btn-login-main" class="text-[#f8f9ff]/70 font-medium text-sm hover:text-[#2563EB] transition-all">Log in</a>
-            <a href="auth.html#signup" id="btn-signup-main" class="bg-[#2563EB] text-white px-5 py-2 rounded-full font-semibold text-sm active:scale-95 transition-transform">Sign up</a>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-slate-950/98 z-[2001] hidden flex-col items-center justify-center p-10 backdrop-blur-2xl transition-all duration-500 translate-x-full">
+            <button id="close-mobile-menu" class="absolute top-10 right-10 text-white p-2">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="flex flex-col gap-8 text-center">
+                <a href="index.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Home</a>
+                <a href="community.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Community</a>
+                <a href="staking.html" class="text-2xl font-black text-brand uppercase tracking-tighter">Staking Pool</a>
+                <a href="about.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">About Us</a>
+                <a href="founder.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Founder</a>
+                <div class="pt-8 flex flex-col gap-4">
+                    <a href="auth.html" class="text-lg font-bold text-slate-400">Log in</a>
+                    <a href="auth.html#signup" class="bg-brand text-white px-10 py-3 rounded-xl font-bold uppercase text-xs">Sign up now</a>
+                </div>
+            </div>
         </div>
-        <div class="bg-[#1a2b3c] h-[1px] w-full absolute bottom-0 left-0"></div>
-    </div>
-</nav>
-<main class="pt-24 pb-20">
-<!-- Hero Section -->
-<section class="max-w-7xl mx-auto px-6 py-12 md:py-20 text-center">
-<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-highest rounded-full mb-6">
-<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: &quot;FILL&quot; 1;">verified</span>
-<span class="text-xs font-bold tracking-widest text-on-surface-variant uppercase font-label">Verified Pool</span>
-</div>
-<h1 class="font-headline text-5xl md:text-7xl font-extrabold tracking-tighter text-on-background mb-6 leading-none">
-                Quantara Alpha Enterprise <br>
-<span class="text-primary">Staking Pool</span>
-</h1>
-<p class="max-w-2xl mx-auto text-on-surface-variant text-lg md:text-xl leading-relaxed mb-12">
-                Secure your digital assets with high-yield architectural staking. Optimized for the modern investor seeking stability and growth.
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-7xl mx-auto text-center">
+        <!-- Hero Section -->
+        <div class="mb-20">
+            <h2 class="text-brand font-black text-xs uppercase tracking-[0.3em] mb-4">Architectural Yield</h2>
+            <h1 class="text-5xl md:text-8xl font-black text-gradient uppercase tracking-tighter leading-none mb-8">
+                Staking <br> Ecosystem
+            </h1>
+            <p class="max-w-2xl mx-auto text-slate-400 text-lg md:text-xl">
+                Secure your digital assets with high-yield architectural staking. Optimized for the modern investor seeking stability and exponential growth.
             </p>
-</section>
-<!-- Staking Cards Grid -->
-<section class="max-w-6xl mx-auto px-6">
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch relative">
-<!-- 1 Month Plan -->
-<div class="group relative bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/15 hover:shadow-2xl transition-all duration-500 flex flex-col">
-<div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
-<span class="material-symbols-outlined text-9xl text-primary">schedule</span>
-</div>
-<div class="p-8 md:p-10 flex flex-col h-full">
-<div class="flex justify-between items-start mb-8">
-<div>
-<h3 class="font-headline text-3xl font-bold mb-2">1 Month</h3>
-<div class="h-1 w-12 bg-primary rounded-full"></div>
-</div>
-<span class="bg-secondary-fixed text-on-secondary-fixed px-3 py-1 rounded-full text-xs font-bold font-label uppercase tracking-widest">Low Risk</span>
-</div>
-<div class="space-y-6 mb-10 flex-grow">
-<div class="flex items-baseline gap-2">
-<span class="text-4xl font-headline font-black text-on-background">25%</span>
-<span class="text-on-surface-variant font-medium">Total Return</span>
-</div>
-<ul class="space-y-4">
-<li class="flex items-center gap-3 text-on-surface-variant">
-<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
-<span>Withdraw your initial seed anytime</span>
-</li>
-<li class="flex items-center gap-3 text-on-surface-variant">
-<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
-<span>Interest accrued daily</span>
-</li>
-<li class="flex items-center gap-3 text-on-surface-variant">
-<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
-<span>Instant automated processing</span>
-</li>
-</ul>
-</div>
-<div class="bg-surface-container-low rounded-xl p-6 mb-8">
-<div class="flex justify-between items-center text-sm font-medium">
-<span class="text-on-surface-variant">Min Amount</span>
-<span class="text-on-surface font-bold">N50,000</span>
-</div>
-<div class="h-[1px] bg-outline-variant/20 my-4"></div>
-<div class="flex justify-between items-center text-sm font-medium">
-<span class="text-on-surface-variant">Max Amount</span>
-<span class="text-on-surface font-bold">N500,000</span>
-</div>
-</div>
-<button class="w-full editorial-gradient text-on-primary font-headline font-bold py-4 rounded-full active:scale-95 transition-transform shadow-lg shadow-primary/20">
-                            Stake Now
-                        </button>
-</div>
-</div>
-<!-- 2 Months Plan -->
-<div class="group relative bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/15 hover:shadow-2xl transition-all duration-500 flex flex-col">
-<div class="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
-<span class="material-symbols-outlined text-9xl text-primary">analytics</span>
-</div>
-<div class="p-8 md:p-10 flex flex-col h-full">
-<div class="flex justify-between items-start mb-8">
-<div>
-<h3 class="font-headline text-3xl font-bold mb-2">2 Months</h3>
-<div class="h-1 w-12 bg-primary rounded-full"></div>
-</div>
-<span class="bg-primary text-on-primary px-3 py-1 rounded-full text-xs font-bold font-label uppercase tracking-widest">Best Value</span>
-</div>
-<div class="space-y-6 mb-10 flex-grow">
-<div class="flex items-baseline gap-2">
-<span class="text-4xl font-headline font-black text-on-background">50%</span>
-<span class="text-on-surface-variant font-medium">Total Return</span>
-</div>
-<ul class="space-y-4">
-<li class="flex items-center gap-3 text-on-surface-variant">
-<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
-<span>Interest paid at maturity</span>
-</li>
-<li class="flex items-center gap-3 text-on-surface-variant">
-<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
-<span>Compound earnings eligible</span>
-</li>
-<li class="flex items-center gap-3 text-on-surface-variant">
-<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
-<span>Priority support access</span>
-</li>
-</ul>
-</div>
-<div class="bg-surface-container-low rounded-xl p-6 mb-8">
-<div class="flex justify-between items-center text-sm font-medium">
-<span class="text-on-surface-variant">Min Amount</span>
-<span class="text-on-surface font-bold">N50,000</span>
-</div>
-<div class="h-[1px] bg-outline-variant/20 my-4"></div>
-<div class="flex justify-between items-center text-sm font-medium">
-<span class="text-on-surface-variant">Max Amount</span>
-<span class="text-on-surface font-bold">N500,000</span>
-</div>
-</div>
-<button class="w-full editorial-gradient text-on-primary font-headline font-bold py-4 rounded-full active:scale-95 transition-transform shadow-lg shadow-primary/20">
-                            Stake Now
-                        </button>
-</div>
-</div>
-<!-- OR Divider -->
-<div class="col-span-full flex items-center justify-center py-12">
-<div class="h-[1px] flex-grow bg-outline-variant/20"></div>
-<span class="px-6 font-headline font-black text-2xl text-on-surface-variant/40">OR</span>
-<div class="h-[1px] flex-grow bg-outline-variant/20"></div>
-</div>
-<!-- Challenge Card -->
-<div class="col-span-full group bg-[#0b1c30] rounded-2xl overflow-hidden relative border border-white/5 shadow-2xl">
-<div class="absolute inset-0 opacity-20 pointer-events-none">
-<img class="w-full h-full object-cover" data-alt="abstract glowing technological blue network lines with futuristic dark background and architectural depth" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkd3Cs3z2gUvfOyND_LF3HMF2RWv9RYNhv-Qs_97wFMMgUc3s4NPAaTrUecVGKEr_vtjb7JQCBAEAo8YUEad0lLr-UUnZ5kvreG2jiz3l6xIrXjvcdGqtyK70NSKQVAy07TyrwZQ5bjN23zLM6MxzH1V0ghGbH9G0x2JmTbmI0tHeLJwhsZ2vrmLptZ3axXIASyB69_Fg1QkFsrp1zpR3zHcbuXyxV33lKtZOzv34urV1mpPz6RxOoOHHmdkrzj0IOWfRJa0uegFlR">
-</div>
-<div class="relative z-10 p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
-<div class="flex-grow text-center md:text-left">
-<div class="inline-block bg-primary px-4 py-1 rounded-full mb-6">
-<span class="text-xs font-bold tracking-widest text-white uppercase font-label">The Elite Circle Challenge</span>
-</div>
-<h2 class="font-headline text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
-                                50K <span class="text-primary">→</span> 70K Challenge
-                            </h2>
-<p class="text-blue-100/70 text-lg leading-relaxed max-w-xl mb-8">
-                                A high-intensity staking marathon for the focused investor. Reach your milestones with accelerated returns and institutional-grade security.
-                            </p>
-<div class="flex flex-wrap gap-4 justify-center md:justify-start">
-<div class="bg-white/5 backdrop-blur px-6 py-4 rounded-xl border border-white/10">
-<div class="text-xs text-blue-200/50 uppercase tracking-widest font-bold mb-1">Status</div>
-<div class="text-white font-bold">Open for Enrollment</div>
-</div>
-<div class="bg-white/5 backdrop-blur px-6 py-4 rounded-xl border border-white/10">
-<div class="text-xs text-blue-200/50 uppercase tracking-widest font-bold mb-1">Capacity</div>
-<div class="text-white font-bold">Limited Slots</div>
-</div>
-</div>
-</div>
-<div class="flex-shrink-0 w-full md:w-auto">
-<button class="w-full md:w-72 editorial-gradient text-on-primary font-headline font-bold py-6 px-10 rounded-full active:scale-95 transition-transform text-xl shadow-2xl shadow-primary/40">
-                                Join Challenge
-                            </button>
-</div>
-</div>
-</div>
-</div>
-</section>
-</main>
-<!-- Footer -->
-<footer class="w-full py-16 px-8 border-t border-transparent bg-[#f8f9ff]">
-<div class="bg-gradient-to-r from-transparent via-[#eff4ff] to-transparent h-[1px] mb-12"></div>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-7xl mx-auto">
-<div>
-<div class="font-['Outfit'] text-xl font-black text-[#0b1c30] mb-6">Quantara Alpha</div>
-<p class="font-['Inter'] text-sm leading-relaxed text-[#0b1c30]/60 mb-6">Building the next generation of financial infrastructure through architectural precision.</p>
-<div class="flex gap-4">
-<span class="material-symbols-outlined text-[#0b1c30]/40 cursor-pointer hover:text-primary transition-colors">public</span>
-<span class="material-symbols-outlined text-[#0b1c30]/40 cursor-pointer hover:text-primary transition-colors">hub</span>
-<span class="material-symbols-outlined text-[#0b1c30]/40 cursor-pointer hover:text-primary transition-colors">terminal</span>
-</div>
-</div>
-<!-- BEGIN: Footer -->
-<footer class="bg-black pt-20 pb-10 border-t border-white/10 px-4" data-purpose="main-footer">
-    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 mb-20">
-        <div>
-            <h5 class="text-xs font-bold uppercase tracking-widest text-brand mb-6">Explore</h5>
-            <ul class="text-gray-400 text-sm space-y-4">
-                <li><a class="hover:text-white" href="index.html#pricing">Pricing</a></li>
-                <li><a class="hover:text-white" href="index.html#curriculum">Curriculum</a></li>
-                <li><a class="hover:text-white" href="community.html">Community</a></li>
-            </ul>
         </div>
-        <div>
-            <h5 class="text-xs font-bold uppercase tracking-widest text-brand mb-6">Company</h5>
-            <ul class="text-gray-400 text-sm space-y-4">
-                <li><a class="hover:text-white" href="about.html">About Us</a></li>
-                <li><a class="hover:text-white" href="founder.html">Our Founder</a></li>
-                <li><a class="hover:text-white" href="https://wa.link/pf3fok" target="_blank">Contact Us</a></li>
-            </ul>
-        </div>
-        <div>
-            <h5 class="text-xs font-bold uppercase tracking-widest text-brand mb-6">Important</h5>
-            <ul class="text-gray-400 text-sm space-y-4">
-                <li><a class="hover:text-white" href="rules.html">Rules</a></li>
-                <li><a class="hover:text-white" href="faq.html">FAQ</a></li>
-            </ul>
-        </div>
-        <div>
-            <h5 class="text-xs font-bold uppercase tracking-widest text-brand mb-6">Follow Us</h5>
-            <ul class="text-gray-400 text-sm space-y-4">
-                <li class="flex items-center gap-2"><svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg> Facebook</li>
-                <li class="flex items-center gap-2"><svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg> Instagram</li>
-                <li class="flex items-center gap-2"><svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg> YouTube</li>
-            </ul>
-        </div>
-    </div>
-    <div class="text-center text-gray-600 text-[10px]">
-        © 2026 Quantara Alpha Enterprise, LLC. All Rights Reserved.
-    </div>
-</footer>
-<!-- END: Footer -->
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <!-- Staking Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto mb-24">
+            <!-- 1 Month Plan -->
+            <div class="staking-card p-10 rounded-[40px] text-left relative group overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-brand/5 rounded-full blur-3xl group-hover:bg-brand/10 transition-all"></div>
+                <div class="flex justify-between items-start mb-12">
+                    <div>
+                        <h3 class="text-white font-black text-3xl uppercase tracking-tighter mb-2">1 Month</h3>
+                        <div class="w-12 h-1 bg-brand rounded-full"></div>
+                    </div>
+                    
+                </div>
+                <div class="mb-10">
+                    <div class="flex items-baseline gap-2 mb-8">
+                        <span class="text-5xl font-black text-white">25%</span>
+                        <span class="text-slate-500 font-bold uppercase tracking-widest text-xs">Total ROI</span>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-3 text-slate-400 text-sm"><i class="fas fa-check-circle text-brand"></i> Daily interest accrual</li>
+                        <li class="flex items-center gap-3 text-slate-400 text-sm"><i class="fas fa-check-circle text-brand"></i> Emergency withdrawal access</li>
+                        <li class="flex items-center gap-3 text-slate-400 text-sm"><i class="fas fa-check-circle text-brand"></i> Automated monthly payout</li>
+                    </ul>
+                </div>
+                <div class="bg-white/[0.02] rounded-3xl p-6 border border-white/5 mb-8">
+                    <div class="flex justify-between text-xs font-bold items-center">
+                        <span class="text-slate-500">Min Amount</span>
+                        <span class="text-white">N50,000</span>
+                    </div>
+                    <div class="h-px bg-white/5 my-4"></div>
+                    <div class="flex justify-between text-xs font-bold items-center">
+                        <span class="text-slate-500">Max Amount</span>
+                        <span class="text-white">N500,000</span>
+                    </div>
+                </div>
+                <a href="auth.html" class="block w-full bg-brand hover:bg-brand-dark text-center py-5 rounded-2xl text-white font-black uppercase tracking-widest text-sm shadow-xl shadow-brand/20 active:scale-[0.98] transition-all">Start Staking</a>
+            </div>
+
+            <!-- 2 Month Plan -->
+            <div class="staking-card p-10 rounded-[40px] text-left relative group overflow-hidden border-brand/20">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-brand/10 rounded-full blur-3xl group-hover:bg-brand/20 transition-all"></div>
+                <div class="flex justify-between items-start mb-12">
+                    <div>
+                        <h3 class="text-white font-black text-3xl uppercase tracking-tighter mb-2">2 Months</h3>
+                        <div class="w-12 h-1 bg-brand rounded-full text-gradient-brand"></div>
+                    </div>
+                    
+                </div>
+                <div class="mb-10">
+                    <div class="flex items-baseline gap-2 mb-8">
+                        <span class="text-5xl font-black text-white">50%</span>
+                        <span class="text-slate-500 font-bold uppercase tracking-widest text-xs">Total ROI</span>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-3 text-slate-400 text-sm"><i class="fas fa-check-circle text-brand"></i> Compounded yield eligibility</li>
+                        <li class="flex items-center gap-3 text-slate-400 text-sm"><i class="fas fa-check-circle text-brand"></i> Priority support network</li>
+                        <li class="flex items-center gap-3 text-slate-400 text-sm"><i class="fas fa-check-circle text-brand"></i> Maturity bonus features</li>
+                    </ul>
+                </div>
+                <div class="bg-white/[0.02] rounded-3xl p-6 border border-white/5 mb-8">
+                    <div class="flex justify-between text-xs font-bold items-center">
+                        <span class="text-slate-500">Min Amount</span>
+                        <span class="text-white">N50,000</span>
+                    </div>
+                    <div class="h-px bg-white/5 my-4"></div>
+                    <div class="flex justify-between text-xs font-bold items-center">
+                        <span class="text-slate-500">Max Amount</span>
+                        <span class="text-white">N500,000</span>
+                    </div>
+                </div>
+                <a href="auth.html" class="block w-full bg-brand hover:bg-brand-dark text-center py-5 rounded-2xl text-white font-black uppercase tracking-widest text-sm shadow-xl shadow-brand/20 active:scale-[0.98] transition-all">Start Staking</a>
+            </div>
+        </div>
+
+        <!-- Or Divider -->
+        <div class="flex items-center gap-8 max-w-lg mx-auto mb-20 opacity-30">
+            <div class="h-px flex-1 bg-gradient-to-r from-transparent to-white"></div>
+            <span class="font-black text-white italic">OR</span>
+            <div class="h-px flex-1 bg-gradient-to-l from-transparent to-white"></div>
+        </div>
+
+        <!-- Challenge Section -->
+        <section class="max-w-4xl mx-auto bg-gradient-to-br from-brand/10 to-brand-dark/5 p-12 md:p-20 rounded-[48px] border border-brand/20 relative overflow-hidden text-left mb-24">
+            <div class="relative z-10">
+                
+                <h2 class="text-4xl md:text-6xl font-black text-white mb-8 leading-tight tracking-tighter uppercase">50K <span class="text-brand">→</span> 70K <br>Challenge</h2>
+                <p class="text-slate-400 text-lg mb-12 max-w-xl">
+                    Our flagship accelerated growth program. Join a high-velocity staking circle designed to hit clear milestones with institutional-grade security.
+                </p>
+                <div class="flex flex-wrap gap-8 items-center">
+                    <a href="auth.html" class="bg-white text-slate-950 px-12 py-5 rounded-2xl font-black uppercase tracking-widest text-sm hover:scale-105 transition-all shadow-2xl">Join Challenge</a>
+                    <div class="flex gap-4">
+                        <div class="bg-white/5 p-3 rounded-xl border border-white/10">
+                            <span class="block text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Status</span>
+                            <span class="text-xs font-bold text-white uppercase">Live</span>
+                        </div>
+                        <div class="bg-white/5 p-3 rounded-xl border border-white/10">
+                            <span class="block text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">Slots</span>
+                            <span class="text-xs font-bold text-white uppercase">Open</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Decorative Elements -->
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 bg-brand/10 rounded-full blur-3xl"></div>
+        </section>
+    </main>
+
+    <!-- Unified Footer -->
+    <footer class="bg-slate-950 py-16 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center gap-4">
+                <img src="logo.png" alt="Logo" class="h-12 w-auto grayscale opacity-50">
+                <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest">&copy; 2026 Quantara Alpha Enterprise. All Rights Reserved.</p>
+            </div>
+            <div class="flex gap-6">
+                <a href="rules.html" class="text-slate-500 hover:text-white text-[10px] font-black uppercase tracking-widest transition-all">Rules</a>
+                <a href="faq.html" class="text-slate-500 hover:text-white text-[10px] font-black uppercase tracking-widest transition-all">FAQ</a>
+                <a href="https://wa.link/pf3fok" target="_blank" class="text-brand hover:text-brand-light text-[10px] font-black uppercase tracking-widest transition-all">Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // Navigation Scroll Logic
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('main-nav');
+        if (window.scrollY > 20) {
+            nav.classList.add('bg-slate-950/98', 'backdrop-blur-2xl', 'py-2', 'border-white/10');
+            nav.classList.remove('bg-transparent', 'backdrop-blur-none');
+        } else {
+            nav.classList.remove('bg-slate-950/98', 'backdrop-blur-2xl', 'py-2', 'border-white/10');
+            nav.classList.add('bg-transparent', 'backdrop-blur-none');
+        }
+    });
+
+    // Mobile Menu Logic
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const close = document.getElementById('close-mobile-menu');
+
+    if (toggle && menu && close) {
+        toggle.addEventListener('click', () => {
+            menu.classList.remove('hidden');
+            setTimeout(() => menu.classList.remove('translate-x-full'), 10);
+        });
+
+        const closeNav = () => {
+            menu.classList.add('translate-x-full');
+            setTimeout(() => menu.classList.add('hidden'), 500);
+        };
+
+        close.addEventListener('click', closeNav);
+        menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav));
+    }
+</script>
 <script src="main.js" defer></script>
-</body></html>

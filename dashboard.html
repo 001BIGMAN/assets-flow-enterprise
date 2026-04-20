@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Assets Flow Enterprise</title>
+    <title>Dashboard | Quantara Alpha Enterprise</title>
     <link rel="stylesheet" href="style.css">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -25,15 +25,18 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-logo">
-                <img src="logo.png" alt="Logo">
+                <img src="logo.png" alt="Logo" class="h-16 w-auto object-contain">
             </div>
             <nav class="sidebar-nav">
                 <ul>
                     <li class="active"><a href="#" data-tab="overview-view"><i class="fas fa-th-large"></i> Overview</a></li>
                     <li><a href="#" data-tab="progress-view"><i class="fas fa-book-open"></i> My Progress</a></li>
+                    <li><a href="#" data-tab="market-pulse-view"><i class="fas fa-chart-area"></i> Market Pulse</a></li>
+                    <li><a href="#" data-tab="referral-view"><i class="fas fa-users"></i> Referral Partner</a></li>
                     <li><a href="#" data-tab="notifications-view"><i class="fas fa-bell"></i> Notifications <span id="notif-badge" style="display:none; background:var(--accent-gold); color:#000; border-radius:50%; width:20px; height:20px; font-size:0.7rem; font-weight:800; line-height:20px; text-align:center; margin-left:6px;"></span></a></li>
                     <li><a href="#" data-tab="staking-view"><i class="fas fa-chart-line"></i> Staking Pool</a></li>
                     <li><a href="#" data-tab="recordings-view"><i class="fas fa-headphones"></i> Class Recordings</a></li>
+                    <li><a href="#" data-tab="support-view"><i class="fas fa-headset"></i> Support & Help</a></li>
                     <li><a href="#" data-tab="settings-view"><i class="fas fa-cog"></i> Settings</a></li>
                     <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
                     <li><a href="https://chat.whatsapp.com/GBN5T5sTaEf4kK5gYaZDGH?mode=gi_t" target="_blank"><i class="fab fa-whatsapp"></i> Whatsapp Group</a></li>
@@ -137,7 +140,92 @@
                 </div>
             </div>
 
-            <!-- Staking Pool View -->
+            <!-- Market Pulse View -->
+            <div id="market-pulse-view" class="tab-content">
+                <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;"><i class="fas fa-chart-area" style="color: var(--accent-gold); margin-right: 12px;"></i>Market Pulse</h2>
+                <p style="opacity: 0.6; margin-bottom: 30px; font-size: 0.9rem;">Real-time market insights and data.</p>
+                
+                <div class="dashboard-grid">
+                    <!-- TradingView Widget -->
+                    <div class="dashboard-card wide" style="height: 500px; padding: 20px;">
+                        <div class="tradingview-widget-container" style="height:100%;width:100%">
+                            <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+                            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+                            {
+                              "colorTheme": "dark",
+                              "dateRange": "12M",
+                              "showChart": true,
+                              "locale": "en",
+                              "width": "100%",
+                              "height": "100%",
+                              "largeChartUrl": "",
+                              "isTransparent": true,
+                              "showSymbolLogo": true,
+                              "showFloatingTooltip": false,
+                              "tabs": [
+                                {
+                                  "title": "Crypto Chips",
+                                  "symbols": [
+                                    { "s": "BINANCE:BTCUSDT" },
+                                    { "s": "BINANCE:ETHUSDT" },
+                                    { "s": "BINANCE:SOLUSDT" },
+                                    { "s": "BINANCE:BNBUSDT" }
+                                  ]
+                                }
+                              ]
+                            }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Referral Partner View -->
+            <div id="referral-view" class="tab-content">
+                <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;"><i class="fas fa-users" style="color: var(--accent-gold); margin-right: 12px;"></i>Referral Partner</h2>
+                <p style="opacity: 0.6; margin-bottom: 30px; font-size: 0.9rem;">Earn commissions by successfully referring serious students.</p>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, transparent 100%);">
+                        <h3 style="color: var(--accent-gold); margin-bottom: 15px;">Become a Partner</h3>
+                        <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">Help grow the Quantara community and earn a direct commission for every successful registration through your link.</p>
+                        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; border: 1px dashed rgba(212,175,55,0.3); margin-bottom: 25px;">
+                            <span style="font-size: 0.8rem; display: block; opacity: 0.5; margin-bottom: 5px;">Your Commission Rate</span>
+                            <span style="font-size: 1.5rem; font-weight: 800; color: var(--accent-gold);">10% Per Student</span>
+                        </div>
+                        <a href="https://wa.link/pf3fok" target="_blank" class="btn-dashboard" style="display: block; text-align: center; padding: 15px;">Request Referral Link</a>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3 style="margin-bottom: 15px;">Partner Guidelines</h3>
+                        <ul style="list-style: none; padding: 0; font-size: 0.9rem; opacity: 0.8; line-height: 2;">
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-gold); margin-right: 8px;"></i> Only refer serious, committed students.</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-gold); margin-right: 8px;"></i> Commission is paid after registration.</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-gold); margin-right: 8px;"></i> Track your stats through support.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support & Help View -->
+            <div id="support-view" class="tab-content">
+                <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;"><i class="fas fa-headset" style="color: var(--accent-gold); margin-right: 12px;"></i>Support & Help</h2>
+                <p style="opacity: 0.6; margin-bottom: 30px; font-size: 0.9rem;">Need assistance or have a specific question?</p>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3 style="margin-bottom: 15px;">Direct Instructor Support</h3>
+                        <p style="font-size: 0.95rem; opacity: 0.8; margin-bottom: 25px;">The fastest way to get help with your learning path or account issues is through WhatsApp.</p>
+                        <a href="https://wa.link/pf3fok" target="_blank" class="btn-dashboard" style="display: inline-flex; align-items: center; gap: 10px; background: #25D366 !important;">
+                            <i class="fab fa-whatsapp"></i> Chat with Support
+                        </a>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3 style="margin-bottom: 15px;">Email Assistance</h3>
+                        <p style="font-size: 0.95rem; opacity: 0.8; margin-bottom: 20px;">For official disputes or complex inquiries, reach out to our admin team.</p>
+                        <a href="mailto:admin@quantaraalpha.com" class="btn-dashboard" style="background: transparent; border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 10px 20px; display: inline-block;">Email Admin</a>
+                    </div>
+                </div>
+            </div>
             <div id="staking-view" class="tab-content">
                 <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;"><i class="fas fa-chart-line" style="color: var(--accent-gold); margin-right: 12px;"></i>Staking Pool</h2>
                 <p style="opacity: 0.6; margin-bottom: 30px; font-size: 0.9rem;">High-yield staking opportunities to grow your capital.</p>
@@ -219,503 +307,52 @@
                     </form>
                 </div>
             </div>
-        <footer>
-            <div class="footer-content">
-                <div class="footer-grid">
-                    <div class="footer-col">
-                        <h4>Explore</h4>
-                        <ul>
-                            <li><a href="index.html#pricing">Pricing</a></li>
-                            <li><a href="index.html#curriculum">Curriculum</a></li>
-                            <li><a href="community.html">Community</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Company</h4>
-                        <ul>
-                            <li><a href="about.html">About Us</a></li>
-                            <li><a href="founder.html">Our Founder</a></li>
-                            <li><a href="https://wa.link/pf3fok" target="_blank">Contact Us</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Important</h4>
-                        <ul>
-                            <li><a href="rules.html">Rules</a></li>
-                            <li><a href="faq.html">FAQ</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Follow Us</h4>
-                        <ul>
-                            <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
-                            <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
-                            <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
-                        </ul>
-                    </div>
+        <!-- BEGIN: Dashboard Footer -->
+        <footer class="bg-black pt-10 pb-6 border-t border-white/10 px-6 mt-10">
+            <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+                <div>
+                    <h5 class="text-[10px] font-bold uppercase tracking-widest text-brand mb-4">Explore</h5>
+                    <ul class="text-gray-400 text-xs space-y-2">
+                        <li><a class="hover:text-white" href="index.html#pricing">Pricing</a></li>
+                        <li><a class="hover:text-white" href="index.html#curriculum">Curriculum</a></li>
+                        <li><a class="hover:text-white" href="community.html">Community</a></li>
+                    </ul>
                 </div>
-                <div class="footer-bottom">
-                    &copy; 2026 Quantara Alpha Enterprise, LLC. All Rights Reserved.
+                <div>
+                    <h5 class="text-[10px] font-bold uppercase tracking-widest text-brand mb-4">Company</h5>
+                    <ul class="text-gray-400 text-xs space-y-2">
+                        <li><a class="hover:text-white" href="about.html">About Us</a></li>
+                        <li><a class="hover:text-white" href="founder.html">Our Founder</a></li>
+                        <li><a class="hover:text-white" href="https://wa.link/pf3fok" target="_blank">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-[10px] font-bold uppercase tracking-widest text-brand mb-4">Important</h5>
+                    <ul class="text-gray-400 text-xs space-y-2">
+                        <li><a class="hover:text-white" href="rules.html">Rules</a></li>
+                        <li><a class="hover:text-white" href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-[10px] font-bold uppercase tracking-widest text-brand mb-4">Follow Us</h5>
+                    <ul class="text-gray-400 text-[10px] space-y-2">
+                        <li class="flex items-center gap-2">Facebook</li>
+                        <li class="flex items-center gap-2">Instagram</li>
+                        <li class="flex items-center gap-2">YouTube</li>
+                    </ul>
                 </div>
             </div>
+            <div class="text-center text-gray-600 text-[9px]">
+                © 2026 Quantara Alpha Enterprise, LLC. All Rights Reserved.
+            </div>
         </footer>
+        <!-- END: Dashboard Footer -->
     </main>
 </div>
 
+    <script src="security.js"></script>
+    <script src="config.js"></script>
     <script src="main.js"></script>
-    <script>
-        const CURRICULUM_DATA = [
-            { id: 'basic_1', tier: 'basic', label: 'Introduction to Quantara Alpha' },
-            { id: 'basic_2', tier: 'basic', label: 'Join the Community Group' },
-            
-            // Level 1
-            { id: 'l1_1', tier: 'level1', label: 'The Evolution of Money & Crypto' },
-            { id: 'l1_2', tier: 'level1', label: 'How Blockchain Works (Simplified)' },
-            { id: 'l1_3', tier: 'level1', label: 'Practical: Wallet & Exchange Setup' },
-            { id: 'l1_4', tier: 'level1', label: 'Practical: Spot Trading Basics' },
-            
-            // Level 2
-            { id: 'l2_1', tier: 'level2', label: 'How to Research Crypto Projects' },
-            { id: 'l2_2', tier: 'level2', label: 'Tokenomics & Fundamental Analysis' },
-            { id: 'l2_3', tier: 'level2', label: 'Identifying Scams & Rug Pulls' },
-            { id: 'l2_4', tier: 'level2', label: 'Building a Profitable Crypto Portfolio' },
-            
-            // Level 3
-            { id: 'l3_1', tier: 'level3', label: 'Smart Money & Liquidity Concepts' },
-            { id: 'l3_2', tier: 'level3', label: 'Professional Bull Run Positioning' },
-            { id: 'l3_3', tier: 'level3', label: 'Advanced Risk Management Strategy' },
-            { id: 'l3_4', tier: 'level3', label: 'System: When to Buy & Take Profit' },
-            
-            // Level 4
-            { id: 'l4_1', tier: 'level4', label: 'Direct Mentorship Access' },
-            { id: 'l4_2', tier: 'level4', label: 'VIP Market Breakdowns' },
-            { id: 'l4_3', tier: 'level4', label: 'Early Project Insights & Intelligence' }
-        ];
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            let checkInterval = setInterval(async () => {
-                if (typeof sb !== 'undefined') {
-                    clearInterval(checkInterval);
-                    const { data: { session } } = await sb.auth.getSession();
-
-                    if (!session) {
-                        window.location.href = 'auth.html';
-                        return;
-                    }
-
-                    const user = session.user;
-                    const userId = user.id;
-
-                    // === ADMIN/FOUNDER REDIRECT CHECK (Independent of main.js) ===
-                    try {
-                        const { data: roleCheck, error: roleErr } = await sb
-                            .from('profiles')
-                            .select('role')
-                            .eq('id', userId)
-                            .maybeSingle();
-                        
-                        console.log('🔐 Dashboard Role Check:', { roleCheck, roleErr, userId });
-                        
-                        if (!roleErr && roleCheck && roleCheck.role) {
-                            const r = roleCheck.role.toLowerCase();
-                            if (r === 'admin' || r === 'founder') {
-                                console.log('🚀 Admin/Founder detected! Redirecting to admin.html...');
-                                window.location.replace('admin.html');
-                                return;
-                            }
-                        }
-                    } catch(e) {
-                        console.error('Role check failed:', e);
-                    }
-                    // === END ADMIN CHECK ===
-
-                    window._currentUserId = userId; // Store globally for deleteNotification()
-                    const displayName = user.user_metadata?.full_name || user.email.split('@')[0];
-                    document.getElementById('user-display-name').textContent = displayName;
-
-                    // Initialize Elements
-                    const checklistContainer = document.getElementById('checklist-container');
-                    const planSelect = document.getElementById('user-plan-select');
-                    const sidebarLinks = document.querySelectorAll('.sidebar-nav li');
-                    const tabContents = document.querySelectorAll('.tab-content');
-
-                    // Load saved state
-                    let savedPlan = localStorage.getItem(`plan_${userId}`) || 'basic';
-                    let progressData = JSON.parse(localStorage.getItem(`progress_${userId}`)) || {};
-
-                    // Mobile Sidebar Toggle
-                    const sidebar = document.querySelector('.sidebar');
-                    const overlay = document.getElementById('sidebar-overlay');
-                    const toggle = document.getElementById('mobile-sidebar-toggle');
-
-                    const toggleSidebar = () => {
-                        sidebar.classList.toggle('active');
-                        overlay.classList.toggle('active');
-                        const icon = toggle.querySelector('i');
-                        const text = toggle.querySelector('span');
-                        if (sidebar.classList.contains('active')) {
-                            icon.className = 'fas fa-times';
-                            if (text) text.textContent = 'CLOSE';
-                        } else {
-                            icon.className = 'fas fa-bars';
-                            if (text) text.textContent = 'MENU';
-                        }
-                    };
-
-                    toggle.addEventListener('click', toggleSidebar);
-                    overlay.addEventListener('click', toggleSidebar);
-
-                    // Set initial select state
-                    if (planSelect) planSelect.value = savedPlan;
-
-                    // Load Data (Notifications & Audio)
-                    await loadStudentData(savedPlan);
-
-                    // Sidebar Tab Switching Logic
-                    const allSidebarLinks = document.querySelectorAll('.sidebar-nav a[data-tab]');
-                    const allTabContents = document.querySelectorAll('.tab-content');
-
-                    allSidebarLinks.forEach(link => {
-                        link.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            const targetTabId = link.getAttribute('data-tab');
-
-                            // Update active class on parent li
-                            document.querySelectorAll('.sidebar-nav li').forEach(li => li.classList.remove('active'));
-                            link.parentElement.classList.add('active');
-
-                            // Show target tab
-                            allTabContents.forEach(tab => {
-                                tab.classList.remove('active');
-                                if (tab.id === targetTabId) tab.classList.add('active');
-                            });
-
-                            if (window.innerWidth <= 991) toggleSidebar();
-                        });
-                    });
-
-                    async function loadStudentData(currentPlan) {
-                        // 1. Load Notifications
-                        const notifList = document.getElementById('notifications-list');
-                        try {
-                            const { data: notifications, error } = await sb.from('notifications')
-                                .select('*')
-                                .order('created_at', { ascending: false });
-
-                            if (error) throw error;
-
-                            const userSignupDate = new Date(user.created_at);
-
-                            const visibleNotifs = (notifications || []).filter(n => {
-                                const notifDate = new Date(n.created_at);
-                                const now = new Date();
-                                const thirtyDaysInMs = 30 * 24 * 60 * 60 * 1000;
-                                
-                                // Final Hard wipe of all previous notifications (Requested by user)
-                                if (notifDate < new Date('2026-03-20T19:50:00+01:00')) return false;
-
-                                // Only show notifications sent on or after the user's signup date
-                                if (notifDate < userSignupDate) return false;
-
-                                if (n.target_tier === 'all') return true;
-                                if (n.target_tier === 'basic') return currentPlan === 'basic';
-                                if (n.target_tier === 'level1') return currentPlan === 'level1';
-                                if (n.target_tier === 'level2') return currentPlan === 'level2';
-                                if (n.target_tier === 'level3') return currentPlan === 'level3';
-                                if (n.target_tier === 'level4') return currentPlan === 'level4';
-                                if (n.target_tier === 'individual' && n.target_user_id === userId) return true;
-                                return false;
-                            });
-
-                            // Show badge on sidebar
-                            const badge = document.getElementById('notif-badge');
-                            if (badge && visibleNotifs.length > 0) {
-                                badge.textContent = visibleNotifs.length;
-                                badge.style.display = 'inline-block';
-                            }
-
-                            if (notifList) {
-                                if (visibleNotifs.length === 0) {
-                                    notifList.innerHTML = `
-                                        <div style="text-align:center; padding: 60px 20px; opacity: 0.5;">
-                                            <i class="fas fa-bell-slash fa-3x" style="color: var(--accent-gold); margin-bottom: 20px;"></i>
-                                            <p style="font-size: 1rem;">No notifications yet. Check back soon!</p>
-                                        </div>`;
-                                } else {
-                                    notifList.innerHTML = visibleNotifs.map(n => {
-                                        // Check if notification was already deleted by this user
-                                        const deletedNotifs = JSON.parse(localStorage.getItem(`deleted_notifs_${userId}`) || '[]');
-                                        if (deletedNotifs.includes(n.id)) return '';
-                                        
-                                        return `
-                                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.2); border-left: 4px solid var(--accent-gold); padding: 22px 25px; border-radius: 12px; margin-bottom: 16px; transition: transform 0.2s; position: relative;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''" data-notif-id="${n.id}">
-                                            <button onclick="deleteNotification('${n.id}', '${n.title.replace(/'/g, "\\'")}')" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: rgba(255,255,255,0.5); cursor: pointer; padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,0,0,0.2)'; this.style.color='#ff4d4d'" onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.color='rgba(255,255,255,0.5)'" title="Delete notification">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 10px; padding-right: 40px;">
-                                                <h4 style="color: var(--accent-gold); font-size: 1rem; display:flex; align-items:center; gap:8px;">
-                                                    <i class="fas fa-bullhorn"></i> ${n.title}
-                                                </h4>
-                                                <span style="font-size: 0.75rem; opacity: 0.5; white-space:nowrap; margin-left:15px;">${new Date(n.created_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})} &bull; ${new Date(n.created_at).toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})}</span>
-                                            </div>
-                                            <p style="font-size: 0.95rem; line-height: 1.7; opacity: 0.85;">${n.message}</p>
-                                        </div>
-                                    `}).join('');
-                                    
-                                    // Filter out empty strings and update badge count
-                                    const actualNotifs = notifList.querySelectorAll('[data-notif-id]');
-                                    const badge = document.getElementById('notif-badge');
-                                    if (badge) {
-                                        badge.textContent = actualNotifs.length;
-                                        if (actualNotifs.length === 0) {
-                                            badge.style.display = 'none';
-                                            notifList.innerHTML = `
-                                                <div style="text-align:center; padding: 60px 20px; opacity: 0.5;">
-                                                    <i class="fas fa-bell-slash fa-3x" style="color: var(--accent-gold); margin-bottom: 20px;"></i>
-                                                    <p style="font-size: 1rem;">No notifications yet. Check back soon!</p>
-                                                </div>`;
-                                        }
-                                    }
-                                }
-                            }
-                        } catch (err) {
-                            console.error("Error loading notifications:", err);
-                            if (notifList) notifList.innerHTML = '<p style="color: #ff4d4d;">Failed to load notifications.</p>';
-                        }
-
-                        // 2. Load Audio Recordings
-                        const recordingsList = document.getElementById('recordings-list');
-                        try {
-                            const { data: recordings, error } = await sb.from('audio_recordings')
-                                .select('*')
-                                .order('created_at', { ascending: false });
-
-                            if (error) throw error;
-
-                            const visibleRecordings = (recordings || []).filter(rec => {
-                                // Individual recordings sent directly to this user always show
-                                if (rec.target_tier === 'individual' && rec.target_user_id === userId) return true;
-                                // Tier-based recordings
-                                if (rec.target_tier === 'all') return currentPlan !== 'basic';
-                                if (rec.target_tier === 'level1') return currentPlan !== 'basic';
-                                if (rec.target_tier === 'level2') return ['level2', 'level3', 'level4'].includes(currentPlan);
-                                if (rec.target_tier === 'level3') return ['level3', 'level4'].includes(currentPlan);
-                                if (rec.target_tier === 'level4') return currentPlan === 'level4';
-                                return false;
-                            });
-
-                            if (recordingsList) {
-                                if (visibleRecordings.length === 0) {
-                                    recordingsList.innerHTML = `
-                                        <div style="text-align:center; padding: 60px 20px; opacity: 0.5;">
-                                            <i class="fas fa-headphones fa-3x" style="color: var(--accent-gold); margin-bottom: 20px;"></i>
-                                            <p style="font-size: 1rem;">No recordings available for your plan yet.</p>
-                                        </div>`;
-                                } else {
-                                    recordingsList.innerHTML = visibleRecordings.map(rec => {
-                                        const deletedRecs = JSON.parse(localStorage.getItem(`deleted_recs_${userId}`) || '[]');
-                                        if (deletedRecs.includes(rec.id)) return '';
-                                        
-                                        return `
-                                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.15); padding: 22px 25px; border-radius: 12px; margin-bottom: 20px; transition: transform 0.2s; position: relative;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''" data-rec-id="${rec.id}">
-                                            <button onclick="deleteRecording('${rec.id}', '${rec.title.replace(/'/g, "\\'")}')" style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); border: none; color: rgba(255,255,255,0.5); cursor: pointer; padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,0,0,0.2)'; this.style.color='#ff4d4d'" onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.color='rgba(255,255,255,0.5)'" title="Delete recording">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                            <div style="display:flex; align-items:center; gap: 12px; margin-bottom: 15px; padding-right: 40px;">
-                                                <div style="width:42px; height:42px; background: rgba(212,175,55,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                                                    <i class="fas fa-microphone" style="color: var(--accent-gold);"></i>
-                                                </div>
-                                                <div>
-                                                    <h4 style="color: var(--text-white); font-size: 1rem; margin-bottom: 3px;">${rec.title}</h4>
-                                                    <span style="font-size: 0.75rem; opacity: 0.5;">${new Date(rec.created_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})} &bull; ${new Date(rec.created_at).toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'})}</span>
-                                                </div>
-                                            </div>
-                                            <audio controls style="width:100%; border-radius: 8px; outline:none; accent-color: var(--accent-gold);">
-                                                <source src="${rec.file_url}" type="audio/mpeg">
-                                                Your browser does not support the audio element.
-                                            </audio>
-                                        </div>
-                                    `}).join('');
-                                    
-                                    const actualRecs = recordingsList.querySelectorAll('[data-rec-id]');
-                                    if (actualRecs.length === 0) {
-                                        recordingsList.innerHTML = `
-                                            <div style="text-align:center; padding: 60px 20px; opacity: 0.5;">
-                                                <i class="fas fa-headphones fa-3x" style="color: var(--accent-gold); margin-bottom: 20px;"></i>
-                                                <p style="font-size: 1rem;">No recordings available for your plan yet.</p>
-                                            </div>`;
-                                    }
-                                }
-                            }
-                        } catch (err) {
-                            console.error("Error loading recordings:", err);
-                            if (recordingsList) recordingsList.innerHTML = '<p style="color: #ff4d4d;">Failed to load recordings.</p>';
-                        }
-                    }
-
-                    const renderCurriculum = (plan) => {
-                        checklistContainer.innerHTML = '';
-                        let accessibleItems = [];
-
-                        // Define accessible segments based on requirements
-                        if (plan === 'basic') {
-                            accessibleItems = CURRICULUM_DATA.filter(i => i.tier === 'basic');
-                            document.getElementById('curriculum-title').textContent = 'Basic Access Progress';
-                        } else if (plan === 'level1') {
-                            accessibleItems = CURRICULUM_DATA.filter(i => ['basic', 'level1'].includes(i.tier));
-                            document.getElementById('curriculum-title').textContent = 'Level 1 Progress';
-                        } else if (plan === 'level2') {
-                            accessibleItems = CURRICULUM_DATA.filter(i => ['basic', 'level1', 'level2'].includes(i.tier));
-                            document.getElementById('curriculum-title').textContent = 'Level 2 Progress';
-                        } else if (plan === 'level3') {
-                            accessibleItems = CURRICULUM_DATA.filter(i => ['basic', 'level1', 'level2', 'level3'].includes(i.tier));
-                            document.getElementById('curriculum-title').textContent = 'Level 3 Progress';
-                        } else {
-                            accessibleItems = CURRICULUM_DATA;
-                            document.getElementById('curriculum-title').textContent = 'Level 4 Progress';
-                        }
-
-                        accessibleItems.forEach(item => {
-                            const isChecked = progressData[item.id] || false;
-                            const div = document.createElement('div');
-                            div.className = `check-item ${isChecked ? 'completed' : ''}`;
-                            div.innerHTML = `
-                                <input type="checkbox" id="${item.id}" ${isChecked ? 'checked' : ''}>
-                                <span>${item.label}</span>
-                            `;
-                            div.addEventListener('click', (e) => {
-                                if (e.target.tagName !== 'INPUT') {
-                                    const cb = div.querySelector('input');
-                                    cb.checked = !cb.checked;
-                                    updateProgress(item.id, cb.checked);
-                                }
-                            });
-                            div.querySelector('input').addEventListener('change', (e) => {
-                                updateProgress(item.id, e.target.checked);
-                            });
-                            checklistContainer.appendChild(div);
-                        });
-                        calculateTotalProgress(accessibleItems);
-                    };
-
-                    const updateProgress = (itemId, isChecked) => {
-                        progressData[itemId] = isChecked;
-                        localStorage.setItem(`progress_${userId}`, JSON.stringify(progressData));
-
-                        const itemDiv = document.getElementById(itemId)?.parentElement;
-                        if (itemDiv) {
-                            if (isChecked) itemDiv.classList.add('completed');
-                            else itemDiv.classList.remove('completed');
-                        }
-
-                        // Recalculate based on current plan segment
-                        const currentPlan = document.getElementById('user-plan-select').value;
-                        const accessibleItems = 
-                            currentPlan === 'basic' ? CURRICULUM_DATA.filter(i => i.tier === 'basic') :
-                            currentPlan === 'level1' ? CURRICULUM_DATA.filter(i => ['basic', 'level1'].includes(i.tier)) :
-                            currentPlan === 'level2' ? CURRICULUM_DATA.filter(i => ['basic', 'level1', 'level2'].includes(i.tier)) :
-                            currentPlan === 'level3' ? CURRICULUM_DATA.filter(i => ['basic', 'level1', 'level2', 'level3'].includes(i.tier)) :
-                            CURRICULUM_DATA;
-                        calculateTotalProgress(accessibleItems);
-                    };
-
-                    const calculateTotalProgress = (accessibleItems) => {
-                        if (accessibleItems.length === 0) return;
-                        const completedCount = accessibleItems.filter(i => progressData[i.id]).length;
-                        const percent = Math.round((completedCount / accessibleItems.length) * 100);
-
-                        document.getElementById('progress-percent').textContent = `${percent}%`;
-                        document.getElementById('progress-bar').style.width = `${percent}%`;
-                    };
-
-                    // Plan Selection Logic
-                    if (planSelect) {
-                        planSelect.addEventListener('change', (e) => {
-                            localStorage.setItem(`plan_${userId}`, e.target.value);
-                            renderCurriculum(e.target.value);
-                            loadStudentData(e.target.value); // Reload to reflect plan change
-                        });
-                    }
-
-                    // Initial render
-                    renderCurriculum(savedPlan);
-
-                    document.getElementById('btn-logout-sidebar')?.addEventListener('click', async () => {
-                        await sb.auth.signOut();
-                        window.location.href = 'index.html';
-                    });
-                }
-            }, 100);
-        });
-        // Global function: delete a notification (hide it locally)
-        function deleteNotification(notifId, notifTitle) {
-            if (!confirm(`Delete notification "${notifTitle}"?`)) return;
-
-            // Get the userId from the session (stored during init)
-            const userId = window._currentUserId;
-            if (!userId) return;
-
-            // Save deletion to localStorage
-            const key = `deleted_notifs_${userId}`;
-            const deleted = JSON.parse(localStorage.getItem(key) || '[]');
-            if (!deleted.includes(notifId)) {
-                deleted.push(notifId);
-                localStorage.setItem(key, JSON.stringify(deleted));
-            }
-
-            // Remove the card from the DOM
-            const card = document.querySelector(`[data-notif-id="${notifId}"]`);
-            if (card) {
-                card.style.transition = 'opacity 0.3s, transform 0.3s';
-                card.style.opacity = '0';
-                card.style.transform = 'translateX(30px)';
-                setTimeout(() => {
-                    card.remove();
-                    // Update badge
-                    const remaining = document.querySelectorAll('[data-notif-id]').length;
-                    const badge = document.getElementById('notif-badge');
-                    if (badge) {
-                        badge.textContent = remaining;
-                        if (remaining === 0) {
-                            badge.style.display = 'none';
-                            document.getElementById('notifications-list').innerHTML = `
-                                <div style="text-align:center; padding: 60px 20px; opacity: 0.5;">
-                                    <i class="fas fa-bell-slash fa-3x" style="color: var(--accent-gold); margin-bottom: 20px;"></i>
-                                    <p style="font-size: 1rem;">No notifications yet. Check back soon!</p>
-                                </div>`;
-                        }
-                    }
-                }, 300);
-            }
-        }
-
-        // Global function: delete a recording (hide it locally)
-        function deleteRecording(recId, recTitle) {
-            if (!confirm(`Delete recording "${recTitle}"?`)) return;
-
-            const userId = window._currentUserId;
-            if (!userId) return;
-
-            const key = `deleted_recs_${userId}`;
-            const deleted = JSON.parse(localStorage.getItem(key) || '[]');
-            if (!deleted.includes(recId)) {
-                deleted.push(recId);
-                localStorage.setItem(key, JSON.stringify(deleted));
-            }
-
-            const card = document.querySelector(`[data-rec-id="${recId}"]`);
-            if (card) {
-                card.style.transition = 'opacity 0.3s, transform 0.3s';
-                card.style.opacity = '0';
-                card.style.transform = 'translateX(30px)';
-                setTimeout(() => {
-                    card.remove();
-                    const remaining = document.querySelectorAll('[data-rec-id]').length;
-                    if (remaining === 0) {
-                        document.getElementById('recordings-list').innerHTML = `
-                            <div style="text-align:center; padding: 60px 20px; opacity: 0.5;">
-                                <i class="fas fa-headphones fa-3x" style="color: var(--accent-gold); margin-bottom: 20px;"></i>
-                                <p style="font-size: 1rem;">No recordings available for your plan yet.</p>
                             </div>`;
                     }
                 }, 300);

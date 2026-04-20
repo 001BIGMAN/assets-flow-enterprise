@@ -7,168 +7,192 @@
     <title>Community | QUANTARA ALPHA ENTERPRISE</title>
     <!-- Tailwind and Fonts for Header -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: { "primary": "#2563EB" },
-                    fontFamily: { "headline": ["Outfit", "sans-serif"], "body": ["Inter", "sans-serif"] }
+          theme: {
+            extend: {
+              colors: {
+                brand: {
+                  DEFAULT: '#0066FF',
+                  dark: '#0052CC',
+                  light: '#3385FF',
+                  glow: 'rgba(0, 102, 255, 0.4)'
+                },
+                accent: {
+                  DEFAULT: '#FFD700',
+                  glow: 'rgba(255, 215, 0, 0.3)'
                 }
+              }
             }
+          }
         }
     </script>
-    <style>
-        .community-section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 120px 5% 80px;
-            background: #000;
+    <style data-purpose="premium-design-system">
+        :root {
+            --mesh-color-1: #001a4d;
+            --mesh-color-2: #000b1a;
+            --mesh-color-3: #1a0033;
+            --mesh-color-4: #000000;
         }
 
-        .community-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 40px;
-            max-width: 480px;
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--mesh-color-4);
+            color: #f8fafc;
+            position: relative;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 0% 0%, var(--mesh-color-1) 0%, transparent 50%),
+                radial-gradient(circle at 100% 0%, var(--mesh-color-3) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, var(--mesh-color-1) 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, var(--mesh-color-2) 0%, transparent 50%);
+            opacity: 0.6;
+            filter: blur(80px);
+            animation: mesh-drift 20s ease infinite alternate;
         }
 
-        .community-card-header {
-            text-align: center;
+        @keyframes mesh-drift {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.1) translate(2% , 2%); }
         }
 
-        .community-card-header h1 {
-            font-family: var(--font-heading);
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--accent-gold);
-            margin-bottom: 12px;
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
-        .community-card-header p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 1rem;
-            line-height: 1.6;
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gradient-brand {
+            background: linear-gradient(135deg, #3385FF 0%, #0047AB 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .community-screenshot-wrapper {
             width: 100%;
-            max-width: 340px;
-            border-radius: 24px;
+            max-width: 400px;
+            border-radius: 32px;
             overflow: hidden;
-            border: 2px solid rgba(212, 175, 55, 0.15);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.06),
-                        0 20px 40px rgba(0, 0, 0, 0.5);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 50px rgba(0, 102, 255, 0.15);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .community-screenshot-wrapper:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 0 40px rgba(212, 175, 55, 0.1),
-                        0 30px 60px rgba(0, 0, 0, 0.6);
+            transform: scale(1.02) translateY(-10px);
+            box-shadow: 0 0 70px rgba(0, 102, 255, 0.25);
+            border-color: rgba(0, 102, 255, 0.5);
         }
 
-        .community-screenshot-wrapper img {
+        .btn-premium {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .btn-premium::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
             width: 100%;
-            height: auto;
-            display: block;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
         }
 
-        .btn-join-community {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: var(--accent-gold);
-            color: #000;
-            padding: 1rem 2.4rem;
-            border-radius: 10px;
-            font-family: var(--font-heading);
-            font-size: 1.1rem;
-            font-weight: 800;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
+        .btn-premium:hover::before {
+            left: 100%;
         }
 
-        .btn-join-community:hover {
-            transform: translateY(-3px) scale(1.04);
-            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
-        }
-
-        .btn-join-community i {
-            font-size: 1.2rem;
-        }
-
-        .community-note {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.85rem;
-            text-align: center;
-        }
-
-        @media (max-width: 480px) {
-            .community-card-header h1 {
-                font-size: 2rem;
-            }
-
-            .community-screenshot-wrapper {
-                max-width: 290px;
-            }
-        }
+        nav { transition: all 0.4s ease; }
     </style>
 </head>
 
-<body>
-    <nav class="fixed top-0 w-full z-50 bg-[#0b1c30]/80 backdrop-blur-xl shadow-sm border-b border-white/10">
+<body class="antialiased text-slate-200 overflow-x-hidden">
+    <nav id="main-nav" class="fixed top-0 w-full z-[2000] bg-transparent border-b border-transparent backdrop-blur-none transition-all duration-500">
         <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
-            <!-- Brand Logo & Mobile Toggle -->
             <div class="flex items-center gap-4">
                 <a href="index.html" class="flex items-center">
-                    <img src="logo.png" alt="Quantara Alpha Enterprise Logo" class="h-16 md:h-20 w-auto object-contain bg-transparent">
+                    <img src="logo.png" alt="Quantara Alpha Logo" class="h-12 md:h-16 w-auto object-contain">
                 </a>
-                <a href="menu.html" class="md:hidden text-[#f8f9ff] text-xl hover:text-[#2563EB] transition-colors"><i class="fas fa-bars"></i></a>
             </div>
             
-            <!-- Desktop Links -->
             <div class="hidden md:flex items-center space-x-8 font-['Inter'] text-sm tracking-tight font-medium">
-                <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="index.html">Home</a>
-                <a class="text-[#2563EB] dark:text-[#3b82f6] font-semibold border-b-2 border-[#2563EB] pb-1" href="community.html">Community</a>
-                <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="staking.html">Staking Pool</a>
-                <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="index.html#pricing">Pricing</a>
-                <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="founder.html">Founder</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="index.html">Home</a>
+                <a class="text-brand font-bold border-b-2 border-brand pb-1" href="community.html">Community</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="staking.html">Staking Pool</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="about.html">About Us</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="founder.html">Founder</a>
             </div>
 
-            <!-- Actions (Hidden on Mobile) -->
-            <div class="hidden md:flex nav-actions items-center space-x-4">
-                <a href="auth.html" id="btn-login-main" class="text-[#f8f9ff]/70 font-medium text-sm hover:text-[#2563EB] transition-all">Log in</a>
-                <a href="auth.html#signup" id="btn-signup-main" class="bg-[#2563EB] text-white px-5 py-2 rounded-full font-semibold text-sm active:scale-95 transition-transform">Sign up</a>
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="auth.html" class="text-slate-400 font-['Inter'] font-medium text-sm hover:text-brand transition-all">Log in</a>
+                <a href="auth.html#signup" class="bg-brand text-white px-6 py-2.5 rounded-xl font-['Inter'] font-bold text-sm active:scale-95 transition-all shadow-lg shadow-brand/20">Sign up</a>
             </div>
-            <div class="bg-[#1a2b3c] h-[1px] w-full absolute bottom-0 left-0"></div>
+
+            <!-- Mobile Toggle -->
+            <button id="mobile-menu-toggle" class="md:hidden text-white p-2 focus:outline-none transition-transform active:scale-90">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-slate-950/98 z-[2001] hidden flex-col items-center justify-center p-10 backdrop-blur-2xl transition-all duration-500 translate-x-full">
+            <button id="close-mobile-menu" class="absolute top-10 right-10 text-white p-2">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="flex flex-col gap-8 text-center">
+                <a href="index.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Home</a>
+                <a href="community.html" class="text-2xl font-black text-brand uppercase tracking-tighter">Community</a>
+                <a href="staking.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Staking Pool</a>
+                <a href="about.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">About Us</a>
+                <a href="founder.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Founder</a>
+                <div class="pt-8 flex flex-col gap-4">
+                    <a href="auth.html" class="text-lg font-bold text-slate-400">Log in</a>
+                    <a href="auth.html#signup" class="bg-brand text-white px-10 py-3 rounded-xl font-bold uppercase text-xs">Sign up now</a>
+                </div>
+            </div>
         </div>
     </nav>
 
     <main>
-        <section class="community-section">
-            <div class="community-card">
-                <div class="community-card-header">
-                    <h1 style="color: var(--accent-gold); font-size: 2.2rem; line-height: 1.2; margin-bottom: 20px;">QUANTARA ALPHA ENTERPRISE</h1>
-                    <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.1rem; margin-bottom: 15px;">Learn cryptocurrency the right way through a structured program designed to help you understand the market, invest wisely, and grow with confidence.</p>
-                    <p style="color: rgba(255, 255, 255, 0.7); font-size: 1.1rem; line-height: 1.5;">From beginner to advanced level, Quantara Alpha gives you the knowledge, guidance, and support needed to build real understanding and better financial opportunities.</p>
+        <section class="min-h-screen flex items-center justify-center pt-32 pb-20 px-6">
+            <div class="glass-panel p-10 md:p-14 rounded-[32px] max-w-2xl w-full flex flex-col items-center gap-10 text-center animate-up">
+                <div class="space-y-6">
+                    <h1 class="text-4xl md:text-5xl font-black text-gradient leading-tight tracking-tight uppercase">QUANTARA ALPHA <br><span class="text-gradient-brand">ENTERPRISE</span></h1>
+                    <p class="text-slate-400 text-lg leading-relaxed">Learn cryptocurrency the right way through a structured program designed to help you understand the market, invest wisely, and grow with confidence.</p>
                 </div>
 
                 <div class="community-screenshot-wrapper">
-                    <img src="community.jpeg" alt="Quantara Alpha Enterprise WhatsApp Community - 10 Groups">
+                    <img src="community.jpeg" class="w-full h-auto grayscale-[0.2] hover:grayscale-0 transition-all duration-500" alt="Quantara Alpha Community">
                 </div>
 
-                <a href="https://chat.whatsapp.com/GBN5T5sTaEf4kK5gYaZDGH?mode=gi_t" target="_blank" class="btn-join-community">
-                    <i class="fab fa-whatsapp"></i> Join Now
-                </a>
-
-                <p class="community-note">You'll be redirected to WhatsApp to join the community.</p>
+                <div class="w-full space-y-6">
+                    <a href="https://chat.whatsapp.com/GBN5T5sTaEf4kK5gYaZDGH?mode=gi_t" target="_blank" class="w-full flex items-center justify-center gap-4 bg-brand hover:bg-brand-light text-white py-5 rounded-2xl font-black text-xl transition-all shadow-xl shadow-brand/20 active:scale-[0.98] btn-premium">
+                        <i class="fab fa-whatsapp text-2xl"></i> Join Now
+                    </a>
+                    <p class="text-slate-500 text-sm font-medium">You'll be redirected to WhatsApp to join our official community.</p>
+                </div>
             </div>
         </section>
     </main>
@@ -214,7 +238,39 @@
 </footer>
 <!-- END: Footer -->
 
-    <script src="main.js"></script>
-</body>
+<script>
+    // Navigation Scroll Logic
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('main-nav');
+        if (window.scrollY > 20) {
+            nav.classList.add('bg-slate-950/95', 'backdrop-blur-2xl', 'py-2', 'border-white/10');
+            nav.classList.remove('bg-transparent', 'backdrop-blur-none');
+        } else {
+            nav.classList.remove('bg-slate-950/95', 'backdrop-blur-2xl', 'py-2', 'border-white/10');
+            nav.classList.add('bg-transparent', 'backdrop-blur-none');
+        }
+    });
 
+    // Mobile Menu Logic
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const close = document.getElementById('close-mobile-menu');
+
+    if (toggle && menu && close) {
+        toggle.addEventListener('click', () => {
+            menu.classList.remove('hidden');
+            setTimeout(() => menu.classList.remove('translate-x-full'), 10);
+        });
+
+        const closeNav = () => {
+            menu.classList.add('translate-x-full');
+            setTimeout(() => menu.classList.add('hidden'), 500);
+        };
+
+        close.addEventListener('click', closeNav);
+        menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav));
+    }
+</script>
+<script src="main.js" defer></script>
+</body>
 </html>

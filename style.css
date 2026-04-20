@@ -1,13 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@400;600;700;800&display=swap");
 
 :root {
-  --bg-dark: #000000;
-  --accent-gold: #2563EB; /* New Brand Blue */
-  --accent-gold-glow: rgba(37, 99, 235, 0.15);
-  --text-white: #ffffff;
-  --text-gray: #a0a0a0;
+  --bg-dark: #020617;
+  --accent-brand: #0066FF;
+  --accent-brand-glow: rgba(0, 102, 255, 0.2);
+  --text-white: #f8fafc;
+  --text-gray: #94a3b8;
   --font-main: "Inter", sans-serif;
   --font-heading: "Outfit", sans-serif;
+  
+  --mesh-color-1: #001a4d;
+  --mesh-color-2: #000b1a;
+  --mesh-color-3: #1a0033;
+  --mesh-color-4: #000000;
 }
 
 * {
@@ -18,13 +23,35 @@
 
 body {
   font-family: var(--font-main);
-  background-color: var(--bg-dark);
-  background-image: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
-  background-attachment: fixed;
+  background-color: var(--mesh-color-4);
   color: var(--text-white);
-  line-height: normal;
+  line-height: 1.6;
   overflow-x: hidden !important;
   width: 100%;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: 
+    radial-gradient(circle at 0% 0%, var(--mesh-color-1) 0%, transparent 50%),
+    radial-gradient(circle at 100% 0%, var(--mesh-color-3) 0%, transparent 50%),
+    radial-gradient(circle at 100% 100%, var(--mesh-color-1) 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, var(--mesh-color-2) 0%, transparent 50%);
+  opacity: 0.6;
+  filter: blur(80px);
+  animation: mesh-drift 20s ease infinite alternate;
+}
+
+@keyframes mesh-drift {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.1) translate(2% , 2%); }
 }
 
 html {
@@ -34,15 +61,7 @@ html {
 }
 
 /* Header & Nav */
-header {
-  width: 100%;
-  position: fixed;
-  top: 0;
-  z-index: 1000;
-  background: rgba(5, 5, 5, 0.95);
-  backdrop-filter: blur(15px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-}
+
 
 .user-greeting {
   color: rgba(255, 255, 255, 0.7);
@@ -1431,12 +1450,12 @@ footer {
 /* Sidebar */
 .sidebar {
   width: 280px;
-  background: rgba(255, 255, 255, 0.02);
-  border-right: 1px solid rgba(212, 175, 55, 0.1);
+  background: rgba(10, 10, 20, 0.95);
+  border-right: 1px solid rgba(212, 175, 55, 0.2);
   display: flex;
   flex-direction: column;
   padding: 30px 20px;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
   position: sticky;
   top: 0;
   height: 100vh;
@@ -1614,11 +1633,12 @@ footer {
 }
 
 .dashboard-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(212, 175, 55, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(212, 175, 55, 0.15);
   padding: 30px;
   border-radius: 20px;
   transition: transform 0.3s ease;
+  backdrop-filter: blur(8px);
 }
 
 .dashboard-card:hover {
@@ -2365,8 +2385,8 @@ footer {
 }
 
 .stake-card {
-    background: #000;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(10, 10, 20, 0.95);
+    border: 1px solid rgba(212, 175, 55, 0.2);
     border-radius: 24px;
     padding: 40px;
     max-width: 420px;
@@ -2377,6 +2397,7 @@ footer {
     flex-direction: column;
     align-items: center;
     transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
 }
 
 .stake-card.highlighted {

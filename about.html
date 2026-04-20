@@ -11,96 +11,124 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
+        <script>
         tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: { "primary": "#2563EB" },
-                    fontFamily: { "headline": ["Outfit", "sans-serif"], "body": ["Inter", "sans-serif"] }
+          theme: {
+            extend: {
+              colors: {
+                brand: {
+                  DEFAULT: '#0066FF',
+                  dark: '#0052CC',
+                  light: '#3385FF',
+                  glow: 'rgba(0, 102, 255, 0.4)'
+                },
+                accent: {
+                  DEFAULT: '#FFD700',
+                  glow: 'rgba(255, 215, 0, 0.3)'
                 }
+              }
             }
+          }
         }
     </script>
+    <style data-purpose="premium-design-system">
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-brand {
+            background: linear-gradient(135deg, #3385FF 0%, #0047AB 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        nav { transition: all 0.4s ease; }
+    </style>
 </head>
 
 <body>
-    <nav class="fixed top-0 w-full z-50 bg-[#0b1c30]/80 backdrop-blur-xl shadow-sm border-b border-white/10">
+        <nav id="main-nav" class="fixed top-0 w-full z-[2000] bg-transparent border-b border-transparent backdrop-blur-none transition-all duration-500">
         <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
-            <!-- Brand Logo & Mobile Toggle -->
             <div class="flex items-center gap-4">
                 <a href="index.html" class="flex items-center">
-                    <img src="logo.png" alt="Quantara Alpha Enterprise Logo" class="h-16 md:h-20 w-auto object-contain bg-transparent">
+                    <img src="logo.png" alt="Quantara Alpha Logo" class="h-12 md:h-16 w-auto object-contain">
                 </a>
-                <a href="menu.html" class="md:hidden text-[#f8f9ff] text-xl hover:text-[#2563EB] transition-colors"><i class="fas fa-bars"></i></a>
             </div>
             
-            <!-- Desktop Links -->
             <div class="hidden md:flex items-center space-x-8 font-['Inter'] text-sm tracking-tight font-medium">
-                <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="index.html">Home</a>
-                <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="community.html">Community</a>
-                <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="staking.html">Staking Pool</a>
-                <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="index.html#pricing">Pricing</a>
-                <a class="text-[#2563EB] dark:text-[#3b82f6] font-semibold border-b-2 border-[#2563EB] pb-1" href="about.html">About Us</a>
-                <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="founder.html">Founder</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="index.html">Home</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="community.html">Community</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="staking.html">Staking Pool</a>
+                <a class="text-brand font-bold border-b-2 border-brand pb-1" href="about.html">About Us</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="founder.html">Founder</a>
             </div>
 
-            <!-- Actions (Hidden on Mobile) -->
-            <div class="hidden md:flex nav-actions items-center space-x-4">
-                <a href="auth.html" id="btn-login-main" class="text-[#f8f9ff]/70 font-medium text-sm hover:text-[#2563EB] transition-all active:text-[#2563EB]">Log in</a>
-                <a href="auth.html#signup" id="btn-signup-main" class="bg-[#2563EB] text-white px-5 py-2 rounded-full font-semibold text-sm active:scale-95 transition-transform">Sign up</a>
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="auth.html" class="text-slate-400 font-['Inter'] font-medium text-sm hover:text-brand transition-all">Log in</a>
+                <a href="auth.html#signup" class="bg-brand text-white px-6 py-2.5 rounded-xl font-['Inter'] font-bold text-sm active:scale-95 transition-all shadow-lg shadow-brand/20">Sign up</a>
             </div>
-            <div class="bg-[#1a2b3c] h-[1px] w-full absolute bottom-0 left-0"></div>
+
+            <!-- Mobile Toggle -->
+            <button id="mobile-menu-toggle" class="md:hidden text-white p-2 focus:outline-none transition-transform active:scale-90">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-slate-950/98 z-[2001] hidden flex-col items-center justify-center p-10 backdrop-blur-2xl transition-all duration-500 translate-x-full">
+            <button id="close-mobile-menu" class="absolute top-10 right-10 text-white p-2">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="flex flex-col gap-8 text-center">
+                <a href="index.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Home</a>
+                <a href="community.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Community</a>
+                <a href="staking.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Staking Pool</a>
+                <a href="about.html" class="text-2xl font-black text-brand uppercase tracking-tighter">About Us</a>
+                <a href="founder.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Founder</a>
+                <div class="pt-8 flex flex-col gap-4">
+                    <a href="auth.html" class="text-lg font-bold text-slate-400">Log in</a>
+                    <a href="auth.html#signup" class="bg-brand text-white px-10 py-3 rounded-xl font-bold uppercase text-xs">Sign up now</a>
+                </div>
+            </div>
         </div>
     </nav>
 
     <main>
-        <section id="about" class="about-section">
-            <div class="about-container">
-                <div class="about-header">
-                    <div class="founder-profile">
-                        <div class="founder-image">
-                            <img src="founder.jpg" alt="Mr. Favour Danladi - Founder of Assets Flow Enterprise" class="rotate-on-scroll">
-                        </div>
-                        <h2 class="founder-name">Favour Danladi</h2>
-                        <p class="founder-title">Founder & CEO</p>
+        <section id="about" class="pt-32 pb-20 px-6">
+            <div class="max-w-4xl mx-auto glass-panel p-8 md:p-16 rounded-[40px]">
+                <div class="text-center mb-16">
+                    <div class="relative w-32 h-32 mx-auto mb-8">
+                        <div class="absolute inset-0 bg-brand/20 blur-2xl rounded-full"></div>
+                        <img src="founder.jpg" alt="Favour Danladi" class="relative z-10 w-full h-full object-cover rounded-full border-2 border-brand/50">
                     </div>
-                    <h1 class="about-title">About Us</h1>
-                    <div class="about-divider"></div>
+                    <h2 class="text-gradient font-black text-2xl mb-1">Favour Danladi</h2>
+                    <p class="text-brand font-bold uppercase tracking-widest text-xs mb-8">Founder & CEO</p>
+                    <h1 class="text-4xl md:text-6xl font-black text-gradient leading-tight mb-6">About Us</h1>
+                    <div class="w-20 h-1 bg-brand mx-auto rounded-full"></div>
                 </div>
 
-                <div class="about-content">
-                    <p><strong>Quantara Alpha Enterprise</strong> was founded with a clear mission: to help individuals
-                        understand digital assets and build sustainable wealth through knowledge, strategy, and
-                        disciplined investing.</p>
+                <div class="space-y-8 text-slate-400 text-lg leading-relaxed">
+                    <p><strong class="text-white">Quantara Alpha Enterprise</strong> was founded with a clear mission: to help individuals understand digital assets and build sustainable wealth through knowledge, strategy, and disciplined investing.</p>
+                    <p>The idea came from observing a major problem in the cryptocurrency space — many people enter the market without proper knowledge or strategy, which often leads to losses.</p>
+                    <p>Quantara Alpha was created to change that. The goal is to build a structured ecosystem where individuals can learn, grow, and invest with the right guidance.</p>
+                    <p>Through education, research, and strategic planning, Quantara Alpha helps individuals grow from beginners into disciplined investors capable of building strong portfolios.</p>
 
-                    <p>The idea came from observing a major problem in the cryptocurrency space — many people enter
-                        the market without proper knowledge or strategy, which often leads to losses.</p>
-
-                    <p>Quantara Alpha was created to change that. The goal is to build a structured ecosystem where
-                        individuals can learn, grow, and invest with the right guidance.</p>
-
-                    <p>The founder believes that real wealth is not built through quick profits, but through
-                        knowledge, patience, and smart decision-making. This belief forms the foundation of the
-                        Quantara Alpha community.</p>
-
-                    <p>Through education, research, and strategic planning, Quantara Alpha helps individuals grow from
-                        beginners into disciplined investors capable of building strong portfolios.</p>
-
-                    <p>The long-term vision goes beyond cryptocurrency. Quantara Alpha aims to expand into other asset
-                        classes such as real estate, agriculture, and digital media, creating a complete ecosystem
-                        for financial growth.</p>
-
-                    <div class="mission-vision-grid">
-                        <div class="statement-card">
-                            <h3>Mission</h3>
-                            <p>To empower individuals with the knowledge, strategies, and opportunities needed to
-                                build sustainable wealth through digital assets and strategic investments.</p>
+                    <div class="grid md:grid-cols-2 gap-8 pt-12">
+                        <div class="bg-white/5 p-8 rounded-3xl border border-white/10 hover:border-brand/30 transition-all group">
+                            <div class="w-12 h-12 rounded-2xl bg-brand/10 flex items-center justify-center text-brand mb-6 group-hover:scale-110 transition-all"><i class="fas fa-eye"></i></div>
+                            <h3 class="text-white font-black text-2xl mb-4">Vision</h3>
+                            <p class="text-sm">To build a global ecosystem of disciplined investors who grow from beginners to wealth creators across multiple asset classes.</p>
                         </div>
-                        <div class="statement-card">
-                            <h3>Vision</h3>
-                            <p>To build a global ecosystem of disciplined investors who grow from beginners to
-                                wealth creators across multiple asset classes.</p>
+                        <div class="bg-white/5 p-8 rounded-3xl border border-white/10 hover:border-brand/30 transition-all group">
+                            <div class="w-12 h-12 rounded-2xl bg-brand/10 flex items-center justify-center text-brand mb-6 group-hover:scale-110 transition-all"><i class="fas fa-bullseye"></i></div>
+                            <h3 class="text-white font-black text-2xl mb-4">Mission</h3>
+                            <p class="text-sm">To empower individuals with the knowledge, strategies, and opportunities needed to build sustainable wealth through digital assets and strategic investments.</p>
                         </div>
                     </div>
                 </div>
@@ -149,6 +177,39 @@
 </footer>
 <!-- END: Footer -->
 
+<script>
+    // Navigation Scroll Logic
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('main-nav');
+        if (window.scrollY > 20) {
+            nav.classList.add('bg-slate-950/95', 'backdrop-blur-2xl', 'py-2', 'border-white/10');
+            nav.classList.remove('bg-transparent', 'backdrop-blur-none');
+        } else {
+            nav.classList.remove('bg-slate-950/95', 'backdrop-blur-2xl', 'py-2', 'border-white/10');
+            nav.classList.add('bg-transparent', 'backdrop-blur-none');
+        }
+    });
+
+    // Mobile Menu Logic
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const close = document.getElementById('close-mobile-menu');
+
+    if (toggle && menu && close) {
+        toggle.addEventListener('click', () => {
+            menu.classList.remove('hidden');
+            setTimeout(() => menu.classList.remove('translate-x-full'), 10);
+        });
+
+        const closeNav = () => {
+            menu.classList.add('translate-x-full');
+            setTimeout(() => menu.classList.add('hidden'), 500);
+        };
+
+        close.addEventListener('click', closeNav);
+        menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav));
+    }
+</script>
     <script src="main.js"></script>
 </body>
 

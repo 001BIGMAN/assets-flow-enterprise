@@ -6,198 +6,168 @@
     <title>Community Rules | Assets Flow Enterprise</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .rules-page-section {
-            padding: 140px 5% 100px;
-            max-width: 900px;
-            margin: 0 auto;
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style data-purpose="premium-design-system">
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
-        
-        .rules-grid {
-            display: grid;
-            gap: 30px;
-            margin-top: 60px;
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        
         .rule-card {
-            background: rgba(212, 175, 55, 0.03);
-            border: 1px solid rgba(212, 175, 55, 0.1);
-            padding: 30px;
-            border-radius: 16px;
-            display: flex;
-            gap: 25px;
-            transition: transform 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
         .rule-card:hover {
-            transform: translateX(10px);
-            background: rgba(212, 175, 55, 0.05);
-            border-color: rgba(212, 175, 55, 0.3);
+            transform: translateX(8px);
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(37, 99, 235, 0.3);
         }
-        
-        .rule-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--accent-gold);
-            opacity: 0.5;
-            min-width: 40px;
-        }
-        
-        .rule-content h3 {
-            color: var(--accent-gold);
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 1.1rem;
-        }
-        
-        .rule-content p {
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-        }
-        
-        .prohibited-section {
-            margin-top: 80px;
-            background: rgba(255, 0, 0, 0.03);
-            border: 1px solid rgba(255, 0, 0, 0.1);
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-        }
-        
-        .prohibited-section h2 {
-            color: #ff4d4d;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-        
-        .rule-list-simple {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .rule-list-simple li {
-            color: rgba(255, 255, 255, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .rule-list-simple i {
-            color: #ff4d4d;
-            font-size: 0.8rem;
-        }
+        nav { transition: all 0.4s ease; }
     </style>
 </head>
-<body>
-    <header>
-        <nav>
-            <div class="logo">
-                <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
-                    <img src="logo.png" alt="Assets Flow Enterprise Logo">
+<body class="antialiased text-slate-200 overflow-x-hidden bg-slate-950">
+    <!-- Navigation -->
+    <nav id="main-nav" class="fixed top-0 w-full z-[2000] bg-transparent border-b border-transparent backdrop-blur-none transition-all duration-500">
+        <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="flex items-center">
+                    <img src="logo.png" alt="Quantara Alpha Logo" class="h-12 md:h-16 w-auto object-contain">
                 </a>
             </div>
-            <a href="menu.html" class="mobile-menu-btn" style="text-decoration: none;"><i class="fas fa-bars"></i></a>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="community.html">Community</a></li>
-                <li><a href="index.html#pricing">Courses</a></li>
-            </ul>
-        </nav>
-    </header>
+            
+            <div class="hidden md:flex items-center space-x-8 font-['Inter'] text-sm tracking-tight font-medium">
+                <a class="text-slate-400 hover:text-brand transition-all" href="index.html">Home</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="community.html">Community</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="staking.html">Staking Pool</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="about.html">About Us</a>
+                <a class="text-brand font-bold border-b-2 border-brand pb-1" href="rules.html">Rules</a>
+            </div>
 
-    <main class="rules-page-section">
-        <h1 class="section-title">Community Code of Conduct</h1>
-        <p style="text-align: center; opacity: 0.7; max-width: 600px; margin: 0 auto 40px;">To maintain a high-quality learning environment, all members must adhere to the following rules.</p>
-        
-        <div class="rules-grid">
-            <div class="rule-card">
-                <div class="rule-number">01</div>
-                <div class="rule-content">
-                    <h3>Mutual Respect</h3>
-                    <p>Treat every member with respect. Harassment, hate speech, or bullying of any kind will result in immediate removal from the community.</p>
-                </div>
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="auth.html" class="text-slate-400 font-['Inter'] font-medium text-sm hover:text-brand transition-all">Log in</a>
+                <a href="auth.html#signup" class="bg-brand text-white px-6 py-2.5 rounded-xl font-['Inter'] font-bold text-sm active:scale-95 transition-all shadow-lg shadow-brand/20">Sign up</a>
             </div>
-            
-            <div class="rule-card">
-                <div class="rule-number">02</div>
-                <div class="rule-content">
-                    <h3>Value-Oriented Interaction</h3>
-                    <p>Keep discussions focused on learning, market analysis, and growth. Share insights that help others grow as investors.</p>
-                </div>
-            </div>
-            
-            <div class="rule-card">
-                <div class="rule-number">03</div>
-                <div class="rule-content">
-                    <h3>No Financial Advice</h3>
-                    <p>Quantara Alpha Enterprise provides education, not financial advice. All trades and investments are made at your own risk. Always do your own research.</p>
-                </div>
-            </div>
-            
-            <div class="rule-card">
-                <div class="rule-number">04</div>
-                <div class="rule-content">
-                    <h3>Confidentiality</h3>
-                    <p>Respect the privacy of the community. Do not share exclusive content, strategies, or member information outside the platform.</p>
+
+            <!-- Mobile Toggle -->
+            <button id="mobile-menu-toggle" class="md:hidden text-white p-2 focus:outline-none transition-transform active:scale-90">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-slate-950/98 z-[2001] hidden flex-col items-center justify-center p-10 backdrop-blur-2xl transition-all duration-500 translate-x-full">
+            <button id="close-mobile-menu" class="absolute top-10 right-10 text-white p-2">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="flex flex-col gap-8 text-center">
+                <a href="index.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Home</a>
+                <a href="community.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Community</a>
+                <a href="staking.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Staking Pool</a>
+                <a href="about.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">About Us</a>
+                <a href="founder.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Founder</a>
+                <div class="pt-8 flex flex-col gap-4">
+                    <a href="auth.html" class="text-lg font-bold text-slate-400">Log in</a>
+                    <a href="auth.html#signup" class="bg-brand text-white px-10 py-3 rounded-xl font-bold uppercase text-xs">Sign up now</a>
                 </div>
             </div>
         </div>
-        
-        <div class="prohibited-section">
-            <h2>Strictly Prohibited</h2>
-            <ul class="rule-list-simple">
-                <li><i class="fas fa-times"></i> Self-promotion or unsolicited marketing</li>
-                <li><i class="fas fa-times"></i> Scamming or deceptive practices</li>
-                <li><i class="fas fa-times"></i> Spamming in forums or community groups</li>
-                <li><i class="fas fa-times"></i> Using illegal or unauthorized tools</li>
-            </ul>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-brand font-black text-xs uppercase tracking-[0.3em] mb-4">Integrity First</h2>
+                <h1 class="text-4xl md:text-6xl font-black text-gradient uppercase tracking-tighter leading-none mb-6">Community Code <br> of Conduct</h1>
+                <div class="w-20 h-1 bg-brand mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid gap-6">
+                <!-- Rule Cards -->
+                <div class="rule-card p-8 rounded-[28px] flex gap-8 items-start glass-panel">
+                    <span class="text-3xl font-black text-brand/30">01</span>
+                    <div>
+                        <h3 class="text-white font-bold uppercase tracking-widest text-sm mb-2">Mutual Respect</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Treat every member with respect. Harassment, hate speech, or bullying of any kind will result in immediate removal from the community.</p>
+                    </div>
+                </div>
+                
+                <div class="rule-card p-8 rounded-[28px] flex gap-8 items-start glass-panel">
+                    <span class="text-3xl font-black text-brand/30">02</span>
+                    <div>
+                        <h3 class="text-white font-bold uppercase tracking-widest text-sm mb-2">Value-Interaction</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Keep discussions focused on learning and market analysis. Share insights that help others grow as investors.</p>
+                    </div>
+                </div>
+                
+                <div class="rule-card p-8 rounded-[28px] flex gap-8 items-start glass-panel">
+                    <span class="text-3xl font-black text-brand/30">03</span>
+                    <div>
+                        <h3 class="text-white font-bold uppercase tracking-widest text-sm mb-2">Education Core</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Quantara Alpha provides education, not financial advice. All trades and investments are made at your own risk.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 bg-red-500/5 border border-red-500/20 p-10 rounded-[32px] text-center">
+                <h2 class="text-red-500 font-black uppercase tracking-widest text-sm mb-6">Strictly Prohibited</h2>
+                <div class="flex flex-wrap justify-center gap-x-8 gap-y-4">
+                    <span class="flex items-center gap-2 text-slate-400 text-xs font-bold"><i class="fas fa-times-circle text-red-500"></i> Self-promotion</span>
+                    <span class="flex items-center gap-2 text-slate-400 text-xs font-bold"><i class="fas fa-times-circle text-red-500"></i> Scamming</span>
+                    <span class="flex items-center gap-2 text-slate-400 text-xs font-bold"><i class="fas fa-times-circle text-red-500"></i> Spamming</span>
+                    <span class="flex items-center gap-2 text-slate-400 text-xs font-bold"><i class="fas fa-times-circle text-red-500"></i> Unauthorized Tools</span>
+                </div>
+            </div>
         </div>
     </main>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>Explore</h4>
-                    <ul>
-                        <li><a href="index.html#pricing">Pricing</a></li>
-                        <li><a href="index.html#curriculum">Curriculum</a></li>
-                        <li><a href="community.html">Community</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="founder.html">Our Founder</a></li>
-                        <li><a href="https://wa.link/pf3fok" target="_blank">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Important</h4>
-                    <ul>
-                        <li><a href="rules.html">Rules</a></li>
-                        <li><a href="faq.html">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Follow Us</h4>
-                    <ul>
-                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
-                        <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                &copy; 2026 Quantara Alpha Enterprise, LLC. All Rights Reserved.
-            </div>
+    <footer class="bg-slate-950 py-16 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">&copy; 2026 Quantara Alpha Enterprise. All Rights Reserved.</p>
         </div>
     </footer>
+
+    <script>
+        // Navigation Scroll Logic
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            if (nav) {
+                if (window.scrollY > 20) {
+                    nav.classList.add('bg-slate-950/95', 'backdrop-blur-2xl', 'py-2', 'border-white/10');
+                    nav.classList.remove('bg-transparent', 'backdrop-blur-none');
+                } else {
+                    nav.classList.remove('bg-slate-950/95', 'backdrop-blur-2xl', 'py-2', 'border-white/10');
+                    nav.classList.add('bg-transparent', 'backdrop-blur-none');
+                }
+            }
+        });
+
+        // Mobile Menu Logic
+        const toggle = document.getElementById('mobile-menu-toggle');
+        const menu = document.getElementById('mobile-menu');
+        const close = document.getElementById('close-mobile-menu');
+
+        if (toggle && menu && close) {
+            toggle.addEventListener('click', () => {
+                menu.classList.remove('hidden');
+                setTimeout(() => menu.classList.remove('translate-x-full'), 10);
+            });
+
+            const closeNav = () => {
+                menu.classList.add('translate-x-full');
+                setTimeout(() => menu.classList.add('hidden'), 500);
+            };
+
+            close.addEventListener('click', closeNav);
+            menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav));
+        }
+    </script>
+    <script src="main.js" defer></script>
 </body>
 </html>

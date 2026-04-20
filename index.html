@@ -13,11 +13,35 @@
             extend: {
               colors: {
                 brand: {
-                  DEFAULT: '#2563EB',
-                  dark: '#1d4ed8',
-                  light: '#60a5fa'
+                  DEFAULT: '#0066FF',
+                  dark: '#0052CC',
+                  light: '#3385FF',
+                  glow: 'rgba(0, 102, 255, 0.4)'
                 },
-                accent: '#facc15'
+                accent: {
+                  DEFAULT: '#FFD700',
+                  glow: 'rgba(255, 215, 0, 0.3)'
+                },
+                surface: {
+                  DEFAULT: '#020617',
+                  paper: '#0f172a',
+                  card: 'rgba(30, 41, 59, 0.5)'
+                }
+              },
+              animation: {
+                'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                'float': 'float 6s ease-in-out infinite',
+                'glow': 'glow 3s ease-in-out infinite alternate',
+              },
+              keyframes: {
+                float: {
+                  '0%, 100%': { transform: 'translateY(0)' },
+                  '50%': { transform: 'translateY(-20px)' },
+                },
+                glow: {
+                  '0%': { boxShadow: '0 0 20px rgba(0, 102, 255, 0.2)' },
+                  '100%': { boxShadow: '0 0 40px rgba(0, 102, 255, 0.5)' },
+                }
               }
             }
           }
@@ -33,74 +57,216 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 
-    <style data-purpose="typography">
+    <style data-purpose="premium-design-system">
+        :root {
+            --mesh-color-1: #001a4d;
+            --mesh-color-2: #000b1a;
+            --mesh-color-3: #1a0033;
+            --mesh-color-4: #000000;
+        }
+
         body {
-          font-family: 'Inter', sans-serif;
-          background-color: #000;
-          color: #fff;
+            font-family: 'Inter', sans-serif;
+            background: var(--mesh-color-4);
+            color: #f8fafc;
+            position: relative;
+            overflow-x: hidden;
         }
-        h1, h2, h3 {
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
+
+        /* Animated Mesh Background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 0% 0%, var(--mesh-color-1) 0%, transparent 50%),
+                radial-gradient(circle at 100% 0%, var(--mesh-color-3) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, var(--mesh-color-1) 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, var(--mesh-color-2) 0%, transparent 50%);
+            opacity: 0.6;
+            filter: blur(80px);
+            animation: mesh-drift 20s ease infinite alternate;
         }
-        .text-gold { color: #facc15; }
-    </style>
-    <style data-purpose="layout-utilities">
-        /* Disable the original body background from style.css just for the home page */
-        body { background-image: none !important; }
-        
+
+        @keyframes mesh-drift {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.1) translate(2% , 2%); }
+        }
+
+        /* Glassmorphism Refinement */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
         .pricing-card {
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
         }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 102, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 102, 255, 0.2);
+            background: rgba(15, 23, 42, 0.6);
+        }
+
+        .pricing-card::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(0, 102, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+
+        .pricing-card:hover::after {
+            opacity: 1;
+        }
+
         .pricing-card-highlight {
-          border: 1px solid #2563EB;
-          background: linear-gradient(180deg, rgba(37, 99, 235, 0.1) 0%, rgba(0,0,0,0) 100%);
+            background: linear-gradient(145deg, rgba(0, 102, 255, 0.15) 0%, rgba(15, 23, 42, 0.6) 100%);
+            border: 1px solid rgba(0, 102, 255, 0.6);
+            box-shadow: 0 0 30px rgba(0, 102, 255, 0.2);
         }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gradient-brand {
+            background: linear-gradient(135deg, #3385FF 0%, #0047AB 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Interactive Buttons */
+        .btn-premium {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .btn-premium::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn-premium:hover::before {
+            left: 100%;
+        }
+
+        /* Feature Boxes */
         .feature-icon-box {
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(30, 41, 59, 0.4);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(4px);
+          transition: transform 0.3s ease;
+        }
+        
+        .feature-icon-box:hover {
+            transform: scale(1.02);
+            background: rgba(30, 41, 59, 0.6);
+        }
+
+        /* Nav Blur */
+        nav {
+            transition: all 0.4s;
+        }
+
+        nav.scrolled {
+            background: rgba(2, 6, 23, 0.85);
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
         }
     </style>
 </head>
-<body class="antialiased overflow-x-hidden bg-[#0b1c30] text-[#f8f9ff]">
+<body class="antialiased overflow-x-hidden text-slate-200">
 <!-- BEGIN: Navigation -->
-<nav class="fixed top-0 w-full z-50 bg-[#0b1c30]/80 backdrop-blur-xl shadow-sm border-b border-white/10">
-    <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
-        <!-- Brand Logo & Mobile Toggle -->
-        <div class="flex items-center gap-4">
-            <a href="index.html" class="flex items-center">
-                <img src="logo.png" alt="Quantara Alpha Enterprise Logo" class="h-16 md:h-20 w-auto object-contain bg-transparent">
-            </a>
-            <a href="menu.html" class="md:hidden text-[#f8f9ff] text-xl hover:text-[#2563EB] transition-colors"><i class="fas fa-bars"></i></a>
-        </div>
-        
-        <!-- Desktop Links -->
-        <div class="hidden md:flex items-center space-x-8 font-['Inter'] text-sm tracking-tight font-medium">
-            <a class="text-[#f8f9ff] font-semibold border-b-2 border-[#2563EB] pb-1" href="index.html">Home</a>
-            <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href=" community.html">Community</a>
-            <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="staking.html">Staking Pool</a>
-            <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="index.html#pricing">Pricing</a>
-            <a class="text-[#f8f9ff]/70 hover:text-[#2563EB] transition-all duration-300" href="founder.html">Founder</a>
+    <nav id="main-nav" class="fixed top-0 w-full z-[2000] bg-transparent border-b border-transparent backdrop-blur-none transition-all duration-500">
+        <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="flex items-center">
+                    <img src="logo.png" alt="Quantara Alpha Logo" class="h-12 md:h-16 w-auto object-contain">
+                </a>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-8 font-['Inter'] text-sm tracking-tight font-medium">
+                <a class="text-brand font-bold border-b-2 border-brand pb-1" href="index.html">Home</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="community.html">Community</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="staking.html">Staking Pool</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="about.html">About Us</a>
+                <a class="text-slate-400 hover:text-brand transition-all" href="founder.html">Founder</a>
+            </div>
+
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="auth.html" class="text-slate-400 font-['Inter'] font-medium text-sm hover:text-brand transition-all">Log in</a>
+                <a href="auth.html#signup" class="bg-brand text-white px-6 py-2.5 rounded-xl font-['Inter'] font-bold text-sm active:scale-95 transition-all shadow-lg shadow-brand/20">Sign up</a>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <button id="mobile-menu-toggle" class="md:hidden text-white p-2 focus:outline-none transition-transform active:scale-90">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
         </div>
 
-        <!-- Actions (Hidden on Mobile) -->
-        <div class="hidden md:flex nav-actions items-center space-x-4">
-            <a href="auth.html" id="btn-login-main" class="text-[#f8f9ff]/70 font-medium text-sm hover:text-[#2563EB] transition-all">Log in</a>
-            <a href="auth.html#signup" id="btn-signup-main" class="bg-[#2563EB] text-white px-5 py-2 rounded-full font-semibold text-sm active:scale-95 transition-transform">Sign up</a>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 bg-slate-950/98 z-[2001] hidden flex-col items-center justify-center p-10 backdrop-blur-2xl transition-all duration-500 translate-x-full">
+            <button id="close-mobile-menu" class="absolute top-10 right-10 text-white p-2">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="flex flex-col gap-8 text-center">
+                <a href="index.html" class="text-2xl font-black text-brand uppercase tracking-tighter">Home</a>
+                <a href="community.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Community</a>
+                <a href="staking.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Staking Pool</a>
+                <a href="about.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">About Us</a>
+                <a href="founder.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Founder</a>
+                <div class="pt-8 flex flex-col gap-4">
+                    <a href="auth.html" class="text-lg font-bold text-slate-400">Log in</a>
+                    <a href="auth.html#signup" class="bg-brand text-white px-10 py-3 rounded-xl font-bold uppercase text-xs">Sign up now</a>
+                </div>
+            </div>
         </div>
-        <div class="bg-[#1a2b3c] h-[1px] w-full absolute bottom-0 left-0"></div>
-    </div>
-</nav>
+    </nav>
 <!-- END: Navigation -->
 
 <!-- BEGIN: Hero Section -->
 <section class="pt-32 pb-20 px-4 max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center hero-content" data-purpose="hero">
     <div>
-        <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6">
+        <h1 class="text-6xl md:text-8xl font-black leading-none mb-8 text-gradient">
             Quantara<br/>
             Alpha<br/>
-            Enterprise
+            <span class="text-gradient-brand">Enterprise</span>
         </h1>
         <p class="text-gray-400 text-lg mb-8 max-w-lg">
             Learn cryptocurrency the right way through a structured program designed to help you understand the market, invest wisely, and grow with confidence.
@@ -118,9 +284,9 @@
             <a href="dashboard.html" id="hero-dashboard-btn" class="bg-brand text-white px-8 py-4 rounded-md font-bold transition-all">Go to Dashboard</a>
         </div>
     </div>
-    <div class="relative">
-        <img alt="Dashboard Preview" class="rounded-2xl shadow-2xl border border-white/10" src="hero_graphic.png"/>
-        
+    <div class="relative group">
+        <div class="absolute -inset-4 bg-brand/20 blur-3xl rounded-full opacity-50 group-hover:opacity-80 transition-opacity animate-pulse-slow"></div>
+        <img alt="Dashboard Preview" class="relative rounded-2xl shadow-2xl border border-white/10 animate-float" src="hero_graphic.png"/>
     </div>
 </section>
 <!-- END: Hero Section -->
@@ -136,57 +302,59 @@
     <div class="mb-10">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Level 0: Basic -->
-            <div id="card-basic" class="pricing-card p-6 rounded-xl flex flex-col justify-between">
+            <div id="card-basic" class="pricing-card p-8 rounded-2xl flex flex-col justify-between group">
                 <div>
-                    <h3 class="text-sm font-bold mb-6 text-gray-300">Basic Access (Waitlist Group)</h3>
-                    <ul class="text-xs text-left space-y-3 mb-8 text-gray-400">
-                        <li class="flex items-start gap-2"><span class="text-brand">✓</span> Introduction to Cryptocurrency</li>
-                        <li class="flex items-start gap-2"><span class="text-brand">✓</span> Community Forum Access</li>
-                        <li class="flex items-start gap-2"><span class="text-brand">✓</span> Content Library Access</li>
+                    <h3 class="text-xs font-black mb-6 text-brand tracking-[0.2em] uppercase">Basic Access</h3>
+                    <h4 class="text-lg font-bold mb-4 text-white">Waitlist Group</h4>
+                    <ul class="text-sm text-left space-y-4 mb-8 text-slate-400">
+                        <li class="flex items-start gap-3"><span class="text-brand shadow-sm"><i class="fas fa-check-circle"></i></span> Introduction to Crypto</li>
+                        <li class="flex items-start gap-3"><span class="text-brand shadow-sm"><i class="fas fa-check-circle"></i></span> Community Forum</li>
+                        <li class="flex items-start gap-3"><span class="text-brand shadow-sm"><i class="fas fa-check-circle"></i></span> Content Library</li>
                     </ul>
                 </div>
                 <div class="mt-auto">
-                    <div class="text-3xl font-bold mb-4">₦0</div>
-                    <a href="https://chat.whatsapp.com/GBN5T5sTaEf4kK5gYaZDGH?mode=gi_t" target="_blank" class="block w-full text-center bg-brand py-3 rounded font-bold uppercase text-xs">Start Free</a>
+                    <div class="text-4xl font-black mb-6 text-white text-gradient">₦0</div>
+                    <a href="https://chat.whatsapp.com/GBN5T5sTaEf4kK5gYaZDGH?mode=gi_t" target="_blank" class="block w-full text-center bg-brand hover:bg-brand-light py-4 rounded-xl font-bold uppercase text-xs transition-all shadow-md active:scale-95 btn-premium">Start Free</a>
                 </div>
             </div>
 
             <!-- Level 1 -->
-            <div id="card-level1" class="pricing-card p-6 rounded-xl flex flex-col justify-between">
+            <div id="card-level1" class="pricing-card p-8 rounded-2xl flex flex-col justify-between group">
                 <div>
-                    <h3 class="text-sm font-bold mb-6 text-gray-300">Level 1 — Crypto Quick Start</h3>
-                    <ul class="text-xs text-left space-y-3 mb-8 text-gray-400">
-                        <li class="flex items-start gap-2"><span class="text-brand">✓</span> Introduction to Cryptocurrency and its Evolution</li>
-                        <li class="flex items-start gap-2"><span class="text-brand">✓</span> How Blockchain Works</li>
-                        <li class="flex items-start gap-2"><span class="text-brand">✓</span> How People Make Money in Crypto</li>
-                        <li class="flex items-start gap-2"><span class="text-brand">✓</span> How to Open and Secure a Crypto Wallet</li>
-                        <li class="flex items-start gap-2"><span class="text-brand">✓</span> Introduction to Spot Trading</li>
+                    <h3 class="text-xs font-black mb-6 text-brand tracking-[0.2em] uppercase">Level 1</h3>
+                    <h4 class="text-lg font-bold mb-4 text-white">Crypto Quick Start</h4>
+                    <ul class="text-sm text-left space-y-4 mb-8 text-slate-400">
+                        <li class="flex items-start gap-3"><span class="text-brand shadow-sm"><i class="fas fa-check-circle"></i></span> Evolution of Crypto</li>
+                        <li class="flex items-start gap-3"><span class="text-brand shadow-sm"><i class="fas fa-check-circle"></i></span> Blockchain Mechanics</li>
+                        <li class="flex items-start gap-3"><span class="text-brand shadow-sm"><i class="fas fa-check-circle"></i></span> Making Money in Crypto</li>
+                        <li class="flex items-start gap-3"><span class="text-brand shadow-sm"><i class="fas fa-check-circle"></i></span> Wallet Security Setup</li>
+                        <li class="flex items-start gap-3"><span class="text-brand shadow-sm"><i class="fas fa-check-circle"></i></span> Spot Trading Basics</li>
                     </ul>
                 </div>
                 <div class="mt-auto">
                     <div class="text-3xl font-bold mb-2">₦25,000</div>
                     <div class="text-[10px] text-brand mb-4 uppercase font-bold">Access: Level 1 Only</div>
-                    <a href="auth.html" class="block w-full text-center bg-brand py-3 rounded font-bold uppercase text-xs">Join Level 1</a>
+                    <a href="auth.html" class="block w-full text-center bg-brand hover:bg-brand-light py-4 rounded-xl font-bold uppercase text-xs transition-all shadow-md active:scale-95 btn-premium">Join Level 1</a>
                 </div>
             </div>
 
             <!-- Level 2 -->
-            <div id="card-level2" class="pricing-card p-6 rounded-xl flex flex-col justify-between">
+            <div id="card-level2" class="pricing-card p-8 rounded-2xl flex flex-col justify-between group">
                 <div>
-                    <h3 class="text-sm font-bold mb-6 text-gray-300">Level 2 — Crypto Research Mentorship</h3>
-                    <ul class="text-xs text-left space-y-3 mb-8 text-gray-400">
-                        <li class="flex items-start gap-2"><span class="text-brand">✓</span> Includes Level 1</li>
-                        <li class="flex items-start gap-2"><span class="text-brand">✓</span> How to Research Crypto Projects</li>
-                        <li class="flex items-start gap-2"><span class="text-brand">✓</span> How to Identify Profitable Narratives</li>
-                        <li class="flex items-start gap-2"><span class="text-brand">✓</span> Tokenomics and Fundamental Analysis</li>
-                        <li class="flex items-start gap-2"><span class="text-brand">✓</span> How to Identify Scams and Rug Pulls</li>
-                        <li class="flex items-start gap-2"><span class="text-brand">✓</span> How to Build a Profitable Portfolio</li>
+                    <h3 class="text-xs font-black mb-6 text-brand tracking-[0.2em] uppercase">Level 2</h3>
+                    <h4 class="text-lg font-bold mb-4 text-white">Research Mentorship</h4>
+                    <ul class="text-sm text-left space-y-4 mb-8 text-slate-400">
+                        <li class="flex items-start gap-3"><span class="text-brand shadow-sm"><i class="fas fa-check-circle"></i></span> Includes Level 1</li>
+                        <li class="flex items-start gap-3"><span class="text-brand shadow-sm"><i class="fas fa-check-circle"></i></span> Project Researching</li>
+                        <li class="flex items-start gap-3"><span class="text-brand shadow-sm"><i class="fas fa-check-circle"></i></span> Profitable Narratives</li>
+                        <li class="flex items-start gap-3"><span class="text-brand shadow-sm"><i class="fas fa-check-circle"></i></span> Fundamental Analysis</li>
+                        <li class="flex items-start gap-3"><span class="text-brand shadow-sm"><i class="fas fa-check-circle"></i></span> Scam & Rug Detection</li>
                     </ul>
                 </div>
                 <div class="mt-auto">
                     <div class="text-3xl font-bold mb-2">₦50,000</div>
                     <div class="text-[10px] text-brand mb-4 uppercase font-bold">Access: Levels 1 and 2</div>
-                    <a href="auth.html" class="block w-full text-center bg-brand py-3 rounded font-bold uppercase text-xs">Start Mentorship</a>
+                    <a href="auth.html" class="block w-full text-center bg-brand hover:bg-brand-light py-4 rounded-xl font-bold uppercase text-xs transition-all shadow-md active:scale-95 btn-premium">Start Mentorship</a>
                 </div>
             </div>
         </div>
@@ -216,22 +384,22 @@
             </div>
 
             <!-- Level 4 -->
-            <div id="card-level4" class="pricing-card-highlight p-6 rounded-xl flex flex-col justify-between border-2">
+            <div id="card-level4" class="pricing-card pricing-card-highlight p-10 rounded-2xl flex flex-col justify-between border-2 relative overflow-hidden group">
                 <div>
-                    <h3 class="text-sm font-bold mb-6 text-brand">Level 4 — VIP Investor Network</h3>
-                    <ul class="text-xs text-left space-y-3 mb-8 text-gray-200 font-medium">
-                        <li class="flex items-start gap-2"><span class="text-brand">★</span> Includes all previous levels</li>
-                        <li class="flex items-start gap-2"><span class="text-brand">★</span> Direct Access to the Mentor</li>
-                        <li class="flex items-start gap-2"><span class="text-brand">★</span> Advanced Market Breakdowns</li>
-                        <li class="flex items-start gap-2"><span class="text-brand">★</span> Bull Run Positioning Strategies</li>
-                        <li class="flex items-start gap-2"><span class="text-brand">★</span> Exclusive Investor Community</li>
-                        <li class="flex items-start gap-2"><span class="text-brand">★</span> Priority Support and Market Intelligence</li>
+                    <h3 class="text-xs font-black mb-6 text-brand tracking-[0.2em] uppercase">Level 4</h3>
+                    <h4 class="text-2xl font-black mb-4 text-white">VIP Investor Network</h4>
+                    <ul class="text-sm text-left space-y-5 mb-8 text-slate-200 font-medium">
+                        <li class="flex items-start gap-3"><span class="text-brand"><i class="fas fa-star"></i></span> All previous levels included</li>
+                        <li class="flex items-start gap-3"><span class="text-brand"><i class="fas fa-star"></i></span> Direct 1-on-1 Mentor Access</li>
+                        <li class="flex items-start gap-3"><span class="text-brand"><i class="fas fa-star"></i></span> Real-time Market Intelligence</li>
+                        <li class="flex items-start gap-3"><span class="text-brand"><i class="fas fa-star"></i></span> Bull Run Positioning Strategies</li>
+                        <li class="flex items-start gap-3"><span class="text-brand"><i class="fas fa-star"></i></span> Exclusive Elite Community</li>
                     </ul>
                 </div>
                 <div class="mt-auto">
                     <div class="text-3xl font-bold mb-2 text-white">₦250,000</div>
                     <div class="text-[10px] text-brand mb-4 uppercase font-bold">Access: All Levels</div>
-                    <a href="auth.html" class="block w-full text-center bg-brand py-3 rounded font-bold uppercase text-xs text-white">Get VIP Access</a>
+                    <a href="auth.html" class="block w-full text-center bg-brand hover:bg-brand-light py-4 rounded-xl font-bold uppercase text-xs transition-all shadow-md active:scale-95 btn-premium">Get VIP Access</a>
                 </div>
             </div>
         </div>
@@ -291,10 +459,11 @@
 
 <!-- BEGIN: Middle CTA -->
 <section id="final-cta" class="py-20 px-4 bg-zinc-950 border-y border-white/10" data-purpose="middle-cta">
-    <div class="max-w-4xl mx-auto text-center border border-white/5 p-12 rounded-3xl bg-white/5">
-        <h3 class="text-xl font-bold mb-2">Take the next step in your crypto education journey today.</h3>
-        <h3 class="text-xl font-bold mb-8">Choose your level, start learning, and position yourself for better opportunities in the digital asset space.</h3>
-        <a href="auth.html" class="inline-block border border-brand text-brand hover:bg-brand hover:text-white px-10 py-4 rounded font-bold uppercase transition-all">Get Started Now</a>
+    <div class="max-w-4xl mx-auto text-center border border-white/10 p-12 rounded-3xl bg-surface-paper/40 backdrop-blur-xl relative overflow-hidden group">
+        <div class="absolute inset-0 bg-brand/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <h3 class="text-2xl font-bold mb-4 text-white">Take the next step in your crypto education journey today.</h3>
+        <h3 class="text-xl font-medium mb-8 text-slate-400">Choose your level, start learning, and position yourself for better opportunities in the digital asset space.</h3>
+        <a href="auth.html" class="inline-block bg-brand hover:bg-brand-light text-white px-10 py-4 rounded-xl font-bold uppercase transition-all shadow-lg shadow-brand/20 active:scale-95 btn-premium">Get Started Now</a>
     </div>
 </section>
 <!-- END: Middle CTA -->
@@ -366,59 +535,77 @@
 <!-- END: Community Invitation -->
 
 <!-- BEGIN: Testimonials Section -->
-<section class="py-20 px-4" data-purpose="testimonials">
-    <div class="max-w-7xl mx-auto text-center">
-        <h2 class="text-3xl font-bold mb-4 uppercase">What Our Members Say</h2>
-        <div class="w-24 h-1 bg-brand mx-auto mb-4"></div>
-        <p class="text-gray-400 mb-16">Real results from real community members across all levels.</p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-white/5 p-8 rounded-xl border border-white/5 text-left flex flex-col justify-between">
-                <div>
-                    <div class="text-brand text-xl mb-4">★★★★★</div>
-                    <p class="text-sm italic text-gray-300 leading-relaxed">"The content is absolutely premium. Understanding market cycles and smart money concepts has given me an edge."</p>
-                </div>
-                <div class="mt-8 flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center border border-white/10">
-                        <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" fill-rule="evenodd"></path></svg>
-                    </div>
+<section class="py-32 px-4 overflow-hidden" data-purpose="testimonials">
+    <div class="max-w-7xl mx-auto text-center mb-16">
+        <h2 class="text-brand font-black text-xs uppercase tracking-[0.3em] mb-4">Success Stories</h2>
+        <h1 class="text-4xl md:text-6xl font-black text-gradient uppercase tracking-tighter leading-none mb-6">What Our <br> Members Say</h1>
+        <div class="w-20 h-1 bg-brand mx-auto rounded-full"></div>
+    </div>
+
+    <!-- Marquee Container -->
+    <div class="relative flex gap-8 py-10 marquee-container">
+        <div class="flex gap-8 marquee-content animate-marquee">
+            <!-- Testimonial 1 -->
+            <div class="flex-shrink-0 w-[400px] glass-panel p-8 rounded-[32px] border border-white/5">
+                <div class="text-brand text-xl mb-6">★★★★★</div>
+                <p class="text-slate-300 text-lg leading-relaxed mb-8 italic">"The content is absolutely premium. Understanding market cycles and smart money concepts has given me an edge."</p>
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-brand/10 border border-brand/20 flex items-center justify-center font-black text-brand">M</div>
                     <div>
-                        <div class="text-sm font-bold">MR. MARTINS</div>
-                        <div class="text-[10px] text-gray-500 uppercase">Community Member</div>
+                        <h4 class="text-white font-bold text-sm uppercase tracking-wider">Mr. Martins</h4>
+                        <p class="text-slate-500 text-[10px] font-black uppercase">VIP Community</p>
                     </div>
                 </div>
             </div>
-            <div class="bg-white/5 p-8 rounded-xl border border-brand/30 text-left flex flex-col justify-between scale-105 shadow-2xl shadow-brand/10">
-                <div>
-                    <div class="text-brand text-xl mb-4">★★★★★</div>
-                    <p class="text-sm italic text-gray-300 leading-relaxed">"I was skeptical at first, but after joining the VIP group I could see this is different. The market breakdowns and support are top-notch."</p>
-                </div>
-                <div class="mt-8 flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center border border-white/10">
-                        <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" fill-rule="evenodd"></path></svg>
-                    </div>
+            <!-- Testimonial 2 -->
+            <div class="flex-shrink-0 w-[400px] glass-panel p-8 rounded-[32px] border-brand/30 ring-1 ring-brand/20">
+                <div class="text-brand text-xl mb-6">★★★★★</div>
+                <p class="text-slate-300 text-lg leading-relaxed mb-8 italic">"I was skeptical at first, but after joining the VIP group I could see this is different. The market breakdowns and support are top-notch."</p>
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-brand/10 border border-brand/20 flex items-center justify-center font-black text-brand">S</div>
                     <div>
-                        <div class="text-sm font-bold">MR. SAM</div>
-                        <div class="text-[10px] text-gray-500 uppercase">Community Member</div>
+                        <h4 class="text-white font-bold text-sm uppercase tracking-wider">Mr. Sam</h4>
+                        <p class="text-slate-500 text-[10px] font-black uppercase">Elite Trader</p>
                     </div>
                 </div>
             </div>
-            <div class="bg-white/5 p-8 rounded-xl border border-white/5 text-left flex flex-col justify-between">
-                <div>
-                    <div class="text-brand text-xl mb-4">★★★★★</div>
-                    <p class="text-sm italic text-gray-300 leading-relaxed">"Quantara Alpha completely changed how I see crypto. The structured levels made everything so clear. I went from lost to confident."</p>
-                </div>
-                <div class="mt-8 flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center border border-white/10">
-                        <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" fill-rule="evenodd"></path></svg>
-                    </div>
+            <!-- Testimonial 3 -->
+            <div class="flex-shrink-0 w-[400px] glass-panel p-8 rounded-[32px] border border-white/5">
+                <div class="text-brand text-xl mb-6">★★★★★</div>
+                <p class="text-slate-300 text-lg leading-relaxed mb-8 italic">"Quantara Alpha completely changed how I see crypto. The structured levels made everything so clear. I went from lost to confident."</p>
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-brand/10 border border-brand/20 flex items-center justify-center font-black text-brand">J</div>
                     <div>
-                        <div class="text-sm font-bold">MR. JEREMIAH</div>
-                        <div class="text-[10px] text-gray-500 uppercase">Community Member</div>
+                        <h4 class="text-white font-bold text-sm uppercase tracking-wider">Mr. Jeremiah</h4>
+                        <p class="text-slate-500 text-[10px] font-black uppercase">Growth Circle</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Duplicate for loop -->
+            <div class="flex-shrink-0 w-[400px] glass-panel p-8 rounded-[32px] border border-white/5">
+                <div class="text-brand text-xl mb-6">★★★★★</div>
+                <p class="text-slate-300 text-lg leading-relaxed mb-8 italic">"The content is absolutely premium. Understanding market cycles and smart money concepts has given me an edge."</p>
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-brand/10 border border-brand/20 flex items-center justify-center font-black text-brand">M</div>
+                    <div>
+                        <h4 class="text-white font-bold text-sm uppercase tracking-wider">Mr. Martins</h4>
+                        <p class="text-slate-500 text-[10px] font-black uppercase">VIP Community</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+        .animate-marquee {
+            display: flex;
+            animation: marquee 30s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-100% - 2rem)); }
+        }
+    </style>
 </section>
 <!-- END: Testimonials Section -->
 
@@ -463,9 +650,63 @@
 </footer>
 <!-- END: Footer -->
 
+<!-- Base Security & Config -->
+<script src="security.js"></script>
+<script src="config.js"></script>
+
 <!-- Important Scripts for Application Logic -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="main.js"></script>
 
+<!-- Scroll Effect for Nav -->
+<!-- Application Scripts -->
+<script>
+    // Navigation Scroll Logic
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('main-nav');
+        if (window.scrollY > 20) {
+            nav.classList.add('bg-slate-950/95', 'backdrop-blur-2xl', 'py-2', 'border-white/10');
+            nav.classList.remove('bg-transparent', 'backdrop-blur-none');
+        } else {
+            nav.classList.remove('bg-slate-950/95', 'backdrop-blur-2xl', 'py-2', 'border-white/10');
+            nav.classList.add('bg-transparent', 'backdrop-blur-none');
+        }
+    });
+
+    // Mobile Menu Toggle Logic
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const close = document.getElementById('close-mobile-menu');
+
+    if (toggle && menu && close) {
+        toggle.addEventListener('click', () => {
+            menu.classList.remove('hidden');
+            setTimeout(() => menu.classList.remove('translate-x-full'), 10);
+        });
+
+        const closeNav = () => {
+            menu.classList.add('translate-x-full');
+            setTimeout(() => menu.classList.add('hidden'), 500);
+        };
+
+        close.addEventListener('click', closeNav);
+        menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav));
+    }
+
+    // Scroll Animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('opacity-100', 'translate-y-0');
+                entry.target.classList.remove('opacity-0', 'translate-y-10');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(section => {
+        section.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
+        observer.observe(section);
+    });
+</script>
 </body>
 </html>
