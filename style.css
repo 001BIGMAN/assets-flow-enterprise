@@ -3297,3 +3297,11 @@ footer {
         margin-bottom: 5px;
     }
 }
+
+.nav-scrolled {
+    background-color: rgba(2, 6, 23, 0.98) !important;
+    backdrop-filter: blur(24px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+}

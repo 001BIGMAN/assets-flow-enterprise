@@ -16,7 +16,7 @@
         }
         .text-gradient {
             background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
+            -webkit-background-clip: text; background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .faq-item {
@@ -65,7 +65,7 @@
         </div>
 
         <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu" class="fixed inset-0 bg-slate-950/98 z-[2001] hidden flex-col items-center justify-center p-10 backdrop-blur-2xl transition-all duration-500 translate-x-full">
+        <div id="mobile-menu" class="fixed inset-0 bg-slate-950 z-[2001] hidden flex-col items-center justify-center p-10 backdrop-blur-2xl transition-all duration-500 translate-x-full">
             <button id="close-mobile-menu" class="absolute top-10 right-10 text-white p-2">
                 <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
