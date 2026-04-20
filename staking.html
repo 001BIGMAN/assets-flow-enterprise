@@ -37,6 +37,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #020617;
+            background-image: none;
             color: #f8fafc;
         }
         .text-gradient {
@@ -50,14 +51,21 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .staking-card {
-            background: #0f172a;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #0b1120;
+            border: 1px solid rgba(255, 255, 255, 0.12);
             transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
         .staking-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px);
             border-color: rgba(0, 102, 255, 0.5);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 102, 255, 0.2);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6), 0 0 24px rgba(0, 102, 255, 0.15);
+        }
+        .card-info-box {
+            background: #111827;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
         }
         nav { transition: all 0.4s ease; }
     </style>
@@ -65,7 +73,7 @@
 <body class="antialiased overflow-x-hidden">
 
     <!-- Universal Navigation -->
-    <nav id="main-nav" class="fixed top-0 w-full z-[2000] bg-transparent border-b border-transparent backdrop-blur-none transition-all duration-500">
+    <nav id="main-nav" class="fixed top-0 w-full z-[2000] bg-slate-950 border-b border-white/5 transition-all duration-500">
         <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
             <div class="flex items-center gap-4">
                 <a href="index.html" class="flex items-center">
@@ -146,12 +154,12 @@
                         <li class="flex items-center gap-3 text-slate-400 text-sm"><i class="fas fa-check-circle text-brand"></i> Automated monthly payout</li>
                     </ul>
                 </div>
-                <div class="bg-white/[0.02] rounded-3xl p-6 border border-white/5 mb-8">
+                <div class="card-info-box">
                     <div class="flex justify-between text-xs font-bold items-center">
                         <span class="text-slate-500">Min Amount</span>
                         <span class="text-white">N50,000</span>
                     </div>
-                    <div class="h-px bg-white/5 my-4"></div>
+                    <div class="h-px bg-white/10 my-4"></div>
                     <div class="flex justify-between text-xs font-bold items-center">
                         <span class="text-slate-500">Max Amount</span>
                         <span class="text-white">N500,000</span>
@@ -181,12 +189,12 @@
                         <li class="flex items-center gap-3 text-slate-400 text-sm"><i class="fas fa-check-circle text-brand"></i> Maturity bonus features</li>
                     </ul>
                 </div>
-                <div class="bg-white/[0.02] rounded-3xl p-6 border border-white/5 mb-8">
+                <div class="card-info-box">
                     <div class="flex justify-between text-xs font-bold items-center">
                         <span class="text-slate-500">Min Amount</span>
                         <span class="text-white">N50,000</span>
                     </div>
-                    <div class="h-px bg-white/5 my-4"></div>
+                    <div class="h-px bg-white/10 my-4"></div>
                     <div class="flex justify-between text-xs font-bold items-center">
                         <span class="text-slate-500">Max Amount</span>
                         <span class="text-white">N500,000</span>
