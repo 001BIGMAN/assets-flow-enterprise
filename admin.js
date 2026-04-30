@@ -141,15 +141,17 @@ function setupAdminNavigation() {
 
     const toggleSidebar = () => {
         sidebar.classList.toggle('active');
-        overlay.classList.toggle('active');
-        const icon = toggle.querySelector('i');
-        const text = toggle.querySelector('span');
-        if (sidebar.classList.contains('active')) {
-            icon.className = 'fas fa-times';
-            if(text) text.textContent = 'CLOSE';
-        } else {
-            icon.className = 'fas fa-bars';
-            if(text) text.textContent = 'ADMIN MENU';
+        // Optional: Toggle icon
+        const icon = toggle.querySelector('span.material-symbols-outlined');
+        const text = toggle.querySelector('span:not(.material-symbols-outlined)');
+        if (icon) {
+            if (sidebar.classList.contains('active')) {
+                icon.textContent = 'close';
+                if(text) text.textContent = 'CLOSE';
+            } else {
+                icon.textContent = 'menu';
+                if(text) text.textContent = 'MENU';
+            }
         }
     };
 
@@ -161,12 +163,9 @@ function setupAdminNavigation() {
     if (savedTab) {
         const targetLink = document.querySelector(`.sidebar-nav a[data-target="${savedTab}"]`);
         if (targetLink) {
-            // Remove default active
-            document.querySelectorAll('.sidebar-nav li').forEach(li => li.classList.remove('active'));
+            document.querySelectorAll('.sidebar-nav a[data-target]').forEach(l => l.classList.remove('active'));
             sections.forEach(sec => sec.classList.remove('active'));
-            
-            // Set saved active
-            targetLink.parentElement.classList.add('active');
+            targetLink.classList.add('active');
             const targetSec = document.getElementById(savedTab);
             if (targetSec) targetSec.classList.add('active');
         }
@@ -176,9 +175,9 @@ function setupAdminNavigation() {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             
-            // Update active link class
-            document.querySelectorAll('.sidebar-nav li').forEach(li => li.classList.remove('active'));
-            link.parentElement.classList.add('active');
+            // Update active link class directly on links (not wrapped in <li>)
+            document.querySelectorAll('.sidebar-nav a[data-target]').forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
 
             // Show target section
             const targetId = link.getAttribute('data-target');
@@ -199,9 +198,13 @@ function setupAdminNavigation() {
 }
 
 async function loadStudentsOverview() {
+    // `student_profiles` view is blocked by RLS (references auth.users).
+    // `profiles` table is accessible to admin — select all available columns.
     const { data: profiles, error } = await sb
-        .from('student_profiles')
-        .select('id, email, full_name, created_at');
+        .from('profiles')
+        .select('*')
+        .neq('role', 'admin')
+        .neq('role', 'founder');
 
     const tbody = document.getElementById('students-table-body');
     const totalEl = document.getElementById('stat-total-students');
@@ -229,16 +232,21 @@ async function loadStudentsOverview() {
 
     profiles.forEach(p => {
         const name = p.full_name || 'N/A';
-        const email = p.email || 'Unknown';
+        const email = '—'; // email not stored in profiles table (in auth.users)
         const date = p.created_at ? new Date(p.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Unknown';
-        const plan = localStorage.getItem(`plan_${p.id}`) || '—';
+        const plan = p.role ? p.role.toUpperCase() : '—';
 
         const tr = document.createElement('tr');
+        tr.className = "hover:bg-white/5 transition-colors";
         tr.innerHTML = `
-            <td style="padding: 18px; font-weight: bold;">${Security.escapeHTML(name)}</td>
-            <td style="padding: 18px; opacity: 0.7;">${Security.escapeHTML(email)}</td>
-            <td style="padding: 18px;"><span style="color: var(--accent-gold); font-weight: 600; text-transform: uppercase; font-size: 0.85rem;">${Security.escapeHTML(plan)}</span></td>
-            <td style="padding: 18px; opacity: 0.6; font-size: 0.9rem;">${Security.escapeHTML(date)}</td>
+            <td class="px-6 py-4">
+                <div class="text-sm font-bold text-white">${Security.escapeHTML(name)}</div>
+            </td>
+            <td class="px-6 py-4 text-sm text-slate-400">${Security.escapeHTML(email)}</td>
+            <td class="px-6 py-4">
+                <span class="px-3 py-1 bg-indigo-500/10 text-indigo-400 rounded-full text-xs font-bold border border-indigo-500/20">${Security.escapeHTML(plan)}</span>
+            </td>
+            <td class="px-6 py-4 text-sm text-slate-500">${Security.escapeHTML(date)}</td>
         `;
         tbody.appendChild(tr);
 
@@ -507,7 +515,7 @@ function setupAdminChat(currentUserId, currentUserName) {
 
         if (error) {
             console.error('Error loading chat:', error);
-            chatContainer.innerHTML = '<p style="color: #ff4d4d; text-align:center;">Failed to load messages.</p>';
+            chatContainer.innerHTML = `<p style="color: #ff4d4d; text-align:center; padding: 20px;">Failed to load messages:<br><strong style="font-size:0.85rem">${error.message}</strong><br><br><span style="font-size:0.75rem; color:#aaa">If this is a permission error, please ensure the "admin_messages" table exists and has RLS policies allowing admins to select/insert.</span></p>`;
             return;
         }
 
@@ -526,18 +534,19 @@ function setupAdminChat(currentUserId, currentUserName) {
             const date = new Date(msg.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 
             return `
-                <div style="display: flex; justify-content: ${isMe ? 'flex-end' : 'flex-start'}; width: 100%;" data-chat-id="${msg.id}">
-                    <div style="max-width: 75%; padding: 14px 18px; border-radius: ${isMe ? '16px 16px 4px 16px' : '16px 16px 16px 4px'}; background: ${isMe ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.06)'}; border: 1px solid ${isMe ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.1)'}; position: relative;">
-                        <button onclick="deleteAdminMsg('${msg.id}')" style="position:absolute; top:6px; right:6px; background:none; border:none; color:rgba(255,255,255,0.3); cursor:pointer; font-size:0.7rem; padding:4px 6px; border-radius:4px; transition:all 0.2s;" onmouseover="this.style.color='#ff4d4d'; this.style.background='rgba(255,0,0,0.15)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'; this.style.background='none'" title="Delete message">
-                            <i class="fas fa-trash-alt"></i>
+                <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'} w-full" data-chat-id="${msg.id}">
+                    <div class="max-w-[85%] sm:max-w-[70%] p-4 rounded-2xl relative ${isMe ? 'bg-indigo-500 text-white rounded-br-sm shadow-lg shadow-indigo-500/20' : 'bg-slate-800 text-slate-200 rounded-bl-sm border border-white/10'}">
+                        <button onclick="deleteAdminMsg('${msg.id}')" class="absolute top-2 right-2 text-white/30 hover:text-red-400 hover:bg-red-400/20 rounded p-1 transition-all" title="Delete message">
+                            <span class="material-symbols-outlined text-[16px]">delete</span>
                         </button>
-                        <div style="font-size: 0.75rem; font-weight: 700; color: #fff; margin-bottom: 6px; padding-right: 20px;">
+                        <div class="text-xs font-bold mb-2 pr-6 ${isMe ? 'text-indigo-100' : 'text-slate-400'}">
                             ${isMe ? 'You' : Security.escapeHTML(msg.sender_name)}
                         </div>
-                        <p style="font-size: 0.95rem; line-height: 1.5; margin: 0; color: #fff;">${Security.sanitizeMessage(msg.message)}</p>
-                        <div style="font-size: 0.65rem; color: #fff; opacity: 0.6; margin-top: 8px; text-align: right;">${date}, ${time}</div>
+                        <p class="text-sm leading-relaxed m-0 break-words">${Security.sanitizeMessage(msg.message)}</p>
+                        <div class="text-[10px] mt-2 text-right ${isMe ? 'text-indigo-200' : 'text-slate-500'}">${date}, ${time}</div>
                     </div>
-                </div>`;
+                </div>
+            `;
         }).join('');
 
         // Only update DOM and scroll if there are new messages or changes
@@ -587,7 +596,7 @@ function setupAdminChat(currentUserId, currentUserName) {
 
         if (error) {
             console.error('Error sending message:', error);
-            alert('Failed to send message: ' + error.message);
+            alert(`Failed to send message: ${error.message}\n\nPlease check Supabase RLS policies for the admin_messages table.`);
         } else {
             chatInput.value = '';
             await loadMessages();
@@ -613,17 +622,23 @@ async function loadFounderUsersList() {
     listBody.innerHTML = profiles.map(student => {
         const userRole = roles.find(r => r.id === student.id)?.role || 'student';
         return `
-        <tr>
-            <td style="padding: 15px; font-weight: bold;">${student.full_name || 'N/A'}</td>
-            <td style="padding: 15px;">${student.email || 'N/A'}</td>
-            <td style="padding: 15px;"><span style="color: ${userRole === 'admin' ? 'var(--accent-gold)' : 'white'}; font-weight: 800;">${userRole.toUpperCase()}</span></td>
-            <td style="padding: 15px;">
+        <tr class="hover:bg-white/5 transition-colors">
+            <td class="px-6 py-4">
+                <div class="text-sm font-bold text-white">${student.full_name || 'N/A'}</div>
+            </td>
+            <td class="px-6 py-4 text-sm text-slate-400">${student.email || 'N/A'}</td>
+            <td class="px-6 py-4">
+                <span class="px-3 py-1 rounded-full text-xs font-bold border uppercase tracking-wider ${userRole === 'admin' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : userRole === 'founder' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-slate-800 text-slate-300 border-white/10'}">${userRole}</span>
+            </td>
+            <td class="px-6 py-4 text-right">
+                <div class="flex gap-2 justify-end">
                 ${userRole === 'admin' 
-                    ? `<button onclick="updateRole('${student.id}', 'student')" class="btn-card" style="background:#ff4d4d; color:white; padding:5px 10px; width:auto; font-size:0.8rem; border:none; cursor:pointer; border-radius:5px;">Demote to Student</button>`
+                    ? `<button onclick="updateRole('${student.id}', 'student')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-lg transition-colors">Demote to Student</button>`
                     : userRole === 'founder'
-                        ? '<span style="color:var(--accent-gold); font-weight:900;">[CHIEF ADMIN]</span>'
-                        : `<button onclick="updateRole('${student.id}', 'admin')" class="btn-card" style="background:var(--accent-gold); color:black; padding:5px 10px; width:auto; font-size:0.8rem; border:none; cursor:pointer; border-radius:5px;">Promote to Admin</button>`
+                        ? '<span class="px-3 py-1.5 text-xs font-bold text-red-500 uppercase tracking-widest">[CHIEF ADMIN]</span>'
+                        : `<button onclick="updateRole('${student.id}', 'admin')" class="px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 border border-emerald-500/30 text-xs font-semibold rounded-lg transition-colors">Promote to Admin</button>`
                 }
+                </div>
             </td>
         </tr>
     `;}).join('');

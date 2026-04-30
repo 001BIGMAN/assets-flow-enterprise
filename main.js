@@ -7,8 +7,8 @@ let sb;
 async function initSupabase() {
   console.log("Initializing Supabase...");
   let retries = 0;
-  while (typeof window.supabase === "undefined" && retries < 20) {
-    await new Promise((r) => setTimeout(r, 50));
+  while (typeof window.supabase === "undefined" && retries < 80) {
+    await new Promise((r) => setTimeout(r, 100));
     retries++;
   }
 
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const authMsg = document.getElementById("auth-message");
     if (authMsg)
       showMessage(
-        "Failed to connect to security server. Please refresh.",
+        "Could not load authentication services. Please check your internet connection and refresh the page.",
         "error",
       );
   }

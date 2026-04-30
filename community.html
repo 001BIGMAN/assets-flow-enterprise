@@ -156,24 +156,24 @@
             </button>
         </div>
 
-        <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu" class="fixed inset-0 bg-slate-950 z-[2001] hidden flex-col items-center justify-center p-10 backdrop-blur-2xl transition-all duration-500 translate-x-full">
-            <button id="close-mobile-menu" class="absolute top-10 right-10 text-white p-2">
-                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <div class="flex flex-col gap-8 text-center">
-                <a href="index.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Home</a>
-                <a href="community.html" class="text-2xl font-black text-brand uppercase tracking-tighter">Community</a>
-                <a href="staking.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Staking Pool</a>
-                <a href="about.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">About Us</a>
-                <a href="founder.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Founder</a>
-                <div class="pt-8 flex flex-col gap-4">
-                    <a href="auth.html" class="text-lg font-bold text-slate-400">Log in</a>
-                    <a href="auth.html#signup" class="bg-brand text-white px-10 py-3 rounded-xl font-bold uppercase text-xs">Sign up now</a>
-                </div>
+    </nav>
+    <!-- Mobile Menu (moved outside nav to prevent backdrop-filter stacking context bug) -->
+    <div id="mobile-menu" class="fixed inset-0 bg-slate-950 z-[2001] hidden flex-col items-center justify-center p-10 transition-all duration-500 translate-x-full">
+        <button id="close-mobile-menu" class="absolute top-10 right-10 text-white p-2">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <div class="flex flex-col gap-8 text-center">
+            <a href="index.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Home</a>
+            <a href="community.html" class="text-2xl font-black text-brand uppercase tracking-tighter">Community</a>
+            <a href="staking.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Staking Pool</a>
+            <a href="about.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">About Us</a>
+            <a href="founder.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Founder</a>
+            <div class="pt-8 flex flex-col gap-4">
+                <a href="auth.html" class="text-lg font-bold text-slate-400">Log in</a>
+                <a href="auth.html#signup" class="bg-brand text-white px-10 py-3 rounded-xl font-bold uppercase text-xs">Sign up now</a>
             </div>
         </div>
-    </nav>
+    </div>
 
     <main>
         <section class="min-h-screen flex items-center justify-center pt-32 pb-20 px-6">
