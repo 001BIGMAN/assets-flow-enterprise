@@ -1,451 +1,678 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Quantara Alpha Enterprise</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Supabase SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Portal | EduPortal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#343341",
+                    "surface-container-high": "#292936",
+                    "surface": "#12121f",
+                    "surface-container-lowest": "#0d0d19",
+                    "error-container": "#93000a",
+                    "on-background": "#e3e0f3",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "on-tertiary": "#283044",
+                    "on-primary": "#1000a9",
+                    "surface-tint": "#c0c1ff",
+                    "secondary-fixed-dim": "#bcc7de",
+                    "on-tertiary-fixed": "#131b2e",
+                    "on-error-container": "#ffdad6",
+                    "surface-dim": "#12121f",
+                    "inverse-on-surface": "#2f2f3d",
+                    "background": "#12121f",
+                    "on-primary-fixed-variant": "#2f2ebe",
+                    "on-surface": "#e3e0f3",
+                    "secondary-container": "#3e495d",
+                    "primary-container": "#8083ff",
+                    "on-primary-container": "#0d0096",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "tertiary": "#bec6e0",
+                    "primary-fixed": "#e1e0ff",
+                    "on-secondary": "#263143",
+                    "primary": "#c0c1ff",
+                    "outline-variant": "#464554",
+                    "error": "#ffb4ab",
+                    "on-error": "#690005",
+                    "on-tertiary-container": "#22293d",
+                    "on-secondary-fixed": "#111c2d",
+                    "surface-container": "#1f1e2b",
+                    "on-primary-fixed": "#07006c",
+                    "on-secondary-container": "#aeb9d0",
+                    "primary-fixed-dim": "#c0c1ff",
+                    "outline": "#908fa0",
+                    "secondary": "#bcc7de",
+                    "surface-container-low": "#1a1a27",
+                    "inverse-primary": "#494bd6",
+                    "on-secondary-fixed-variant": "#3c475a",
+                    "inverse-surface": "#e3e0f3",
+                    "tertiary-container": "#8990a8",
+                    "on-surface-variant": "#c7c4d7",
+                    "tertiary-fixed": "#dae2fd",
+                    "surface-bright": "#383846",
+                    "secondary-fixed": "#d8e3fb",
+                    "surface-container-highest": "#343341"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "stack-sm": "4px",
+                    "container-padding": "32px",
+                    "stack-md": "12px",
+                    "sidebar-width": "260px",
+                    "gutter": "24px",
+                    "stack-lg": "24px"
+            },
+            "fontFamily": {
+                    "display": ["Manrope"],
+                    "h1": ["Manrope"],
+                    "body-md": ["Manrope"],
+                    "body-lg": ["Manrope"],
+                    "h2": ["Manrope"],
+                    "body-sm": ["Manrope"],
+                    "label-caps": ["Manrope"]
+            },
+            "fontSize": {
+                    "display": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "h1": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "h2": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #050510;
+            color: #e3e0f3;
+            font-family: 'Manrope', sans-serif;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-layer-1 {
+            background-color: #0F172A;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .tonal-layer-2 {
+            background-color: #1E293B;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-link.active {
+            color: #818cf8 !important; /* text-indigo-400 */
+            border-left-width: 2px;
+            border-color: #6366f1 !important; /* border-indigo-500 */
+            background-color: rgba(99, 102, 241, 0.05) !important;
+        }
+        /* Mobile Sidebar */
+        .sidebar-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 45;
+        }
+        .sidebar-overlay.active { display: block; }
+        @media (max-width: 1023px) {
+            .sidebar { transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+            .sidebar.active { transform: translateX(0); }
+            .main-content { margin-left: 0 !important; }
+            .top-header { left: 0 !important; }
+        }
+    </style>
 </head>
+<body class="antialiased">
 
-<body class="dashboard-body">
-    <div class="dashboard-wrapper">
-        <!-- Sidebar Overlay -->
-        <div class="sidebar-overlay" id="sidebar-overlay" style="z-index: 10000 !important;"></div>
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-        <!-- Mobile Toggle -->
-        <div class="mobile-sidebar-toggle" id="mobile-sidebar-toggle" style="z-index: 10010 !important;">
-            <i class="fas fa-bars"></i> <span>MENU</span>
-        </div>
+<!-- SideNavBar -->
+<aside class="sidebar fixed left-0 top-0 h-screen w-64 border-r bg-slate-900 border-white/10 flex flex-col z-50">
+<div class="p-8 flex flex-col gap-1">
+<h1 class="text-xl font-bold text-white tracking-tight">EduPortal</h1>
+<p class="text-xs text-slate-500 font-medium">Educational Platform</p>
+</div>
+<nav class="sidebar-nav flex-1 px-4 space-y-1">
+<a class="nav-link active flex items-center gap-3 px-4 py-3 text-slate-400 font-manrope text-sm font-medium hover:bg-white/5 hover:text-white transition-colors" data-tab="dashboard-view" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span> Dashboard
+</a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 text-slate-400 font-manrope text-sm font-medium hover:bg-white/5 hover:text-white transition-colors" data-tab="progress-view" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span> Curriculum
+</a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 text-slate-400 font-manrope text-sm font-medium hover:bg-white/5 hover:text-white transition-colors" data-tab="recordings-view" href="#">
+<span class="material-symbols-outlined" data-icon="record_voice_over">record_voice_over</span> Messages (Audio)
+</a>
+<a class="nav-link flex items-center justify-between px-4 py-3 text-slate-400 font-manrope text-sm font-medium hover:bg-white/5 hover:text-white transition-colors" data-tab="notifications-view" href="#">
+<div class="flex items-center gap-3">
+    <span class="material-symbols-outlined" data-icon="notifications">notifications</span> Notifications
+</div>
+<span id="notif-badge" style="display:none;" class="bg-indigo-500 text-white rounded-full px-2 py-0.5 text-[10px] font-bold"></span>
+</a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 text-slate-400 font-manrope text-sm font-medium hover:bg-white/5 hover:text-white transition-colors" data-tab="plan-view" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span> Plan Selection
+</a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 text-slate-400 font-manrope text-sm font-medium hover:bg-white/5 hover:text-white transition-colors" data-tab="settings-view" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span> Settings
+</a>
+<a class="nav-link flex items-center gap-3 px-4 py-3 text-slate-400 font-manrope text-sm font-medium hover:bg-white/5 hover:text-white transition-colors" href="index.html">
+<span class="material-symbols-outlined" data-icon="home">home</span> Home
+</a>
+</nav>
+<div class="p-6 mt-auto border-t border-white/5">
+<div class="flex items-center justify-between">
+    <div class="flex items-center gap-3">
+    <div class="w-10 h-10 rounded-full bg-slate-800 flex justify-center items-center">
+        <span class="material-symbols-outlined text-slate-400">person</span>
+    </div>
+    <div>
+    <p class="text-sm font-semibold text-white" id="user-display-name">Loading...</p>
+    <p class="text-[10px] text-slate-500 uppercase tracking-widest">Active Member</p>
+    </div>
+    </div>
+    <button id="btn-logout-sidebar" class="text-slate-500 hover:text-red-400 transition-colors">
+        <span class="material-symbols-outlined">logout</span>
+    </button>
+</div>
+</div>
+</aside>
 
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-logo">
-                <img src="logo.png" alt="Logo" class="h-16 w-auto object-contain">
-            </div>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li class="active"><a href="#" data-tab="overview-view"><i class="fas fa-th-large"></i> Overview</a></li>
-                    <li><a href="#" data-tab="progress-view"><i class="fas fa-book-open"></i> My Progress</a></li>
-                    <li><a href="#" data-tab="market-pulse-view"><i class="fas fa-chart-area"></i> Market Pulse</a></li>
-                    <li><a href="#" data-tab="referral-view"><i class="fas fa-users"></i> Referral Partner</a></li>
-                    <li><a href="#" data-tab="notifications-view"><i class="fas fa-bell"></i> Notifications <span id="notif-badge" style="display:none; background:var(--accent-gold); color:#000; border-radius:50%; width:20px; height:20px; font-size:0.7rem; font-weight:800; line-height:20px; text-align:center; margin-left:6px;"></span></a></li>
-                    <li><a href="#" data-tab="staking-view"><i class="fas fa-chart-line"></i> Staking Pool</a></li>
-                    <li><a href="#" data-tab="recordings-view"><i class="fas fa-headphones"></i> Class Recordings</a></li>
-                    <li><a href="#" data-tab="support-view"><i class="fas fa-headset"></i> Support & Help</a></li>
-                    <li><a href="#" data-tab="settings-view"><i class="fas fa-cog"></i> Settings</a></li>
-                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
-                    <li><a href="https://chat.whatsapp.com/GBN5T5sTaEf4kK5gYaZDGH?mode=gi_t" target="_blank"><i class="fab fa-whatsapp"></i> Whatsapp Group</a></li>
-                    <li><a href="index.html"><i class="fas fa-home"></i> Back to Home</a></li>
-                    <li style="margin-top: 20px;"><a
-                            href="https://docs.google.com/forms/d/e/1FAIpQLSdk54tAU3UkPQT2qUkcoJ4QEIp-H3n6oe6R5dqTU3Qufwza5A/viewform?usp=publish-editor"
-                            target="_blank" class="btn-feedback"><i class="fas fa-comment-alt"></i> Give
-                            feedback/complaints</a></li>
-                </ul>
-            </nav>
-            <div class="sidebar-footer">
-                <button id="btn-logout-sidebar" class="btn-logout">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
-            </div>
-        </aside>
+<!-- TopAppBar -->
+<header class="top-header fixed top-0 right-0 lg:left-64 left-0 h-16 bg-slate-950/80 backdrop-blur-md border-b border-white/10 z-40 flex justify-between items-center px-4 lg:px-8">
+<div class="flex items-center gap-4">
+    <button id="mobile-sidebar-toggle" class="lg:hidden text-slate-400 hover:text-white">
+        <span class="material-symbols-outlined text-2xl">menu</span>
+    </button>
+<h2 class="font-h2 text-h2 text-on-surface hidden md:block">Dashboard</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm" data-icon="search">search</span>
+<input class="bg-slate-900/50 border border-white/10 rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:border-indigo-500 transition-all w-64 text-white" placeholder="Search courses..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-400 hover:text-white transition-colors transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+</button>
+<button class="text-slate-400 hover:text-white transition-colors transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="account_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</button>
+</div>
+</div>
+</header>
 
-        <!-- Main Content -->
-        <main class="dashboard-content">
-            <header class="dashboard-header">
-                <div class="welcome-text">
-                    <a href="index.html"
-                        style="color: var(--accent-gold); text-decoration: none; font-size: 0.85rem; margin-bottom: 30px; display: inline-flex; align-items: center; gap: 8px; opacity: 0.8;">
-                        <i class="fas fa-arrow-left"></i> Back to Home
-                    </a>
-                    <h1 style="margin-top: 5px; margin-bottom: 10px;">Welcome, <span
-                            id="user-display-name">Member</span></h1>
-                    <p>Your path to asset mastery continues here.</p>
+<!-- Main Content -->
+<main class="main-content lg:ml-64 pt-20 min-h-screen p-4 lg:p-8">
+<div class="max-w-7xl mx-auto space-y-gutter">
 
-                    <!-- Global Progress Bar -->
-                    <div class="header-progress-container" style="margin-top: 20px; max-width: 600px;">
-                        <div class="progress-info"
-                            style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; color: var(--accent-gold);">
-                            <span>Overall Progress</span>
-                            <span id="progress-percent">0%</span>
+    <!-- VIEW: Dashboard / Overview -->
+    <div id="dashboard-view" class="tab-content active">
+        <!-- Bento Progress & Notification Section -->
+        <div class="grid grid-cols-12 gap-gutter mb-12">
+            <!-- Learning Progress Summary (Bento Large) -->
+            <div class="col-span-12 lg:col-span-8 tonal-layer-1 p-8 rounded-xl flex flex-col justify-between overflow-hidden relative group">
+                <div class="absolute -right-16 -top-16 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl group-hover:bg-indigo-500/15 transition-all duration-500"></div>
+                <div class="relative z-10">
+                    <div class="flex justify-between items-start mb-8">
+                        <div>
+                        <h3 class="font-h2 text-h2 text-white mb-1">Learning Momentum</h3>
+                        <p class="text-slate-400 font-body-sm">Tracking your progress through the curriculum.</p>
                         </div>
-                        <div class="progress-bar-container"
-                            style="height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; overflow: hidden;">
-                            <div id="progress-bar" class="progress-fill"
-                                style="width: 0%; height: 100%; background: var(--accent-gold); transition: width 0.3s ease;">
+                        <div class="text-right">
+                        <span class="text-display font-display text-indigo-400" id="progress-percent">0%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="h-2 bg-slate-800 rounded-full overflow-hidden mb-8">
+                        <div id="progress-bar" class="h-full bg-indigo-500 transition-all duration-500" style="width: 0%;"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white/5 p-4 rounded-lg border border-white/5">
+                            <p class="text-slate-500 text-xs font-label-caps mb-2">ACCESS LEVEL</p>
+                            <p class="text-xl font-bold text-white uppercase" id="current-plan-display">BASIC</p>
+                            <p class="text-indigo-400 text-xs mt-1">Current Tier</p>
+                        </div>
+                        <div class="bg-white/5 p-4 rounded-lg border border-white/5">
+                            <p class="text-slate-500 text-xs font-label-caps mb-2">COMMUNITY</p>
+                            <p class="text-xl font-bold text-white">Active</p>
+                            <a href="https://chat.whatsapp.com/GBN5T5sTaEf4kK5gYaZDGH?mode=gi_t" target="_blank" class="text-indigo-400 text-xs mt-1 hover:underline">Join WhatsApp</a>
+                        </div>
+                        <div class="bg-white/5 p-4 rounded-lg border border-white/5">
+                            <p class="text-slate-500 text-xs font-label-caps mb-2">SUPPORT</p>
+                            <p class="text-xl font-bold text-white">24/7</p>
+                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdk54tAU3UkPQT2qUkcoJ4QEIp-H3n6oe6R5dqTU3Qufwza5A/viewform" target="_blank" class="text-indigo-400 text-xs mt-1 hover:underline">Give Feedback</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Notification Center (Bento Side) -->
+            <div class="col-span-12 lg:col-span-4 tonal-layer-1 p-8 rounded-xl overflow-hidden flex flex-col">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-bold text-white">Quick Updates</h3>
+                    <span class="px-2 py-1 bg-indigo-500/20 text-indigo-400 text-[10px] font-bold rounded">LIVE</span>
+                </div>
+                <div class="flex-1 space-y-4">
+                    <div class="p-4 bg-slate-900/40 border border-white/5 rounded-lg">
+                        <div class="flex gap-3">
+                            <span class="material-symbols-outlined text-indigo-400">check_circle</span>
+                            <div>
+                            <p class="text-sm font-semibold text-white">System Optimized</p>
+                            <p class="text-xs text-slate-500 mt-1">Your dashboard is fully synchronized with Quantara Alpha servers.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </header>
+                <button onclick="document.querySelector('[data-tab=\'notifications-view\']').click()" class="w-full py-3 text-center text-xs font-label-caps text-slate-500 hover:text-white transition-colors border-t border-white/5 mt-auto pt-4">
+                    VIEW ALL NOTIFICATIONS
+                </button>
+            </div>
+        </div>
 
-            <!-- Overview View -->
-            <div id="overview-view" class="tab-content active">
-                <div class="founder-welcome-section">
-                    <div class="dashboard-founder-img-container">
-                        <img src="founder.jpg" alt="Favour Danladi" class="dashboard-founder-img rotate-on-scroll">
-                    </div>
-                    <div class="founder-welcome-text">
-                        <h2>Personal Welcome from our Founder</h2>
-                        <p>A structured program designed to help people understand cryptocurrency, invest wisely, and position themselves for the bull run.</p>
-                        <p style="margin-top: 15px; font-weight: bold; color: var(--accent-gold);">Our goal in this community is simple: Every serious member should be able to make at least ₦1,000,000.</p>
-                        <p style="margin-top: 15px; opacity: 0.8; font-style: italic;">"With the right knowledge, discipline, and positioning, your financial wealth is achievable." — Favour Danladi</p>
+        <!-- Course Grid & Featured -->
+        <div class="grid grid-cols-12 gap-gutter">
+            <div class="col-span-12">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="font-h2 text-h2 text-white">Active Curriculum Paths</h3>
+                    <div class="flex gap-2">
+                        <button class="p-2 border border-white/10 rounded hover:bg-white/5 transition-colors"><span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span></button>
+                        <button class="p-2 border border-white/10 rounded hover:bg-white/5 transition-colors"><span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span></button>
                     </div>
                 </div>
-                
-                <div class="dashboard-grid">
-                    <div class="dashboard-card wide" style="display: flex; justify-content: space-between; align-items: center; padding: 25px 30px; flex-wrap: wrap; gap: 20px;">
-                        <div>
-                            <h3 style="margin-bottom: 5px;">Your Active Plan</h3>
-                            <p style="opacity: 0.7; font-size: 0.9rem; margin: 0;">Set your current access level based on your enrollment.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Course Card 1 -->
+                    <div class="tonal-layer-1 rounded-xl overflow-hidden group cursor-pointer border border-transparent hover:border-indigo-500/50 transition-all">
+                        <div class="h-32 bg-slate-800 relative">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0F172A] to-transparent"></div>
+                            <span class="absolute top-4 left-4 px-2 py-1 bg-surface-container-high/80 backdrop-blur-md text-[10px] font-bold text-indigo-400 rounded">CRYPTO</span>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-white mb-2 line-clamp-1">Evolution of Money</h4>
+                            <div class="flex items-center gap-2 mb-4">
+                            <div class="flex-1 h-1 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-indigo-500 w-[100%]"></div>
+                            </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                            <span class="text-xs text-slate-500">Level 1 Module</span>
+                            <button class="text-indigo-400 hover:text-white transition-colors">
+                                <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Course Card 2 -->
+                    <div class="tonal-layer-1 rounded-xl overflow-hidden group cursor-pointer border border-transparent hover:border-indigo-500/50 transition-all">
+                        <div class="h-32 bg-slate-800 relative">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0F172A] to-transparent"></div>
+                            <span class="absolute top-4 left-4 px-2 py-1 bg-surface-container-high/80 backdrop-blur-md text-[10px] font-bold text-indigo-400 rounded">RESEARCH</span>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-white mb-2 line-clamp-1">Project Research</h4>
+                            <div class="flex items-center gap-2 mb-4">
+                            <div class="flex-1 h-1 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-indigo-500 w-[50%]"></div>
+                            </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                            <span class="text-xs text-slate-500">Level 2 Module</span>
+                            <button class="text-indigo-400 hover:text-white transition-colors">
+                                <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Course Card 3 -->
+                    <div class="tonal-layer-1 rounded-xl overflow-hidden group cursor-pointer border border-transparent hover:border-indigo-500/50 transition-all">
+                        <div class="h-32 bg-slate-800 relative">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0F172A] to-transparent"></div>
+                            <span class="absolute top-4 left-4 px-2 py-1 bg-surface-container-high/80 backdrop-blur-md text-[10px] font-bold text-indigo-400 rounded">STRATEGY</span>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-white mb-2 line-clamp-1">Smart Money Concepts</h4>
+                            <div class="flex items-center gap-2 mb-4">
+                            <div class="flex-1 h-1 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-indigo-500 w-[10%]"></div>
+                            </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                            <span class="text-xs text-slate-500">Level 3 Module</span>
+                            <button class="text-indigo-400 hover:text-white transition-colors">
+                                <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Course Card 4 -->
+                    <div class="tonal-layer-1 rounded-xl overflow-hidden group cursor-pointer border border-transparent hover:border-indigo-500/50 transition-all">
+                        <div class="h-32 bg-slate-800 relative">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0F172A] to-transparent"></div>
+                            <span class="absolute top-4 left-4 px-2 py-1 bg-surface-container-high/80 backdrop-blur-md text-[10px] font-bold text-indigo-400 rounded">VIP</span>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-bold text-white mb-2 line-clamp-1">Direct Mentorship</h4>
+                            <div class="flex items-center gap-2 mb-4">
+                            <div class="flex-1 h-1 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-indigo-500 w-[0%]"></div>
+                            </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                            <span class="text-xs text-slate-500">Level 4 Module</span>
+                            <button class="text-indigo-400 hover:text-white transition-colors">
+                                <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Dashboard View -->
+
+    <!-- VIEW: Curriculum (Progress) -->
+    <div id="progress-view" class="tab-content">
+        <h2 class="text-3xl font-bold text-white mb-2" id="curriculum-title">Curriculum Progress</h2>
+        <p class="text-slate-400 mb-8">Track your specific modules and mark them complete as you learn.</p>
+        
+        <div class="bg-slate-900 border border-white/10 rounded-xl p-6">
+            <style>
+                .check-item { display: flex; align-items: center; gap: 12px; padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.05); transition: all 0.2s; cursor: pointer; }
+                .check-item:hover { background: rgba(255,255,255,0.02); }
+                .check-item:last-child { border-bottom: none; }
+                .check-item input[type="checkbox"] { width: 20px; height: 20px; accent-color: #6366f1; cursor: pointer; }
+                .check-item span { color: #e2e8f0; font-size: 1rem; }
+                .check-item.completed span { color: #94a3b8; text-decoration: line-through; }
+            </style>
+            <div id="checklist-container">
+                <!-- Javascript will inject curriculum here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW: Messages (Audio) -->
+    <div id="recordings-view" class="tab-content">
+        <h2 class="text-3xl font-bold text-white mb-2">Audio Messages</h2>
+        <p class="text-slate-400 mb-8">Listen to exclusive market updates and class recordings directly from our experts.</p>
+        
+        <div id="recordings-list" class="space-y-4">
+            <!-- Javascript will inject recordings here -->
+            <div class="text-center py-12 text-slate-500">
+                <i class="fas fa-circle-notch fa-spin text-2xl mb-3 text-indigo-500"></i>
+                <p>Loading your messages...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW: Notifications -->
+    <div id="notifications-view" class="tab-content">
+        <!-- Filters & Controls -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-gutter mb-8">
+            <div class="flex gap-2 p-1 bg-slate-900 border border-white/10 rounded-lg w-fit">
+                <button class="px-4 py-1.5 text-sm font-medium bg-indigo-500 text-white rounded-md shadow-lg transition-all">All</button>
+                <button class="px-4 py-1.5 text-sm font-medium text-slate-400 hover:text-white transition-colors">Alerts</button>
+                <button class="px-4 py-1.5 text-sm font-medium text-slate-400 hover:text-white transition-colors">Updates</button>
+            </div>
+            <div class="flex items-center gap-gutter">
+                <button class="flex items-center gap-2 text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">done_all</span> Mark all as read
+                </button>
+                <div class="h-4 w-[1px] bg-white/10 mx-4"></div>
+                <button class="flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">filter_list</span> Sort: Newest
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+            <!-- Main List Container -->
+            <div class="lg:col-span-8 space-y-4" id="notifications-list">
+                <!-- Javascript will inject notifications here -->
+                <div class="text-center py-12 text-slate-500">
+                    <i class="fas fa-circle-notch fa-spin text-2xl mb-3 text-indigo-500"></i>
+                    <p>Loading your notifications...</p>
+                </div>
+            </div>
+
+            <!-- Side Information Sidebar -->
+            <aside class="lg:col-span-4 space-y-gutter">
+                <!-- Stats Card -->
+                <div class="bg-[#0F172A] border border-white/10 p-8 rounded-xl space-y-6">
+                    <h4 class="text-xs font-bold text-indigo-400 uppercase tracking-widest">Notification Health</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-slate-900 border border-white/5 rounded-lg">
+                            <p class="text-slate-500 text-xs font-medium">Unread</p>
+                            <p class="text-2xl font-bold text-white mt-1">0</p>
+                        </div>
+                        <div class="p-4 bg-slate-900 border border-white/5 rounded-lg">
+                            <p class="text-slate-500 text-xs font-medium">Priority</p>
+                            <p class="text-2xl font-bold text-error mt-1">0</p>
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-white/5">
+                        <p class="text-sm text-slate-400">You are up to date on your alerts. Keep it up!</p>
+                    </div>
+                </div>
+
+                <!-- Newsletter Card -->
+                <div class="bg-indigo-500/10 border border-indigo-500/20 p-8 rounded-xl">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="material-symbols-outlined text-indigo-400">auto_awesome</span>
+                        <h4 class="text-lg font-semibold text-white">Smart Summary</h4>
+                    </div>
+                    <p class="text-sm text-indigo-200/80 mb-4">Based on your activity, check out the latest curriculum updates to stay ahead in your modules.</p>
+                    <a class="text-indigo-400 text-sm font-semibold hover:underline" href="#" onclick="document.querySelector('[data-tab=\\'progress-view\\']').click()">View curriculum →</a>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- VIEW: Plan Selection -->
+    <div id="plan-view" class="tab-content">
+        <!-- Plan Selection Section -->
+        <div class="space-y-8 pt-4">
+            <div class="text-center space-y-2">
+            <h3 class="font-display text-h1 text-white">Scale Your Knowledge</h3>
+            <p class="text-slate-500 max-w-xl mx-auto font-body-md">Choose the plan that fits your career trajectory. Note: Changing your plan requires admin approval.</p>
+            </div>
+
+            <!-- Fake Select for JS logic so it doesn't break -->
+            <select id="user-plan-select" style="display:none;">
+                <option value="basic">Basic</option>
+                <option value="level1">Level 1</option>
+                <option value="level2">Level 2</option>
+                <option value="level3">Level 3</option>
+                <option value="level4">Level 4</option>
+            </select>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Level 1 Plan -->
+            <div class="tonal-layer-1 p-8 rounded-xl flex flex-col hover:border-white/20 transition-all">
+                <div class="mb-8">
+                <p class="text-xs font-label-caps text-slate-500 mb-2">ENTRY LEVEL</p>
+                <h4 class="text-2xl font-bold text-white">Level 1</h4>
+                </div>
+                <ul class="flex-1 space-y-4 mb-10">
+                <li class="flex items-center gap-3 text-sm text-slate-400">
+                <span class="material-symbols-outlined text-green-500 text-lg">check_circle</span> Intro to Crypto & Blockchain
+                </li>
+                <li class="flex items-center gap-3 text-sm text-slate-400">
+                <span class="material-symbols-outlined text-green-500 text-lg">check_circle</span> Wallet & Exchange Setup
+                </li>
+                </ul>
+                <button class="w-full py-3 rounded border border-white/20 text-white font-bold text-sm hover:bg-white/5 transition-all">Select</button>
+            </div>
+            <!-- Level 3 Plan (Current) -->
+            <div class="tonal-layer-2 p-8 rounded-xl flex flex-col border-2 border-indigo-500 relative transform scale-105 z-10">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-indigo-500 text-white text-[10px] font-bold rounded-full">RECOMMENDED</div>
+                <div class="mb-8">
+                <p class="text-xs font-label-caps text-indigo-400 mb-2">MOST POPULAR</p>
+                <h4 class="text-2xl font-bold text-white">Level 3</h4>
+                </div>
+                <ul class="flex-1 space-y-4 mb-10">
+                <li class="flex items-center gap-3 text-sm text-slate-300">
+                <span class="material-symbols-outlined text-indigo-500 text-lg">check_circle</span> Advanced Risk Management
+                </li>
+                <li class="flex items-center gap-3 text-sm text-slate-300">
+                <span class="material-symbols-outlined text-indigo-500 text-lg">check_circle</span> Smart Money Concepts
+                </li>
+                <li class="flex items-center gap-3 text-sm text-slate-300">
+                <span class="material-symbols-outlined text-indigo-500 text-lg">check_circle</span> Buy & Take Profit Systems
+                </li>
+                </ul>
+                <button class="w-full py-3 rounded bg-indigo-500 text-white font-bold text-sm hover:bg-indigo-600 transition-all">Select</button>
+            </div>
+            <!-- Level 4 Plan -->
+            <div class="tonal-layer-1 p-8 rounded-xl flex flex-col hover:border-white/20 transition-all">
+                <div class="mb-8">
+                <p class="text-xs font-label-caps text-slate-500 mb-2">ENTERPRISE READY</p>
+                <h4 class="text-2xl font-bold text-white">Level 4 VIP</h4>
+                </div>
+                <ul class="flex-1 space-y-4 mb-10">
+                <li class="flex items-center gap-3 text-sm text-slate-400">
+                <span class="material-symbols-outlined text-green-500 text-lg">check_circle</span> Direct Mentorship Access
+                </li>
+                <li class="flex items-center gap-3 text-sm text-slate-400">
+                <span class="material-symbols-outlined text-green-500 text-lg">check_circle</span> VIP Market Breakdowns
+                </li>
+                <li class="flex items-center gap-3 text-sm text-slate-400">
+                <span class="material-symbols-outlined text-green-500 text-lg">check_circle</span> Early Project Insights
+                </li>
+                </ul>
+                <button class="w-full py-3 rounded border border-white/20 text-white font-bold text-sm hover:bg-white/5 transition-all">Select</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW: Settings -->
+    <div id="settings-view" class="tab-content">
+        <div class="grid grid-cols-12 gap-gutter">
+            <!-- Profile Section -->
+            <section class="col-span-12 lg:col-span-8 bg-[#0F172A] border border-white/10 rounded-xl p-8 overflow-hidden relative">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-transparent opacity-50"></div>
+                <div class="flex justify-between items-start mb-8">
+                    <div class="flex items-center gap-6">
+                        <div class="relative group cursor-pointer">
+                            <div class="w-24 h-24 rounded-xl border-2 border-white/5 bg-slate-800 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-4xl text-slate-500">person</span>
+                            </div>
                         </div>
                         <div>
-                            <select id="user-plan-select" style="padding: 12px 20px; background: rgba(0,0,0,0.5); color: var(--accent-gold); border: 1px solid rgba(212,175,55,0.3); border-radius: 8px; font-family: var(--font-main); font-size: 1rem; font-weight: bold; cursor: pointer; outline: none; width: 100%; min-width: 200px;">
-                                <option value="basic">Basic Access</option>
-                                <option value="level1">Level 1: Quick Start</option>
-                                <option value="level2">Level 2: Research Mentorship</option>
-                                <option value="level3">Level 3: Level One Foundation</option>
-                                <option value="level4">Level 4: VIP Investor</option>
-                            </select>
+                            <h3 class="font-bold text-white text-2xl">Profile Information</h3>
+                            <p class="text-slate-400 text-sm">Update your personal details and how others see you.</p>
+                        </div>
+                    </div>
+                    <button class="bg-indigo-500 text-white text-xs font-bold tracking-widest uppercase px-6 py-2.5 rounded-lg hover:bg-indigo-600 transition-all">Save Profile</button>
+                </div>
+                <div class="grid grid-cols-2 gap-6 mt-8">
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Email Address</label>
+                        <input class="w-full bg-slate-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:border-indigo-500 transition-colors" type="email" value="" readonly placeholder="Managed by auth provider"/>
+                    </div>
+                    <div class="col-span-2 space-y-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Bio</label>
+                        <textarea class="w-full bg-slate-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:border-indigo-500 transition-colors" rows="3" placeholder="Tell us about your learning goals..."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Preference / Notification Toggles -->
+            <section class="col-span-12 lg:col-span-4 bg-[#0F172A] border border-white/10 rounded-xl p-8">
+                <div class="flex items-center gap-3 mb-8">
+                    <span class="material-symbols-outlined text-indigo-400">tune</span>
+                    <h3 class="font-bold text-white text-lg">Preferences</h3>
+                </div>
+                <div class="space-y-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-white text-sm">Email Notifications</p>
+                            <p class="text-xs text-slate-500">Important course updates</p>
+                        </div>
+                        <div class="w-10 h-5 bg-indigo-500 rounded-full relative cursor-pointer">
+                            <div class="absolute right-0.5 top-0.5 w-4 h-4 bg-white rounded-full"></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-white text-sm">Direct Messages</p>
+                            <p class="text-xs text-slate-500">Alerts from community</p>
+                        </div>
+                        <div class="w-10 h-5 bg-slate-800 rounded-full relative cursor-pointer border border-white/10">
+                            <div class="absolute left-0.5 top-0.5 w-4 h-4 bg-slate-400 rounded-full"></div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- Progress View -->
-            <div id="progress-view" class="tab-content">
-                <div class="dashboard-grid">
-                    <div class="dashboard-card curriculum-tracker">
-                        <h3 id="curriculum-title" style="margin-bottom: 20px;">Curriculum Progress</h3>
-                        <div id="checklist-container" class="checklist-container">
-                            <!-- Items dynamically injected -->
+            <!-- Security Section -->
+            <section class="col-span-12 bg-[#0F172A] border border-white/10 rounded-xl p-8">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="p-2 bg-red-500/10 rounded-lg">
+                        <span class="material-symbols-outlined text-red-400">lock_reset</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-xl">Security & Authentication</h3>
+                        <p class="text-slate-400 text-sm">Manage your password and secure your account access.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Password Reset -->
+                    <div class="col-span-1 space-y-4">
+                        <h4 class="text-white text-sm font-bold">Change Password</h4>
+                        <div id="change-pw-message" style="display:none; padding:12px; border-radius:8px; font-size: 0.8rem;"></div>
+                        <form id="change-password-form" class="space-y-3">
+                            <input id="current-password" class="w-full bg-slate-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:border-indigo-500 transition-colors" placeholder="Current Password" type="password" required/>
+                            <input id="settings-new-password" class="w-full bg-slate-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:border-indigo-500 transition-colors" placeholder="New Password" type="password" required/>
+                            <input id="settings-confirm-password" class="w-full bg-slate-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:border-indigo-500 transition-colors" placeholder="Confirm New Password" type="password" required/>
+                            <button type="submit" class="w-full border border-white/20 text-white text-xs font-bold uppercase tracking-widest py-3 rounded-lg hover:bg-white/5 transition-all">Update Password</button>
+                        </form>
+                    </div>
+                    <!-- Active Sessions -->
+                    <div class="col-span-2 bg-slate-900 border border-white/10 rounded-xl p-6 flex flex-col gap-4">
+                        <h4 class="text-white text-sm font-bold">Active Sessions</h4>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-slate-800 rounded-lg border border-white/5">
+                                <div class="flex items-center gap-4">
+                                    <span class="material-symbols-outlined text-indigo-400">desktop_windows</span>
+                                    <div>
+                                        <p class="text-white text-sm font-bold">Current Device</p>
+                                        <p class="text-xs text-slate-400">Logged in recently</p>
+                                    </div>
+                                </div>
+                                <span class="text-[10px] bg-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded uppercase font-bold tracking-tight">Active</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
+        </div>
+    </div>
 
-            <!-- Notifications View -->
-            <div id="notifications-view" class="tab-content">
-                <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;"><i class="fas fa-bell" style="color: var(--accent-gold); margin-right: 12px;"></i>Notifications</h2>
-                <p style="opacity: 0.6; margin-bottom: 30px; font-size: 0.9rem;">Messages and announcements from your instructor.</p>
-                <div id="notifications-list">
-                    <div style="text-align:center; padding: 40px; opacity: 0.5;">
-                        <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--accent-gold);"></i>
-                        <p style="margin-top: 15px;">Loading notifications...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Market Pulse View -->
-            <div id="market-pulse-view" class="tab-content">
-                <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;"><i class="fas fa-chart-area" style="color: var(--accent-gold); margin-right: 12px;"></i>Market Pulse</h2>
-                <p style="opacity: 0.6; margin-bottom: 30px; font-size: 0.9rem;">Real-time market insights and data.</p>
-                
-                <div class="dashboard-grid">
-                    <!-- TradingView Widget -->
-                    <div class="dashboard-card wide" style="height: 500px; padding: 20px;">
-                        <div class="tradingview-widget-container" style="height:100%;width:100%">
-                            <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
-                            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
-                            {
-                              "colorTheme": "dark",
-                              "dateRange": "12M",
-                              "showChart": true,
-                              "locale": "en",
-                              "width": "100%",
-                              "height": "100%",
-                              "largeChartUrl": "",
-                              "isTransparent": true,
-                              "showSymbolLogo": true,
-                              "showFloatingTooltip": false,
-                              "tabs": [
-                                {
-                                  "title": "Crypto Chips",
-                                  "symbols": [
-                                    { "s": "BINANCE:BTCUSDT" },
-                                    { "s": "BINANCE:ETHUSDT" },
-                                    { "s": "BINANCE:SOLUSDT" },
-                                    { "s": "BINANCE:BNBUSDT" }
-                                  ]
-                                }
-                              ]
-                            }
-                            </script>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Referral Partner View -->
-            <div id="referral-view" class="tab-content">
-                <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;"><i class="fas fa-users" style="color: var(--accent-gold); margin-right: 12px;"></i>Referral Partner</h2>
-                <p style="opacity: 0.6; margin-bottom: 30px; font-size: 0.9rem;">Earn commissions by successfully referring serious students.</p>
-
-                <div class="dashboard-grid">
-                    <div class="dashboard-card" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, transparent 100%);">
-                        <h3 style="color: var(--accent-gold); margin-bottom: 15px;">Become a Partner</h3>
-                        <p style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">Help grow the Quantara community and earn a direct commission for every successful registration through your link.</p>
-                        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; border: 1px dashed rgba(212,175,55,0.3); margin-bottom: 25px;">
-                            <span style="font-size: 0.8rem; display: block; opacity: 0.5; margin-bottom: 5px;">Your Commission Rate</span>
-                            <span style="font-size: 1.5rem; font-weight: 800; color: var(--accent-gold);">10% Per Student</span>
-                        </div>
-                        <a href="https://wa.link/pf3fok" target="_blank" class="btn-dashboard" style="display: block; text-align: center; padding: 15px;">Request Referral Link</a>
-                    </div>
-                    <div class="dashboard-card">
-                        <h3 style="margin-bottom: 15px;">Partner Guidelines</h3>
-                        <ul style="list-style: none; padding: 0; font-size: 0.9rem; opacity: 0.8; line-height: 2;">
-                            <li><i class="fas fa-check-circle" style="color: var(--accent-gold); margin-right: 8px;"></i> Only refer serious, committed students.</li>
-                            <li><i class="fas fa-check-circle" style="color: var(--accent-gold); margin-right: 8px;"></i> Commission is paid after registration.</li>
-                            <li><i class="fas fa-check-circle" style="color: var(--accent-gold); margin-right: 8px;"></i> Track your stats through support.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Support & Help View -->
-            <div id="support-view" class="tab-content">
-                <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;"><i class="fas fa-headset" style="color: var(--accent-gold); margin-right: 12px;"></i>Support & Help</h2>
-                <p style="opacity: 0.6; margin-bottom: 30px; font-size: 0.9rem;">Need assistance or have a specific question?</p>
-
-                <div class="dashboard-grid">
-                    <div class="dashboard-card">
-                        <h3 style="margin-bottom: 15px;">Direct Instructor Support</h3>
-                        <p style="font-size: 0.95rem; opacity: 0.8; margin-bottom: 25px;">The fastest way to get help with your learning path or account issues is through WhatsApp.</p>
-                        <a href="https://wa.link/pf3fok" target="_blank" class="btn-dashboard" style="display: inline-flex; align-items: center; gap: 10px; background: #25D366 !important;">
-                            <i class="fab fa-whatsapp"></i> Chat with Support
-                        </a>
-                    </div>
-                    <div class="dashboard-card">
-                        <h3 style="margin-bottom: 15px;">Email Assistance</h3>
-                        <p style="font-size: 0.95rem; opacity: 0.8; margin-bottom: 20px;">For official disputes or complex inquiries, reach out to our admin team.</p>
-                        <a href="mailto:admin@quantaraalpha.com" class="btn-dashboard" style="background: transparent; border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 10px 20px; display: inline-block;">Email Admin</a>
-                    </div>
-                </div>
-            </div>
-            <div id="staking-view" class="tab-content">
-                <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;"><i class="fas fa-chart-line" style="color: var(--accent-gold); margin-right: 12px;"></i>Staking Pool</h2>
-                <p style="opacity: 0.6; margin-bottom: 30px; font-size: 0.9rem;">High-yield staking opportunities to grow your capital.</p>
-
-                <div class="stake-cards-container" style="justify-content: flex-start; padding-left: 0;">
-                    <!-- 1 MONTH PLAN -->
-                    <div class="stake-card">
-                        <h2>1 MONTH PLAN</h2>
-                        <ul class="stake-features">
-                            <li><i class="fas fa-chart-pie"></i> <strong>25% Total Return</strong></li>
-                            <li><i class="fas fa-hand-holding-usd"></i> <strong>6.25% Weekly Payout</strong></li>
-                            <li><i class="fas fa-clock"></i> <strong>4 Weeks Duration</strong></li>
-                            <li><i class="fas fa-money-bill-wave"></i> <strong>Min: ₦50,000 | Max: ₦500,000</strong></li>
-                        </ul>
-                        <div class="stake-example-box">
-                            <strong>Example:</strong>
-                            <p>₦100,000 = ₦6,250 weekly<br>= ₦25,000 total profit</p>
-                        </div>
-                        <a href="https://wa.link/dx334n" target="_blank" class="btn-stake">Start Staking</a>
-                    </div>
-
-                    <!-- 2 MONTHS PLAN -->
-                    <div class="stake-card highlighted">
-                        <h2>2 MONTHS PLAN</h2>
-                        <ul class="stake-features">
-                            <li><i class="fas fa-chart-line"></i> <strong>50% Total Return</strong></li>
-                            <li><i class="fas fa-hand-holding-usd"></i> <strong>6.25% Weekly Payout</strong></li>
-                            <li><i class="fas fa-clock"></i> <strong>8 Weeks Duration</strong></li>
-                            <li><i class="fas fa-money-bill-wave"></i> <strong>Min: ₦50,000 | Max: ₦500,000</strong></li>
-                        </ul>
-                        <div class="stake-example-box">
-                            <strong>Example:</strong>
-                            <p>₦100,000 = ₦6,250 weekly<br>= ₦50,000 total profit</p>
-                        </div>
-                        <a href="https://wa.link/c0w7rt" target="_blank" class="btn-stake">Start Staking</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recordings View -->
-            <div id="recordings-view" class="tab-content">
-                <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;"><i class="fas fa-headphones" style="color: var(--accent-gold); margin-right: 12px;"></i>Class Recordings</h2>
-                <p style="opacity: 0.6; margin-bottom: 30px; font-size: 0.9rem;">Listen to previous class sessions uploaded by your instructor.</p>
-                <div id="recordings-list">
-                    <div style="text-align:center; padding: 40px; opacity: 0.5;">
-                        <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--accent-gold);"></i>
-                        <p style="margin-top: 15px;">Loading recordings...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Settings View -->
-            <div id="settings-view" class="tab-content">
-                <h2 style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;"><i class="fas fa-cog" style="color: var(--accent-gold); margin-right: 12px;"></i>Account Settings</h2>
-                <p style="opacity: 0.6; margin-bottom: 30px; font-size: 0.9rem;">Manage your account preferences and security.</p>
-                
-                <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.15); padding: 35px; border-radius: 16px; max-width: 500px;">
-                    <h3 style="font-size: 1.2rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;"><i class="fas fa-lock" style="color: var(--accent-gold);"></i> Change Password</h3>
-                    <form id="change-password-form">
-                        <div style="margin-bottom: 18px;">
-                            <label style="display: block; font-size: 0.85rem; opacity: 0.7; margin-bottom: 6px;">Current Password</label>
-                            <input type="password" id="current-password" placeholder="Enter current password" required
-                                style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; font-size: 0.95rem; font-family: inherit; box-sizing: border-box;">
-                        </div>
-                        <div style="margin-bottom: 18px;">
-                            <label style="display: block; font-size: 0.85rem; opacity: 0.7; margin-bottom: 6px;">New Password</label>
-                            <input type="password" id="settings-new-password" placeholder="Enter new password" required minlength="6"
-                                style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; font-size: 0.95rem; font-family: inherit; box-sizing: border-box;">
-                        </div>
-                        <div style="margin-bottom: 25px;">
-                            <label style="display: block; font-size: 0.85rem; opacity: 0.7; margin-bottom: 6px;">Confirm New Password</label>
-                            <input type="password" id="settings-confirm-password" placeholder="Re-enter new password" required minlength="6"
-                                style="width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; font-size: 0.95rem; font-family: inherit; box-sizing: border-box;">
-                        </div>
-                        <div id="change-pw-message" style="display: none; padding: 12px 16px; border-radius: 10px; margin-bottom: 18px; font-size: 0.9rem;"></div>
-                        <button type="submit" style="width: 100%; padding: 14px; background: var(--accent-gold); color: #000; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.3s;">
-                            Update Password <i class="fas fa-check"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        <!-- BEGIN: Dashboard Footer -->
-        <footer class="bg-black pt-10 pb-6 border-t border-white/10 px-6 mt-10">
-            <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
-                <div>
-                    <h5 class="text-[10px] font-bold uppercase tracking-widest text-brand mb-4">Explore</h5>
-                    <ul class="text-gray-400 text-xs space-y-2">
-                        <li><a class="hover:text-white" href="index.html#pricing">Pricing</a></li>
-                        <li><a class="hover:text-white" href="index.html#curriculum">Curriculum</a></li>
-                        <li><a class="hover:text-white" href="community.html">Community</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="text-[10px] font-bold uppercase tracking-widest text-brand mb-4">Company</h5>
-                    <ul class="text-gray-400 text-xs space-y-2">
-                        <li><a class="hover:text-white" href="about.html">About Us</a></li>
-                        <li><a class="hover:text-white" href="founder.html">Our Founder</a></li>
-                        <li><a class="hover:text-white" href="https://wa.link/pf3fok" target="_blank">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="text-[10px] font-bold uppercase tracking-widest text-brand mb-4">Important</h5>
-                    <ul class="text-gray-400 text-xs space-y-2">
-                        <li><a class="hover:text-white" href="rules.html">Rules</a></li>
-                        <li><a class="hover:text-white" href="faq.html">FAQ</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h5 class="text-[10px] font-bold uppercase tracking-widest text-brand mb-4">Follow Us</h5>
-                    <ul class="text-gray-400 text-[10px] space-y-2">
-                        <li class="flex items-center gap-2">Facebook</li>
-                        <li class="flex items-center gap-2">Instagram</li>
-                        <li class="flex items-center gap-2">YouTube</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="text-center text-gray-600 text-[9px]">
-                © 2026 Quantara Alpha Enterprise, LLC. All Rights Reserved.
-            </div>
-        </footer>
-        <!-- END: Dashboard Footer -->
-    </main>
 </div>
+</main>
 
-    <script src="security.js"></script>
-    <script src="config.js"></script>
-    <script src="main.js"></script>
-                            </div>`;
-                    }
-                }, 300);
-            }
-        }
-
-        // ===== CHANGE PASSWORD HANDLER =====
-        const changePwForm = document.getElementById('change-password-form');
-        if (changePwForm) {
-            changePwForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const msgDiv = document.getElementById('change-pw-message');
-                const currentPw = document.getElementById('current-password').value;
-                const newPw = document.getElementById('settings-new-password').value;
-                const confirmPw = document.getElementById('settings-confirm-password').value;
-                const submitBtn = changePwForm.querySelector('button[type="submit"]');
-
-                // Validation
-                if (newPw !== confirmPw) {
-                    msgDiv.textContent = 'New passwords do not match!';
-                    msgDiv.style.display = 'block';
-                    msgDiv.style.background = 'rgba(255,0,0,0.15)';
-                    msgDiv.style.color = '#ff6b6b';
-                    msgDiv.style.border = '1px solid rgba(255,0,0,0.3)';
-                    return;
-                }
-
-                if (newPw.length < 6) {
-                    msgDiv.textContent = 'New password must be at least 6 characters.';
-                    msgDiv.style.display = 'block';
-                    msgDiv.style.background = 'rgba(255,0,0,0.15)';
-                    msgDiv.style.color = '#ff6b6b';
-                    msgDiv.style.border = '1px solid rgba(255,0,0,0.3)';
-                    return;
-                }
-
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
-                msgDiv.style.display = 'none';
-
-                try {
-                    // Step 1: Verify current password by re-signing in
-                    const { data: { session } } = await sb.auth.getSession();
-                    const userEmail = session.user.email;
-
-                    const { error: signInErr } = await sb.auth.signInWithPassword({
-                        email: userEmail,
-                        password: currentPw
-                    });
-
-                    if (signInErr) {
-                        msgDiv.textContent = 'Current password is incorrect.';
-                        msgDiv.style.display = 'block';
-                        msgDiv.style.background = 'rgba(255,0,0,0.15)';
-                        msgDiv.style.color = '#ff6b6b';
-                        msgDiv.style.border = '1px solid rgba(255,0,0,0.3)';
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = 'Update Password <i class="fas fa-check"></i>';
-                        return;
-                    }
-
-                    // Step 2: Update to new password
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
-                    const { error: updateErr } = await sb.auth.updateUser({ password: newPw });
-
-                    if (updateErr) {
-                        msgDiv.textContent = updateErr.message;
-                        msgDiv.style.display = 'block';
-                        msgDiv.style.background = 'rgba(255,0,0,0.15)';
-                        msgDiv.style.color = '#ff6b6b';
-                        msgDiv.style.border = '1px solid rgba(255,0,0,0.3)';
-                    } else {
-                        msgDiv.textContent = '✅ Password changed successfully!';
-                        msgDiv.style.display = 'block';
-                        msgDiv.style.background = 'rgba(212,175,55,0.15)';
-                        msgDiv.style.color = 'var(--accent-gold)';
-                        msgDiv.style.border = '1px solid rgba(212,175,55,0.3)';
-                        changePwForm.reset();
-                    }
-                } catch (err) {
-                    console.error('Password change error:', err);
-                    msgDiv.textContent = 'An unexpected error occurred.';
-                    msgDiv.style.display = 'block';
-                    msgDiv.style.background = 'rgba(255,0,0,0.15)';
-                    msgDiv.style.color = '#ff6b6b';
-                    msgDiv.style.border = '1px solid rgba(255,0,0,0.3)';
-                }
-
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Update Password <i class="fas fa-check"></i>';
-            });
-        }
-    </script>
-</body>
-
-</html>
+<script src="security.js"></script>
+<script src="config.js"></script>
+<script src="dashboard.js"></script>
+</body></html>

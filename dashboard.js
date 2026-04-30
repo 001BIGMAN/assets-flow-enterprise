@@ -91,9 +91,16 @@ async function initDashboard() {
         planSelect.addEventListener('change', (e) => {
             const newPlan = e.target.value;
             localStorage.setItem(`plan_${userId}`, newPlan);
+            if (document.getElementById('current-plan-display')) {
+                document.getElementById('current-plan-display').textContent = newPlan;
+            }
             renderCurriculum(newPlan, progressData);
             loadStudentData(newPlan, userId, user.created_at);
         });
+        
+        if (document.getElementById('current-plan-display')) {
+            document.getElementById('current-plan-display').textContent = savedPlan;
+        }
     }
 
     // --- 3. UI Interactions (Sidebar/Tabs) ---
@@ -326,14 +333,13 @@ function setupSidebarToggle() {
     const handler = () => {
         sidebar.classList.toggle('active');
         overlay?.classList.toggle('active');
-        const icon = toggle.querySelector('i');
-        const text = toggle.querySelector('span');
-        if (sidebar.classList.contains('active')) {
-            if (icon) icon.className = 'fas fa-times';
-            if (text) text.textContent = 'CLOSE';
-        } else {
-            if (icon) icon.className = 'fas fa-bars';
-            if (text) text.textContent = 'MENU';
+        const icon = toggle.querySelector('span.material-symbols-outlined');
+        if (icon) {
+            if (sidebar.classList.contains('active')) {
+                icon.textContent = 'close';
+            } else {
+                icon.textContent = 'menu';
+            }
         }
     };
 
@@ -350,8 +356,8 @@ function setupTabSwitching() {
             e.preventDefault();
             const target = link.getAttribute('data-tab');
 
-            links.forEach(l => l.parentElement.classList.remove('active'));
-            link.parentElement.classList.add('active');
+            links.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
 
             contents.forEach(tab => {
                 tab.classList.toggle('active', tab.id === target);
