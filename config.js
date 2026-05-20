@@ -24,5 +24,9 @@ window.APP_CONFIG = Object.freeze({
     APP_NAME: 'Quantara Alpha Enterprise',
     VERSION: '2.1.0',
     SUPPORT_EMAIL: 'admin@quantaraalpha.com',
-    SUPPORT_WHATSAPP: 'https://wa.link/pf3fok'
+    SUPPORT_WHATSAPP: 'https://wa.link/pf3fok',
+    
+    // Paystack Configuration
+    // Replace this pk_test_... key with your live key (pk_live_...) from your Paystack Dashboard.
+    PAYSTACK_PUBLIC_KEY: 'pk_test_d307cc2ef2ba592df82ba95f7c32bf8696d07e60'
 });

@@ -227,13 +227,13 @@ const Security = (() => {
     const supabaseHost = 'xdsmthoenrwvbqetigjm.supabase.co';
     const csp = [
       `default-src 'self'`,
-      `script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com 'unsafe-inline'`,
+      `script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://js.paystack.co 'unsafe-inline'`,
       `style-src 'self' https://fonts.googleapis.com https://cdnjs.cloudflare.com 'unsafe-inline'`,
       `font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com`,
       `img-src 'self' data: https: blob:`,
       `media-src 'self' https://${supabaseHost} blob:`,
-      `connect-src 'self' https://${supabaseHost} https://api.resend.com wss://${supabaseHost}`,
-      `frame-src 'none'`,
+      `connect-src 'self' https://${supabaseHost} https://api.resend.com https://api.paystack.co wss://${supabaseHost}`,
+      `frame-src 'self' https://js.paystack.co`,
       `object-src 'none'`,
       `base-uri 'self'`,
       `form-action 'self'`,

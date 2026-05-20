@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>The Quantara Playbook - Premium E-Book by Favour Danladi</title>
+
+    <!-- Tailwind CSS v3 CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                brand: {
+                  DEFAULT: '#0066FF',
+                  dark: '#0052CC',
+                  light: '#3385FF',
+                  glow: 'rgba(0, 102, 255, 0.4)'
+                },
+                accent: {
+                  DEFAULT: '#FFD700',
+                  glow: 'rgba(255, 215, 0, 0.3)'
+                },
+                surface: {
+                  DEFAULT: '#020617',
+                  paper: '#0f172a',
+                  card: 'rgba(30, 41, 59, 0.5)'
+                }
+              },
+              animation: {
+                'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                'float': 'float 6s ease-in-out infinite',
+                'glow': 'glow 3s ease-in-out infinite alternate',
+              },
+              keyframes: {
+                float: {
+                  '0%, 100%': { transform: 'translateY(0)' },
+                  '50%': { transform: 'translateY(-15px)' },
+                },
+                glow: {
+                  '0%': { boxShadow: '0 0 20px rgba(0, 102, 255, 0.2)' },
+                  '100%': { boxShadow: '0 0 40px rgba(0, 102, 255, 0.5)' },
+                }
+              }
+            }
+          }
+        }
+    </script>
+    
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <style data-purpose="premium-design-system">
+        :root {
+            --mesh-color-1: #001a4d;
+            --mesh-color-2: #000b1a;
+            --mesh-color-3: #1a0033;
+            --mesh-color-4: #000000;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--mesh-color-4);
+            color: #f8fafc;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 0% 0%, var(--mesh-color-1) 0%, transparent 50%),
+                radial-gradient(circle at 100% 0%, var(--mesh-color-3) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, var(--mesh-color-1) 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, var(--mesh-color-2) 0%, transparent 50%);
+            opacity: 0.6;
+            filter: blur(80px);
+            animation: mesh-drift 20s ease infinite alternate;
+        }
+
+        @keyframes mesh-drift {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.1) translate(2% , 2%); }
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gradient-brand {
+            background: linear-gradient(135deg, #3385FF 0%, #0047AB 100%);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-premium {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .btn-premium::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn-premium:hover::before {
+            left: 100%;
+        }
+
+        .glow-ring {
+            box-shadow: 0 0 25px 2px rgba(0, 102, 255, 0.4);
+        }
+
+        .chapter-tab.active {
+            background: rgba(0, 102, 255, 0.15);
+            border-color: rgba(0, 102, 255, 0.5);
+            color: #fff;
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden text-slate-200">
+
+<!-- Navigation -->
+<nav id="main-nav" class="fixed top-0 w-full z-[2000] bg-transparent border-b border-transparent backdrop-blur-none transition-all duration-500">
+    <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="flex items-center">
+                <img src="logo.png" alt="Quantara Alpha Logo" class="h-12 md:h-16 w-auto object-contain">
+            </a>
+        </div>
+        
+        <div class="hidden md:flex items-center space-x-8 font-['Inter'] text-sm tracking-tight font-medium">
+            <a class="text-slate-400 hover:text-brand transition-all" href="index.html">Home</a>
+            <a class="text-slate-400 hover:text-brand transition-all" href="community.html">Community</a>
+            <a class="text-slate-400 hover:text-brand transition-all" href="staking.html">Staking Pool</a>
+            <a class="text-slate-400 hover:text-brand transition-all" href="about.html">About Us</a>
+            <a class="text-slate-400 hover:text-brand transition-all" href="founder.html">Founder</a>
+            <a class="text-brand font-bold border-b-2 border-brand pb-1" href="ebook.html">E-Book</a>
+        </div>
+
+        <div class="hidden md:flex items-center space-x-4">
+            <a href="auth.html" class="text-slate-400 font-['Inter'] font-medium text-sm hover:text-brand transition-all">Log in</a>
+            <a href="auth.html#signup" class="bg-brand text-white px-6 py-2.5 rounded-xl font-['Inter'] font-bold text-sm active:scale-95 transition-all shadow-lg shadow-brand/20">Sign up</a>
+        </div>
+
+        <!-- Mobile Toggle -->
+        <button id="mobile-menu-toggle" class="md:hidden text-white p-2 focus:outline-none transition-transform active:scale-90">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div id="mobile-menu" class="fixed inset-0 bg-slate-950 z-[2001] hidden flex-col items-center justify-center p-10 transition-all duration-500 translate-x-full">
+    <button id="close-mobile-menu" class="absolute top-10 right-10 text-white p-2">
+        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    </button>
+    <div class="flex flex-col gap-8 text-center">
+        <a href="index.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Home</a>
+        <a href="community.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Community</a>
+        <a href="staking.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Staking Pool</a>
+        <a href="about.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">About Us</a>
+        <a href="founder.html" class="text-2xl font-black text-white hover:text-brand uppercase tracking-tighter">Founder</a>
+        <a href="ebook.html" class="text-2xl font-black text-brand uppercase tracking-tighter">E-Book</a>
+        <div class="pt-8 flex flex-col gap-4">
+            <a href="auth.html" class="text-lg font-bold text-slate-400">Log in</a>
+            <a href="auth.html#signup" class="bg-brand text-white px-10 py-3 rounded-xl font-bold uppercase text-xs">Sign up now</a>
+        </div>
+    </div>
+</div>
+
+<!-- Header Hero Section -->
+<main class="pt-32 pb-24 px-4 max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-12 gap-12 items-center mb-24">
+        <!-- Text details -->
+        <div class="md:col-span-7 space-y-8">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 border border-brand/30 text-xs font-black uppercase tracking-widest text-brand">
+                <i class="fas fa-book-open"></i> Premium Release
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-['Outfit'] font-black uppercase tracking-tighter leading-none text-gradient">
+                The Quantara <br>
+                <span class="text-gradient-brand">Playbook</span>
+            </h1>
+            
+            <p class="text-slate-400 font-semibold text-lg md:text-xl leading-relaxed">
+                Mastering Decentralized Assets, Market Psychology & The Ultimate Path to Wealth. Written exclusively by Favour Danladi, Founder of Quantara Alpha Enterprise.
+            </p>
+
+            <p class="text-slate-400 text-sm md:text-base leading-relaxed max-w-xl">
+                The cryptocurrency landscape changes by the minute. Most retail investors lose because they operate on old blueprints, fall victim to complex rugs, or misinterpret whale cycles. The Quantara Playbook provides you with the exact playbook used to analyze, trade, and invest securely with institutional clarity.
+            </p>
+
+            <div class="grid grid-cols-2 gap-4 border-y border-white/5 py-6">
+                <div>
+                    <div class="text-brand font-black text-2xl">5+ Chapters</div>
+                    <div class="text-xs uppercase text-slate-500 tracking-wider">Comprehensive blueprints</div>
+                </div>
+                <div>
+                    <div class="text-brand font-black text-2xl">Step-by-Step</div>
+                    <div class="text-xs uppercase text-slate-500 tracking-wider">Practical security & trading setup</div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-6 pt-4">
+                <div>
+                    <div class="text-xs uppercase text-slate-500 tracking-widest mb-1">Ebook Price</div>
+                    <div class="text-4xl font-extrabold text-white">₦15,000 <span class="text-xs text-slate-400 font-medium">NGN</span></div>
+                </div>
+                <button onclick="openCheckoutModal()" class="bg-brand hover:bg-brand-light text-white px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-wider transition-all shadow-xl shadow-brand/30 hover:scale-105 active:scale-95 btn-premium">
+                    <i class="fas fa-shopping-cart mr-2"></i> Get the E-Book Now
+                </button>
+            </div>
+        </div>
+
+        <!-- 3D Book Render -->
+        <div class="md:col-span-5 flex justify-center relative">
+            <div class="absolute -inset-10 bg-brand/20 blur-3xl rounded-full opacity-40 animate-pulse-slow"></div>
+            <div class="relative group">
+                <div class="absolute inset-0 bg-gradient-to-tr from-brand to-cyan-500 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity blur-xl"></div>
+                <!-- Premium cover wrapper with custom shadow -->
+                <div class="glass-panel p-4 rounded-3xl border border-white/10 glow-ring transition-transform duration-700 hover:rotate-1 hover:scale-[1.02]">
+                    <img src="quantara_playbook_cover.png" alt="The Quantara Playbook Cover Mockup" class="rounded-2xl max-w-full w-[360px] h-auto shadow-2xl object-cover animate-float">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter Breakdown / Accordion Section -->
+    <section class="py-20 border-t border-white/5">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <h2 class="text-brand font-black text-xs uppercase tracking-[0.3em] mb-4">WHAT'S INSIDE</h2>
+            <h1 class="text-4xl md:text-5xl font-['Outfit'] font-black uppercase text-gradient tracking-tighter">Inside the Playbook</h1>
+            <p class="text-slate-500 text-sm mt-3">An executive summary of the critical knowledge you'll unlock inside this masterpiece.</p>
+        </div>
+
+        <div class="grid md:grid-cols-12 gap-8 items-start">
+            <!-- Left Side Chapter Tabs -->
+            <div class="md:col-span-5 flex flex-col gap-3">
+                <button onclick="switchChapter(1)" id="tab-1" class="chapter-tab flex items-center gap-4 text-left p-5 rounded-2xl border border-white/5 bg-white/[0.01] transition-all hover:bg-white/[0.03] active">
+                    <div class="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center font-bold text-brand flex-shrink-0">1</div>
+                    <div>
+                        <h4 class="font-extrabold text-sm uppercase tracking-wide text-white">Evolution of Sovereignty</h4>
+                        <p class="text-xs text-slate-500">Decentralization principles & system architecture</p>
+                    </div>
+                </button>
+                <button onclick="switchChapter(2)" id="tab-2" class="chapter-tab flex items-center gap-4 text-left p-5 rounded-2xl border border-white/5 bg-white/[0.01] transition-all hover:bg-white/[0.03]">
+                    <div class="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center font-bold text-brand flex-shrink-0">2</div>
+                    <div>
+                        <h4 class="font-extrabold text-sm uppercase tracking-wide text-white">Deciphering Psychology</h4>
+                        <p class="text-xs text-slate-500">Timing market cycles & whale operations</p>
+                    </div>
+                </button>
+                <button onclick="switchChapter(3)" id="tab-3" class="chapter-tab flex items-center gap-4 text-left p-5 rounded-2xl border border-white/5 bg-white/[0.01] transition-all hover:bg-white/[0.03]">
+                    <div class="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center font-bold text-brand flex-shrink-0">3</div>
+                    <div>
+                        <h4 class="font-extrabold text-sm uppercase tracking-wide text-white">Fundamental Analysis</h4>
+                        <p class="text-xs text-slate-500">Tokenomics evaluation & narrative tracing</p>
+                    </div>
+                </button>
+                <button onclick="switchChapter(4)" id="tab-4" class="chapter-tab flex items-center gap-4 text-left p-5 rounded-2xl border border-white/5 bg-white/[0.01] transition-all hover:bg-white/[0.03]">
+                    <div class="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center font-bold text-brand flex-shrink-0">4</div>
+                    <div>
+                        <h4 class="font-extrabold text-sm uppercase tracking-wide text-white">Security & Threat Landscape</h4>
+                        <p class="text-xs text-slate-500">Identifying scams & setting up secure systems</p>
+                    </div>
+                </button>
+                <button onclick="switchChapter(5)" id="tab-5" class="chapter-tab flex items-center gap-4 text-left p-5 rounded-2xl border border-white/5 bg-white/[0.01] transition-all hover:bg-white/[0.03]">
+                    <div class="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center font-bold text-brand flex-shrink-0">5</div>
+                    <div>
+                        <h4 class="font-extrabold text-sm uppercase tracking-wide text-white">Portfolio Engineering</h4>
+                        <p class="text-xs text-slate-500">Risk allocation math & wealth preservation</p>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Right Side Chapter Descriptions Content -->
+            <div class="md:col-span-7 glass-panel p-8 rounded-[32px] min-h-[350px] flex flex-col justify-between border border-white/10 relative overflow-hidden">
+                <div class="absolute inset-0 bg-brand/5 pointer-events-none"></div>
+                <div id="chapter-content-box" class="space-y-6 relative">
+                    <!-- Dynamic Chapter Content will be injected here by Javascript -->
+                </div>
+                
+                <div class="mt-8 pt-6 border-t border-white/5 flex justify-between items-center relative">
+                    <span class="text-xs font-semibold text-slate-500">AUTHOR: FAVOUR DANLADI</span>
+                    <button onclick="openCheckoutModal()" class="text-brand hover:text-brand-light font-black text-xs uppercase tracking-widest flex items-center gap-2">
+                        Get Instant Copy <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Call to Action and Testimonials -->
+    <section class="py-20 text-center">
+        <div class="max-w-4xl mx-auto border border-white/10 p-12 rounded-[40px] bg-surface-paper/40 backdrop-blur-xl relative overflow-hidden group">
+            <div class="absolute inset-0 bg-brand/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            
+            <h3 class="text-3xl font-black text-white uppercase tracking-tight mb-4">Start Reading Today</h3>
+            <p class="text-slate-400 text-base max-w-lg mx-auto mb-8">
+                Equip yourself with the fundamental frameworks of digital asset intelligence. Get immediate PDF download access after checkout.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                <div class="text-left bg-black/40 border border-white/5 p-4 rounded-xl flex items-center gap-4">
+                    <i class="fas fa-lock text-emerald-500 text-2xl"></i>
+                    <div>
+                        <div class="text-xs uppercase text-slate-500 font-bold">Secure Processing</div>
+                        <div class="text-sm font-extrabold text-white">Powered by Paystack</div>
+                    </div>
+                </div>
+                <button onclick="openCheckoutModal()" class="bg-brand hover:bg-brand-light text-white px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-wider transition-all shadow-xl active:scale-95 btn-premium w-full sm:w-auto">
+                    Buy E-Book • ₦15,000 NGN
+                </button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- BEGIN: Footer -->
+<footer class="bg-black pt-20 pb-10 border-t border-white/10 px-4" data-purpose="main-footer">
+    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 mb-20">
+        <div>
+            <h5 class="text-xs font-bold uppercase tracking-widest text-brand mb-6">Explore</h5>
+            <ul class="text-gray-400 text-sm space-y-4">
+                <li><a class="hover:text-white" href="index.html#pricing">Pricing</a></li>
+                <li><a class="hover:text-white" href="index.html#curriculum">Curriculum</a></li>
+                <li><a class="hover:text-white" href="community.html">Community</a></li>
+            </ul>
+        </div>
+        <div>
+            <h5 class="text-xs font-bold uppercase tracking-widest text-brand mb-6">Company</h5>
+            <ul class="text-gray-400 text-sm space-y-4">
+                <li><a class="hover:text-white" href="about.html">About Us</a></li>
+                <li><a class="hover:text-white" href="founder.html">Our Founder</a></li>
+                <li><a class="hover:text-white" href="https://wa.link/pf3fok" target="_blank">Contact Us</a></li>
+            </ul>
+        </div>
+        <div>
+            <h5 class="text-xs font-bold uppercase tracking-widest text-brand mb-6">Important</h5>
+            <ul class="text-gray-400 text-sm space-y-4">
+                <li><a class="hover:text-white" href="rules.html">Rules</a></li>
+                <li><a class="hover:text-white" href="faq.html">FAQ</a></li>
+            </ul>
+        </div>
+        <div>
+            <h5 class="text-xs font-bold uppercase tracking-widest text-brand mb-6">Follow Us</h5>
+            <ul class="text-gray-400 text-sm space-y-4">
+                <li class="flex items-center gap-2"><svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg> Facebook</li>
+                <li class="flex items-center gap-2"><svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg> Instagram</li>
+                <li class="flex items-center gap-2"><svg class="w-4 h-4" fill="currentColor" viewbox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg> YouTube</li>
+            </ul>
+        </div>
+    </div>
+    <div class="text-center text-gray-600 text-[10px]">
+        © 2026 Quantara Alpha Enterprise, LLC. All Rights Reserved.
+    </div>
+</footer>
+<!-- END: Footer -->
+
+<!-- Checkout Modal Overlay -->
+<div id="checkout-modal" class="fixed inset-0 z-[3000] hidden items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+    <div class="glass-panel w-full max-w-lg rounded-[32px] border border-white/10 p-8 relative space-y-6">
+        <button onclick="closeCheckoutModal()" class="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors">
+            <i class="fas fa-times text-xl"></i>
+        </button>
+
+        <div class="text-center space-y-2">
+            <div class="w-12 h-12 rounded-full bg-brand/10 border border-brand/20 flex items-center justify-center text-brand mx-auto text-lg mb-2">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h3 class="text-2xl font-black text-white uppercase tracking-tight">Checkout Details</h3>
+            <p class="text-slate-400 text-xs">Fill in your information to receive your download link.</p>
+        </div>
+
+        <form id="checkout-form" class="space-y-4" onsubmit="handleCheckoutSubmit(event)">
+            <div>
+                <label class="block text-xs uppercase text-slate-500 font-bold mb-2">Full Name</label>
+                <input type="text" id="buyer-name" required placeholder="John Doe" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-slate-200 text-sm focus:outline-none focus:border-brand transition-colors">
+            </div>
+
+            <div>
+                <label class="block text-xs uppercase text-slate-500 font-bold mb-2">Email Address</label>
+                <input type="email" id="buyer-email" required placeholder="johndoe@example.com" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-slate-200 text-sm focus:outline-none focus:border-brand transition-colors">
+            </div>
+
+            <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-3">
+                <div class="flex justify-between items-center text-xs">
+                    <span class="text-slate-500 uppercase font-bold">Item:</span>
+                    <span class="text-slate-300 font-bold">The Quantara Playbook (PDF)</span>
+                </div>
+                <div class="flex justify-between items-center text-xs">
+                    <span class="text-slate-500 uppercase font-bold">Price:</span>
+                    <span class="text-white font-extrabold text-base">₦15,000 NGN</span>
+                </div>
+            </div>
+
+            <!-- Custom Key Field for testing -->
+            <div class="border-t border-white/5 pt-4">
+                <details class="text-xs text-slate-500 cursor-pointer">
+                    <summary class="font-bold uppercase tracking-wider mb-2 hover:text-slate-300">Developer/Testing Settings</summary>
+                    <div class="space-y-2 mt-2">
+                        <label class="block text-[10px] uppercase text-slate-500 font-semibold">Paystack Public Key (Optional override)</label>
+                        <input type="text" id="paystack-key-override" placeholder="Using config key by default" class="w-full bg-black/60 border border-white/5 rounded-lg px-3 py-2 text-slate-400 text-xs focus:outline-none focus:border-brand transition-colors">
+                    </div>
+                </details>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                <button type="button" onclick="triggerSandboxSuccess()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 py-4 rounded-xl font-bold text-xs uppercase transition-all">
+                    Simulate Success
+                </button>
+                <button type="submit" id="checkout-pay-btn" class="bg-brand hover:bg-brand-light text-white py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all btn-premium shadow-lg shadow-brand/20">
+                    Pay with Paystack
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Purchase Success Modal -->
+<div id="success-modal" class="fixed inset-0 z-[4000] hidden items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md">
+    <div class="glass-panel w-full max-w-md rounded-[32px] border border-emerald-500/20 p-8 text-center space-y-6 relative">
+        <div class="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 mx-auto text-2xl mb-2 animate-bounce">
+            <i class="fas fa-check-circle"></i>
+        </div>
+
+        <div class="space-y-2">
+            <h3 class="text-2xl font-black text-white uppercase tracking-tight">Purchase Successful!</h3>
+            <p class="text-slate-400 text-xs">Thank you, <span id="success-buyer-name" class="text-white font-bold"></span>. Your payment is complete.</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/10 space-y-2 text-xs text-left max-w-sm mx-auto">
+            <div class="flex justify-between">
+                <span class="text-slate-500">Transaction Reference:</span>
+                <span id="success-ref" class="text-slate-300 font-mono"></span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-slate-500">Format:</span>
+                <span class="text-brand font-bold">Premium Interactive PDF</span>
+            </div>
+        </div>
+
+        <div class="space-y-3">
+            <!-- Simulated secure book download button -->
+            <a href="Quantara_Playbook_Sample.pdf" download="The_Quantara_Playbook.pdf" id="download-book-btn" class="block w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all shadow-lg shadow-emerald-500/20">
+                <i class="fas fa-file-download mr-2"></i> Download Playbook Now
+            </a>
+            
+            <button onclick="closeSuccessModal()" class="w-full bg-white/5 hover:bg-white/10 text-slate-400 py-3 rounded-xl font-bold text-xs uppercase transition-colors">
+                Back to E-Book page
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Paystack Pop Inline SDK -->
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<!-- Security, Config and application integration scripts -->
+<script src="security.js"></script>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="main.js"></script>
+
+<script>
+    // Chapter Data
+    const chapterData = {
+        1: {
+            title: "Chapter 1: The Evolution of Sovereignty",
+            subtitle: "Decentralization principles & system architecture",
+            points: [
+                "The double-spend problem and the true genius of Satoshi Nakamoto.",
+                "How peer-to-peer validation eliminates centralized trusted third parties.",
+                "Sovereignty mechanics: Public keys, private keys, and non-custodial math.",
+                "The shift from centralized finance to high-sovereignty decentralized systems."
+            ],
+            summary: "Learn the absolute fundamentals of cryptographic consensus and why decentralized networks represent the biggest architectural shift in human coordination history."
+        },
+        2: {
+            title: "Chapter 2: Deciphering Market Psychology",
+            subtitle: "Timing market cycles & whale operations",
+            points: [
+                "Understanding the 4 phases of market cycles (Accumulation, Markup, Distribution, Markdown).",
+                "The emotional curve of retail investors and how market makers exploit it.",
+                "On-chain whale monitoring: Following smart money inflows and exchange balance dynamics.",
+                "Developing an ironclad trading mindset to eliminate fear of missing out (FOMO) and panic selling."
+            ],
+            summary: "Cryptocurrency is 90% psychology and 10% technology. Learn to read the market sentiment so you trade with the makers instead of being their exit liquidity."
+        },
+        3: {
+            title: "Chapter 3: Strategic Fundamental Analysis",
+            subtitle: "Tokenomics evaluation & narrative tracing",
+            points: [
+                "Analyzing token utility, emission mechanics, inflation models, and fully diluted valuation (FDV).",
+                "How to read a whitepaper objectively and identify fatal structural flaws.",
+                "Tracking viral narratives: Layer 1s, Layer 2s, DeFi, Real World Assets (RWA), and AI integration.",
+                "The 10-step checklist to perform comprehensive due diligence before allocating capital."
+            ],
+            summary: "Evaluate tokens like an institutional venture capital firm. Avoid buying overvalued hype coins and discover real protocol utility with long-term survival capabilities."
+        },
+        4: {
+            title: "Chapter 4: Security & Threat Landscape",
+            subtitle: "Identifying scams & setting up secure systems",
+            points: [
+                "Detailed breakdown of common exploit vectors: Phishing, malicious smart contracts, and spoofed extensions.",
+                "How rug pulls, honey pots, and liquidity draining schemes are engineered (and how to spot them).",
+                "Setting up multi-sig security, ledger/cold wallet isolation, and clean Web3 browsers.",
+                "Revoking contract approvals and monitoring your address for suspicious dust actions."
+            ],
+            summary: "In a trustless space, security is your ultimate insurance. Learn how to construct an impenetrable digital fortress to secure your assets under all conditions."
+        },
+        5: {
+            title: "Chapter 5: Portfolio Engineering & Preservation",
+            subtitle: "Risk allocation math & wealth preservation",
+            points: [
+                "The mathematics of position sizing using Kelly Criterion principles.",
+                "Dynamic capital allocation: Stables, Layer 1 blockbusters, mid-caps, and micro-cap research plays.",
+                "Taking profits systematically: Having a pre-established plan for bull run exits.",
+                "Tax strategies, generational security, and custody transitions for ultimate safety."
+            ],
+            summary: "Making money is easy; keeping it is the real challenge. Master the quantitative principles of risk management to scale your crypto portfolio safely."
+        }
+    };
+
+    // Switch Chapter Tab Logic
+    function switchChapter(num) {
+        // Toggle Active Tab Style
+        document.querySelectorAll('.chapter-tab').forEach(tab => tab.classList.remove('active'));
+        document.getElementById(`tab-${num}`).classList.add('active');
+
+        // Render Content
+        const data = chapterData[num];
+        const box = document.getElementById('chapter-content-box');
+        
+        let pointsHTML = '';
+        data.points.forEach(point => {
+            pointsHTML += `
+                <li class="flex items-start gap-3">
+                    <span class="text-brand text-xs mt-1"><i class="fas fa-check-circle"></i></span>
+                    <span class="text-sm text-slate-300">${Security.escapeHTML(point)}</span>
+                </li>
+            `;
+        });
+
+        box.innerHTML = `
+            <div class="space-y-2">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-brand">${Security.escapeHTML(data.subtitle)}</h4>
+                <h3 class="text-2xl md:text-3xl font-black text-white uppercase tracking-tight">${Security.escapeHTML(data.title)}</h3>
+            </div>
+            <p class="text-sm text-slate-400 leading-relaxed">${Security.escapeHTML(data.summary)}</p>
+            <ul class="space-y-3 pt-2">
+                ${pointsHTML}
+            </ul>
+        `;
+    }
+
+    // Default Load Chapter 1
+    document.addEventListener('DOMContentLoaded', () => {
+        switchChapter(1);
+    });
+
+    // Modal Control Logic
+    function openCheckoutModal() {
+        document.getElementById('checkout-modal').classList.remove('hidden');
+        document.getElementById('checkout-modal').classList.add('flex');
+    }
+
+    function closeCheckoutModal() {
+        document.getElementById('checkout-modal').classList.remove('flex');
+        document.getElementById('checkout-modal').classList.add('hidden');
+    }
+
+    function closeSuccessModal() {
+        document.getElementById('success-modal').classList.remove('flex');
+        document.getElementById('success-modal').classList.add('hidden');
+    }
+
+    // Sandbox Simulation logic
+    function triggerSandboxSuccess() {
+        const name = document.getElementById('buyer-name').value.trim() || 'Valued Buyer';
+        const email = document.getElementById('buyer-email').value.trim() || 'buyer@example.com';
+        
+        closeCheckoutModal();
+        
+        // Populate Success Modal
+        document.getElementById('success-buyer-name').textContent = name;
+        document.getElementById('success-ref').textContent = 'SANDBOX_' + Math.floor(Math.random() * 1000000000);
+        
+        document.getElementById('success-modal').classList.remove('hidden');
+        document.getElementById('success-modal').classList.add('flex');
+    }
+
+    // Live/Test Paystack checkout integration
+    function handleCheckoutSubmit(event) {
+        event.preventDefault();
+        
+        const name = document.getElementById('buyer-name').value.trim();
+        const email = document.getElementById('buyer-email').value.trim();
+        
+        if (!Security.isValidEmail(email)) {
+            alert('Please enter a valid email address.');
+            return;
+        }
+
+        if (name.length < 2) {
+            alert('Please enter your full name.');
+            return;
+        }
+
+        const payBtn = document.getElementById('checkout-pay-btn');
+        payBtn.disabled = true;
+        payBtn.textContent = 'Opening Payment Gateway...';
+
+        // Retrieve key from Override Input, otherwise from configuration
+        const overrideKey = document.getElementById('paystack-key-override').value.trim();
+        const paystackPublicKey = overrideKey || (window.APP_CONFIG ? window.APP_CONFIG.PAYSTACK_PUBLIC_KEY : null);
+
+        if (!paystackPublicKey) {
+            alert('Paystack public key is not configured. Please use "Simulate Success" or configure your key in config.js.');
+            payBtn.disabled = false;
+            payBtn.textContent = 'Pay with Paystack';
+            return;
+        }
+
+        try {
+            const handler = PaystackPop.setup({
+                key: paystackPublicKey,
+                email: email,
+                amount: 15000 * 100, // ₦15,000 NGN in Kobo
+                currency: 'NGN',
+                ref: 'QAE_EB_' + Math.floor((Math.random() * 1000000000) + 1),
+                metadata: {
+                    custom_fields: [
+                        {
+                            display_name: "Buyer Name",
+                            variable_name: "buyer_name",
+                            value: name
+                        },
+                        {
+                            display_name: "Item Purchased",
+                            variable_name: "item_purchased",
+                            value: "The Quantara Playbook Ebook"
+                        }
+                    ]
+                },
+                callback: function(response) {
+                    closeCheckoutModal();
+                    
+                    // Show success modal
+                    document.getElementById('success-buyer-name').textContent = name;
+                    document.getElementById('success-ref').textContent = response.reference;
+                    
+                    document.getElementById('success-modal').classList.remove('hidden');
+                    document.getElementById('success-modal').classList.add('flex');
+                    
+                    // Reset Button
+                    payBtn.disabled = false;
+                    payBtn.textContent = 'Pay with Paystack';
+                },
+                onClose: function() {
+                    alert('Transaction cancelled by user.');
+                    payBtn.disabled = false;
+                    payBtn.textContent = 'Pay with Paystack';
+                }
+            });
+
+            handler.openIframe();
+        } catch (error) {
+            console.error('Paystack SDK error:', error);
+            alert('Could not initialize payment gateway. This might be due to a mock or incorrect key format. Please use the "Simulate Success" button to test the flow!');
+            payBtn.disabled = false;
+            payBtn.textContent = 'Pay with Paystack';
+        }
+    }
+
+    // Scroll Effect for Nav
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('main-nav');
+        if (window.scrollY > 20) {
+            nav.classList.add('bg-slate-950/95', 'backdrop-blur-2xl', 'py-2', 'border-white/10');
+            nav.classList.remove('bg-transparent', 'backdrop-blur-none');
+        } else {
+            nav.classList.remove('bg-slate-950/95', 'backdrop-blur-2xl', 'py-2', 'border-white/10');
+            nav.classList.add('bg-transparent', 'backdrop-blur-none');
+        }
+    });
+
+    // Mobile Menu Toggle Logic
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const close = document.getElementById('close-mobile-menu');
+
+    if (toggle && menu && close) {
+        toggle.addEventListener('click', () => {
+            menu.classList.remove('hidden');
+            menu.classList.add('flex');
+            setTimeout(() => menu.classList.remove('translate-x-full'), 10);
+        });
+
+        const closeNav = () => {
+            menu.classList.add('translate-x-full');
+            setTimeout(() => {
+                menu.classList.add('hidden');
+                menu.classList.remove('flex');
+            }, 500);
+        };
+
+        close.addEventListener('click', closeNav);
+        menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav));
+    }
+</script>
+</body>
+</html>
