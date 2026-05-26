@@ -117,6 +117,42 @@ async function initDashboard() {
 
     // --- 5. Form Handlers ---
     setupChangePasswordForm();
+
+    // --- 6. Load Settings & Preferences ---
+    try {
+        const settingsEmail = document.getElementById('settings-email');
+        const settingsBio = document.getElementById('settings-bio');
+        if (settingsEmail) settingsEmail.value = user.email;
+        if (settingsBio) settingsBio.value = localStorage.getItem(`bio_${userId}`) || '';
+        
+        // Load preference toggles visually
+        window.loadPreferences(userId);
+    } catch(e) { console.error("Error initializing settings:", e); }
+
+    // --- 7. Functional Search Bar ---
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            
+            // If the query is active, switch to curriculum tab to show results
+            if (query.length > 0) {
+                const curTab = document.querySelector('[data-tab="progress-view"]');
+                if (curTab && !curTab.classList.contains('active')) {
+                    curTab.click();
+                }
+            }
+
+            document.querySelectorAll('.check-item').forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    }
 }
 
 /**
@@ -546,6 +582,88 @@ window.updatePlanCardsVisuals = function(newPlan) {
             if (btn) {
                 btn.className = "w-full py-3 rounded border border-white/20 text-white font-bold text-sm hover:bg-white/5 transition-all";
                 btn.textContent = "Select Plan";
+            }
+        }
+    });
+};
+
+window.saveUserProfile = function() {
+    const userId = window._currentUserId;
+    if (!userId) return;
+
+    const bioVal = document.getElementById('settings-bio')?.value || '';
+    localStorage.setItem(`bio_${userId}`, bioVal);
+
+    // Create a beautiful premium toast/alert notification
+    const notification = document.createElement('div');
+    notification.className = "fixed bottom-5 right-5 bg-indigo-600 text-white px-6 py-3 rounded-lg border border-indigo-400/30 shadow-2xl z-[1000] flex items-center gap-3 transition-all duration-300 transform translate-y-10 opacity-0";
+    notification.innerHTML = `
+        <span class="material-symbols-outlined text-green-400">check_circle</span>
+        <span class="text-sm font-semibold">Profile Saved Successfully!</span>
+    `;
+    document.body.appendChild(notification);
+
+    // Trigger animation
+    setTimeout(() => {
+        notification.classList.remove('translate-y-10', 'opacity-0');
+    }, 50);
+
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+        notification.classList.add('translate-y-10', 'opacity-0');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+};
+
+window.togglePreference = function(prefName) {
+    const userId = window._currentUserId;
+    if (!userId) return;
+
+    const key = `pref_${prefName}_${userId}`;
+    const currentValue = localStorage.getItem(key) === 'true';
+    const newValue = !currentValue;
+    localStorage.setItem(key, newValue);
+
+    // Animate preference toggle in the DOM
+    const toggleDiv = document.getElementById(`toggle-${prefName}-notif`);
+    if (toggleDiv) {
+        const thumb = toggleDiv.querySelector('.thumb');
+        if (newValue) {
+            toggleDiv.className = "w-10 h-5 bg-indigo-500 rounded-full relative cursor-pointer transition-all";
+            if (thumb) {
+                thumb.className = "thumb absolute right-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-all";
+            }
+        } else {
+            toggleDiv.className = "w-10 h-5 bg-slate-800 rounded-full relative cursor-pointer border border-white/10 transition-all";
+            if (thumb) {
+                thumb.className = "thumb absolute left-0.5 top-0.5 w-4 h-4 bg-slate-400 rounded-full transition-all";
+            }
+        }
+    }
+};
+
+window.loadPreferences = function(userId) {
+    ['email', 'dm'].forEach(prefName => {
+        const key = `pref_${prefName}_${userId}`;
+        // Default to true for email, false for dm if not set
+        if (localStorage.getItem(key) === null) {
+            localStorage.setItem(key, prefName === 'email' ? 'true' : 'false');
+        }
+        
+        const isTrue = localStorage.getItem(key) === 'true';
+        const toggleDiv = document.getElementById(`toggle-${prefName}-notif`);
+        if (toggleDiv) {
+            const thumb = toggleDiv.querySelector('.thumb');
+            if (isTrue) {
+                toggleDiv.className = "w-10 h-5 bg-indigo-500 rounded-full relative cursor-pointer transition-all";
+                if (thumb) {
+                    thumb.className = "thumb absolute right-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-all";
+                }
+            } else {
+                toggleDiv.className = "w-10 h-5 bg-slate-800 rounded-full relative cursor-pointer border border-white/10 transition-all";
+                if (thumb) {
+                    thumb.className = "thumb absolute left-0.5 top-0.5 w-4 h-4 bg-slate-400 rounded-full transition-all";
+                }
             }
         }
     });
