@@ -198,30 +198,82 @@ function setupAdminNavigation() {
 }
 
 async function loadStudentsOverview() {
-    // `student_profiles` view is blocked by RLS (references auth.users).
-    // `profiles` table is accessible to admin — select all available columns.
-    const { data: profiles, error } = await sb
-        .from('profiles')
-        .select('*')
-        .neq('role', 'admin')
-        .neq('role', 'founder');
-
     const tbody = document.getElementById('students-table-body');
     const totalEl = document.getElementById('stat-total-students');
 
-    if (error) {
-        console.error("Error loading students:", error);
-        tbody.innerHTML = `<tr><td colspan="4" style="color: red; padding: 20px;">Error: ${error.message}</td></tr>`;
-        return;
+    let students = [];
+
+    // Attempt 1: Try using the security definer RPC function (bypasses RLS/permission blocks on auth.users)
+    const { data: rpcData, error: rpcError } = await sb.rpc('get_student_profiles');
+
+    if (!rpcError && rpcData) {
+        students = rpcData.map(s => ({
+            id: s.id,
+            full_name: s.full_name || null,
+            email: s.email || null,
+            created_at: s.created_at || null,
+            role: s.role || 'student'
+        })).filter(s => s.role !== 'admin' && s.role !== 'founder');
+    } else {
+        console.warn("RPC get_student_profiles failed or not set up yet, falling back to view/profiles.", rpcError?.message);
+
+        // Attempt 2: Try student_profiles view (has email + full_name from auth.users)
+        const { data: spData, error: spError } = await sb
+            .from('student_profiles')
+            .select('*');
+
+        if (!spError && spData && spData.length > 0) {
+            // Filter out admins/founders client-side since the view may not have role filtering
+            const { data: roleData } = await sb.from('profiles').select('id, role');
+            const roleMap = {};
+            if (roleData) roleData.forEach(r => roleMap[r.id] = (r.role || 'student').toLowerCase());
+
+            students = spData.map(sp => ({
+                id: sp.id,
+                full_name: sp.full_name || sp.raw_user_meta_data?.full_name || null,
+                email: sp.email || null,
+                created_at: sp.created_at || null,
+                role: roleMap[sp.id] || 'student'
+            })).filter(s => s.role !== 'admin' && s.role !== 'founder');
+        } else {
+            // Attempt 3: Fall back to profiles table
+            console.warn("student_profiles view unavailable, falling back to profiles table.", spError?.message);
+
+            const { data: profiles, error } = await sb
+                .from('profiles')
+                .select('*')
+                .neq('role', 'admin')
+                .neq('role', 'founder');
+
+            if (error) {
+                console.error("Error loading students:", error);
+                tbody.innerHTML = `<tr><td colspan="4" style="color: red; padding: 20px;">Error: ${error.message}</td></tr>`;
+                return;
+            }
+
+            if (!profiles || profiles.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px; opacity: 0.6;">No students found yet.</td></tr>';
+                totalEl.textContent = '0';
+                return;
+            }
+
+            students = profiles.map(p => ({
+                id: p.id,
+                full_name: p.full_name || null,
+                email: p.email || null,
+                created_at: p.created_at || null,
+                role: p.role || 'student'
+            }));
+        }
     }
 
-    if (!profiles || profiles.length === 0) {
+    if (students.length === 0) {
         tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px; opacity: 0.6;">No students found yet.</td></tr>';
         totalEl.textContent = '0';
         return;
     }
 
-    totalEl.textContent = profiles.length;
+    totalEl.textContent = students.length;
     tbody.innerHTML = '';
 
     // Also populate the notification target dropdown with individual students
@@ -230,9 +282,9 @@ async function loadStudentsOverview() {
     if (individualGroup) individualGroup.innerHTML = '';
     if (individualAudioGroup) individualAudioGroup.innerHTML = '';
 
-    profiles.forEach(p => {
+    students.forEach(p => {
         const name = p.full_name || 'N/A';
-        const email = '—'; // email not stored in profiles table (in auth.users)
+        const email = p.email || '—';
         const date = p.created_at ? new Date(p.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Unknown';
         const plan = p.role ? p.role.toUpperCase() : '—';
 
@@ -274,6 +326,7 @@ async function loadStudentsOverview() {
         const e = document.createElement('option'); e.disabled = true; e.textContent = emptyMsg; individualAudioGroup.appendChild(e);
     }
 }
+
 
 async function sendEmailNotification(emails, title, message) {
     console.log("Sending email via Resend to:", emails);
@@ -610,11 +663,24 @@ async function loadFounderUsersList() {
     const listBody = document.getElementById('founder-users-list');
     if (!listBody) return;
 
-    // Fetch from both tables to map them
-    const { data: profiles, error: pErr } = await sb.from('student_profiles').select('*');
-    const { data: roles, error: rErr } = await sb.from('profiles').select('*');
+    let profiles = [];
+    const { data: rpcData, error: rpcError } = await sb.rpc('get_student_profiles');
 
-    if (pErr || rErr) {
+    if (!rpcError && rpcData) {
+        profiles = rpcData;
+    } else {
+        console.warn("RPC get_student_profiles failed or not set up yet, falling back to view.", rpcError?.message);
+        // Fetch from student_profiles view
+        const { data: viewData, error: pErr } = await sb.from('student_profiles').select('*');
+        if (pErr) {
+            listBody.innerHTML = `<tr><td colspan="4">Error loading data.</td></tr>`;
+            return;
+        }
+        profiles = viewData || [];
+    }
+
+    const { data: roles, error: rErr } = await sb.from('profiles').select('*');
+    if (rErr) {
         listBody.innerHTML = `<tr><td colspan="4">Error loading data.</td></tr>`;
         return;
     }
