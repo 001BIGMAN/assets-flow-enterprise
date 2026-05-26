@@ -96,11 +96,15 @@ async function initDashboard() {
             }
             renderCurriculum(newPlan, progressData);
             loadStudentData(newPlan, userId, user.created_at);
+            updatePlanCardsVisuals(newPlan);
         });
         
         if (document.getElementById('current-plan-display')) {
             document.getElementById('current-plan-display').textContent = savedPlan;
         }
+        
+        // Initial highlight of cards on load
+        setTimeout(() => updatePlanCardsVisuals(savedPlan), 100);
     }
 
     // --- 3. UI Interactions (Sidebar/Tabs) ---
@@ -322,6 +326,46 @@ function calculateOverallProgress(activeSegments, progressData) {
     const barEl = document.getElementById('progress-bar');
     if (percentEl) percentEl.textContent = `${percent}%`;
     if (barEl) barEl.style.width = `${percent}%`;
+
+    // Calculate individual level progress for dashboard path cards
+    ['level1', 'level2', 'level3', 'level4'].forEach(level => {
+        const levelItems = CURRICULUM_DATA.filter(i => i.tier === level);
+        if (levelItems.length > 0) {
+            const lvlCompleted = levelItems.filter(i => progressData[i.id]).length;
+            const lvlPercent = Math.round((lvlCompleted / levelItems.length) * 100);
+            const lvlBar = document.getElementById(`progress-bar-${level}`);
+            if (lvlBar) lvlBar.style.width = `${lvlPercent}%`;
+        }
+    });
+}
+
+// Global utility for pricing plan selectors
+window.selectPlanTier = function(newPlan) {
+    const planSelect = document.getElementById('user-plan-select');
+    if (planSelect) {
+        planSelect.value = newPlan;
+        planSelect.dispatchEvent(new Event('change'));
+        
+        // Highlight active plan selection visually
+        document.querySelectorAll('[data-plan-card]').forEach(card => {
+            const cardPlan = card.getAttribute('data-plan-card');
+            if (cardPlan === newPlan) {
+                card.className = "tonal-layer-2 p-8 rounded-xl flex flex-col border-2 border-indigo-500 relative transform scale-105 z-10 transition-all";
+                const btn = card.querySelector('button');
+                if (btn) {
+                    btn.className = "w-full py-3 rounded bg-indigo-500 text-white font-bold text-sm hover:bg-indigo-600 transition-all";
+                    btn.textContent = "Current Active Plan";
+                }
+            } else {
+                card.className = "tonal-layer-1 p-8 rounded-xl flex flex-col hover:border-white/20 transition-all";
+                const btn = card.querySelector('button');
+                if (btn) {
+                    btn.className = "w-full py-3 rounded border border-white/20 text-white font-bold text-sm hover:bg-white/5 transition-all";
+                    btn.textContent = "Select";
+                }
+            }
+        });
+    }
 }
 
 function setupSidebarToggle() {
@@ -484,4 +528,25 @@ window.deleteRecording = function(recId, recTitle) {
         card.style.transition = 'all 0.3s ease';
         setTimeout(() => card.remove(), 300);
     }
+};
+
+window.updatePlanCardsVisuals = function(newPlan) {
+    document.querySelectorAll('[data-plan-card]').forEach(card => {
+        const cardPlan = card.getAttribute('data-plan-card');
+        if (cardPlan === newPlan) {
+            card.className = "tonal-layer-2 p-8 rounded-xl flex flex-col border-2 border-indigo-500 relative transform scale-105 z-10 transition-all";
+            const btn = card.querySelector('button');
+            if (btn) {
+                btn.className = "w-full py-3 rounded bg-indigo-500 text-white font-bold text-sm hover:bg-indigo-600 transition-all";
+                btn.textContent = "Current Active Plan";
+            }
+        } else {
+            card.className = "tonal-layer-1 p-8 rounded-xl flex flex-col hover:border-white/20 transition-all";
+            const btn = card.querySelector('button');
+            if (btn) {
+                btn.className = "w-full py-3 rounded border border-white/20 text-white font-bold text-sm hover:bg-white/5 transition-all";
+                btn.textContent = "Select Plan";
+            }
+        }
+    });
 };
